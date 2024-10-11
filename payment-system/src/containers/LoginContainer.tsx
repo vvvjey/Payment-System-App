@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { View, Button, TextInput } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { styles } from '../theme/styles';
+import React, { useState } from "react";
+import { View, Button, TextInput } from "react-native";
+import { useDispatch } from "react-redux";
+import { styles } from "../theme/styles";
 
 const LoginContainer: React.FC = () => {
-  const [username, setUsername] = useState<string>('');
+  const [username, setUsername] = useState<string>("");
   const dispatch = useDispatch();
 
   const handleLogin = () => {
     // Dispatch login action
-    dispatch({ type: 'LOGIN_SUCCESS', payload: { username } });
+    dispatch({ type: "LOGIN_SUCCESS", payload: { username } });
   };
 
   return (
