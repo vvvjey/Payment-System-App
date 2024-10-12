@@ -1,4 +1,4 @@
-import { API_URL } from '../common/constants';
+import { API_URL } from '../constants';
 
 export const apiRequest = async (endpoint: string, method: string = 'GET', body: any = null) => {
   const response = await fetch(`${API_URL}/${endpoint}`, {
