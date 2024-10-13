@@ -105,33 +105,33 @@ const HomeScreen = () => {
               <Text style={styles.textMainService}>Chuyển tiền</Text>            
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.ThanhToanHD} style={styles.iconThanhtoanHD}></Image>    
+              <Image source={IMAGES.ThanhToanHD} style={styles.iconChuyentien}></Image>    
               <Text style={styles.textMainService}>Thanh toán{"\n"}hóa đơn</Text>          
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.NapTienDT} style={styles.iconNaptienDT}></Image>     
+              <Image source={IMAGES.NapTienDT} style={styles.iconChuyentien}></Image>     
               <Text style={styles.textMainService}>Nạp tiền{"\n"}điện thoại</Text>         
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.Data5G} style={styles.iconData5G}></Image>  
+              <Image source={IMAGES.Data5G} style={styles.iconChuyentien}></Image>  
               <Text style={styles.textMainService}>Data 4D/5D</Text>            
             </TouchableOpacity>
           </View>
           <View style={styles.bodyMainService}>
             <TouchableOpacity style={styles.childMainService}>            
-              <Image source={IMAGES.ThanhToanKV} style={styles.iconThanhtoanKV}></Image>  
+              <Image source={IMAGES.ThanhToanKV} style={styles.iconChuyentien}></Image>  
               <Text style={styles.textMainService}>Thanh toán{"\n"}khoản vay</Text>            
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.XemPhim} style={styles.iconXemphim}></Image>    
+              <Image source={IMAGES.XemPhim} style={styles.iconChuyentien}></Image>    
               <Text style={styles.textMainService}>Mua vé{"\n"}xem phim</Text>          
             </TouchableOpacity> 
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.DuLich} style={styles.iconDulich}></Image>     
+              <Image source={IMAGES.DuLich} style={styles.iconChuyentien}></Image>     
               <Text style={styles.textMainService}>Du lịch{"\n"}Đi lại</Text>         
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.XemThem} style={styles.iconXemthem}></Image>  
+              <Image source={IMAGES.XemThem} style={styles.iconChuyentien}></Image>  
               <Text style={styles.textMainService}>Xem thêm{"\n"}dịch vụ</Text>            
             </TouchableOpacity>
           </View>          
@@ -152,33 +152,33 @@ const HomeScreen = () => {
               <Text style={styles.textMainService}>Chuyển tiền</Text>            
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.ThanhToanHD} style={styles.iconThanhtoanHD}></Image>    
+              <Image source={IMAGES.ThanhToanHD} style={styles.iconChuyentien}></Image>    
               <Text style={styles.textMainService}>Thanh toán{"\n"}hóa đơn</Text>          
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.NapTienDT} style={styles.iconNaptienDT}></Image>     
+              <Image source={IMAGES.NapTienDT} style={styles.iconChuyentien}></Image>     
               <Text style={styles.textMainService}>Nạp tiền{"\n"}điện thoại</Text>         
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.Data5G} style={styles.iconData5G}></Image>  
+              <Image source={IMAGES.Data5G} style={styles.iconChuyentien}></Image>  
               <Text style={styles.textMainService}>Data 4D/5D</Text>            
             </TouchableOpacity>
           </View>
           <View style={styles.bodyMainService}>
             <TouchableOpacity style={styles.childMainService}>            
-              <Image source={IMAGES.ThanhToanKV} style={styles.iconThanhtoanKV}></Image>  
+              <Image source={IMAGES.ThanhToanKV} style={styles.iconChuyentien}></Image>  
               <Text style={styles.textMainService}>Thanh toán{"\n"}khoản vay</Text>            
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.XemPhim} style={styles.iconXemphim}></Image>    
+              <Image source={IMAGES.XemPhim} style={styles.iconChuyentien}></Image>    
               <Text style={styles.textMainService}>Mua vé{"\n"}xem phim</Text>          
             </TouchableOpacity> 
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.DuLich} style={styles.iconDulich}></Image>     
+              <Image source={IMAGES.DuLich} style={styles.iconChuyentien}></Image>     
               <Text style={styles.textMainService}>Du lịch{"\n"}Đi lại</Text>         
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.XemThem} style={styles.iconXemthem}></Image>  
+              <Image source={IMAGES.XemThem} style={styles.iconChuyentien}></Image>  
               <Text style={styles.textMainService}>Xem thêm{"\n"}dịch vụ</Text>            
             </TouchableOpacity>
           </View>
@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignSelf: 'center',
-    marginTop: heightScale(139),
+    marginTop: heightScale(119),
   },
   bodyMainService: {
     display: 'flex',
@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
     width: widthScale(75),
     display: 'flex',
     flexDirection: 'column', 
-    marginTop: heightScale(6),
+    marginTop: heightScale(16),
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -371,44 +371,23 @@ const styles = StyleSheet.create({
     marginTop: heightScale(4),
   },
   iconChuyentien: {
-    width: widthScale(30),
-    height: heightScale(30),
-  },
-  iconThanhtoanHD: {
-    width: widthScale(34),
-    height: heightScale(28.85),
-  },
-  iconNaptienDT: {
-    width: widthScale(30),
-    height: heightScale(30),
-  },
-  iconData5G: {
-    width: widthScale(27),
-    height: heightScale(27),
-  },
-  iconThanhtoanKV: {
-    width: widthScale(25),
-    height: heightScale(25),
-  },
-  iconXemphim: {
-    width: widthScale(32),
-    height: heightScale(32),
-  },
-  iconDulich: {
     width: widthScale(40),
     height: heightScale(40),
+    shadowColor: '#000', 
+    shadowOffset: {
+      width: 0,
+      height: 4, 
+    },
+    shadowOpacity: 0.25, 
+    shadowRadius: 4, 
+    elevation: 4,
   },
-  iconXemthem: {
-    width: widthScale(28),
-    height: heightScale(28),
-  },
-
 
   deXuatTitle: {
     fontSize: fontScale(20),
     fontWeight: 'bold',
     marginLeft: widthScale(21),
-    marginTop: heightScale(-13),
+    marginTop: heightScale(30),
   },
   otherServiceContainer: {
     width: widthScale(345),
@@ -416,7 +395,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignSelf: 'center',
-    marginTop: heightScale(13),
+    marginTop: heightScale(10),
   },
 
 
