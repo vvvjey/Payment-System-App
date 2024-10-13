@@ -8,6 +8,20 @@ const IMAGES = {
     Visibility: require('./visibility.png'),
     QuanLy: require('./quanly.png'),
     MuiTen: require('./Vector.png'),
+    NapTien: require('./icon_nạp tiền 1.png'),
+    RutTien: require('./icon_rút tiền 1.png'),
+    QR: require('./icon_qr 1.png'),
+    TienIch: require('./icon_ví tiện ích 1.png'),
+
+    ChuyenTien: require('./icon_chuyển tiền 2.png'),
+    Data5G: require('./icon_data5G_4G 1.png'),
+    DuLich: require('./icon_du lịch 1.png'),
+    ThanhToanHD: require('./icon_thanh toán HD 1 1.png'),
+    ThanhToanKV: require('./icon_thanh toán khoản vay 1.png'),
+    XemPhim: require('./muaVeXemPhim.png'),
+    NapTienDT: require('./icon_nạp tiền điện thoại 2.png'),    
+    XemThem: require('./Xemthemdichvu.png'),
+
 }
 
 export default IMAGES
