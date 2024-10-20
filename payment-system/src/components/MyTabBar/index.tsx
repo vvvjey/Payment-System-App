@@ -1,5 +1,13 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet , Image} from 'react-native';
+import { SvgUri } from 'react-native-svg';
+
+const menuIcon = {
+  Home: "../../../assets/icons/homeIcon.svg",
+  Promotion: "../../../assets/icons/promotionIcon.svg",
+  History: "../../../assets/icons/historyIcon.svg",
+  profile: "../../../assets/icons/profileIcon.svg",
+}
 
 export function MyTabBar({ state, descriptors, navigation } : {state: any, descriptors: any, navigation: any}) {
   return (
@@ -41,17 +49,24 @@ export function MyTabBar({ state, descriptors, navigation } : {state: any, descr
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
             onPress={onPress}
-            onLongPress={onLongPress}
-            style={{ flex: 1 }}
+            onLongPress={onLongPress} 
+            style={styles.container}
           >
-            {/* Cho dongf if */}
-            {label==="Home" && <Text>Home</Text>}
-            {label==="Promotion" && <Text>Promotion</Text>}
-            {label==="History" && <Text>History</Text>}
-            {label==="Profile" && <Text>Profile</Text>}
+            <SvgUri
+              width="100%"
+              height="100%"
+              uri="../../../assets/icons/homeIcon.svg"
+            />
           </TouchableOpacity>
         );
       })}
     </View>
   );
+
 }
+
+const styles = StyleSheet.create({
+  container: {
+    display: "flex"
+  }
+})
