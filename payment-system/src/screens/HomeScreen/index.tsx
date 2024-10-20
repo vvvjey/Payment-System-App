@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
   FlatList,
+  ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../../../assets/colors";
@@ -16,7 +17,9 @@ import { fontScale, heightScale, widthScale } from "../../utils/spacing";
 import IMAGES from "../../../assets/images";
 import SearchBar from "../../components/SearchBar";
 import ManageBar from "../../components/ManageBar";
-
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Tab } from "react-native-elements";
 
 const HomeScreen = () => {
   return (
@@ -105,7 +108,7 @@ const HomeScreen = () => {
               <Text style={styles.textMainService}>Chuyển tiền</Text>            
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.ThanhToanHD} style={styles.iconChuyentien}></Image>    
+              <Image source={IMAGES.ThanhToanHD} style={styles.iconThanhToanHD}></Image>    
               <Text style={styles.textMainService}>Thanh toán{"\n"}hóa đơn</Text>          
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
@@ -113,25 +116,25 @@ const HomeScreen = () => {
               <Text style={styles.textMainService}>Nạp tiền{"\n"}điện thoại</Text>         
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.Data5G} style={styles.iconChuyentien}></Image>  
+              <Image source={IMAGES.Data5G} style={styles.iconData}></Image>  
               <Text style={styles.textMainService}>Data 4D/5D</Text>            
             </TouchableOpacity>
           </View>
           <View style={styles.bodyMainService}>
             <TouchableOpacity style={styles.childMainService}>            
-              <Image source={IMAGES.ThanhToanKV} style={styles.iconChuyentien}></Image>  
+              <Image source={IMAGES.ThanhToanKV} style={styles.iconThanhToanKV}></Image>  
               <Text style={styles.textMainService}>Thanh toán{"\n"}khoản vay</Text>            
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.XemPhim} style={styles.iconChuyentien}></Image>    
+              <Image source={IMAGES.XemPhim} style={styles.iconXemPhim}></Image>    
               <Text style={styles.textMainService}>Mua vé{"\n"}xem phim</Text>          
             </TouchableOpacity> 
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.DuLich} style={styles.iconChuyentien}></Image>     
+              <Image source={IMAGES.DuLich} style={styles.iconDuLich}></Image>     
               <Text style={styles.textMainService}>Du lịch{"\n"}Đi lại</Text>         
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.XemThem} style={styles.iconChuyentien}></Image>  
+              <Image source={IMAGES.XemThem} style={styles.iconXemThem}></Image>  
               <Text style={styles.textMainService}>Xem thêm{"\n"}dịch vụ</Text>            
             </TouchableOpacity>
           </View>          
@@ -148,46 +151,81 @@ const HomeScreen = () => {
         <View style={styles.otherServiceContainer}>
           <View style={styles.bodyMainService}>
             <TouchableOpacity style={styles.childMainService}>            
-              <Image source={IMAGES.ChuyenTien} style={styles.iconChuyentien}></Image>  
-              <Text style={styles.textMainService}>Chuyển tiền</Text>            
+              <Image source={IMAGES.TuThien} style={styles.iconTuThien}></Image>  
+              <Text style={styles.textMainService}>
+                <Text style={{ color: Colors.DarkBlue }}>Nex</Text>
+                <Text style={{ color: "#FF66C4" }}>Give</Text>
+                <Text > {"\n"}Từ thiện</Text>
+              </Text>            
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.ThanhToanHD} style={styles.iconChuyentien}></Image>    
-              <Text style={styles.textMainService}>Thanh toán{"\n"}hóa đơn</Text>          
+              <Image source={IMAGES.DiBo} style={styles.iconDiBo}></Image>    
+              <Text style={styles.textMainService}>Đi bộ{"\n"}nhận quà</Text>          
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.NapTienDT} style={styles.iconChuyentien}></Image>     
-              <Text style={styles.textMainService}>Nạp tiền{"\n"}điện thoại</Text>         
+              <Image source={IMAGES.ChuyenTienNH} style={styles.iconChuyentien}></Image>     
+              <Text style={styles.textMainService}>Chuyển tiền{"\n"}Ngân hàng</Text>         
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.Data5G} style={styles.iconChuyentien}></Image>  
-              <Text style={styles.textMainService}>Data 4D/5D</Text>            
+              <Image source={IMAGES.NuoiThu} style={styles.iconXemPhim}></Image>  
+              <Text style={styles.textMainService}>Nuôi thú{"\n"}cùng 
+                <Text style={{ color: Colors.DarkBlue }}>Nex</Text>
+                <Text style={{ color: "#1EA9F4" }}>Pay</Text>
+              </Text>            
             </TouchableOpacity>
           </View>
           <View style={styles.bodyMainService}>
             <TouchableOpacity style={styles.childMainService}>            
-              <Image source={IMAGES.ThanhToanKV} style={styles.iconChuyentien}></Image>  
-              <Text style={styles.textMainService}>Thanh toán{"\n"}khoản vay</Text>            
+              <Image source={IMAGES.ViTraSau} style={styles.iconChuyentien}></Image>  
+              <Text style={styles.textMainService}>Ví trả sau</Text>            
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.XemPhim} style={styles.iconChuyentien}></Image>    
-              <Text style={styles.textMainService}>Mua vé{"\n"}xem phim</Text>          
+              <Image source={IMAGES.VayNhanh} style={styles.iconDiBo}></Image>    
+              <Text style={styles.textMainService}>Vay nhanh</Text>          
             </TouchableOpacity> 
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.DuLich} style={styles.iconChuyentien}></Image>     
-              <Text style={styles.textMainService}>Du lịch{"\n"}Đi lại</Text>         
+              <Image source={IMAGES.QuyTietKiem} style={styles.iconQuyTK}></Image>     
+              <Text style={styles.textMainService}>Quỹ tiết kiệm</Text>         
             </TouchableOpacity>
             <TouchableOpacity style={styles.childMainService}>
-              <Image source={IMAGES.XemThem} style={styles.iconChuyentien}></Image>  
-              <Text style={styles.textMainService}>Xem thêm{"\n"}dịch vụ</Text>            
+              <Image source={IMAGES.NexRewards} style={styles.iconChuyentien}></Image>  
+              <Text style={styles.textMainService}>
+                <Text style={{ color: Colors.DarkBlue }}>Nex</Text>
+                <Text style={{ color: "#F4B400" }}>Rewards</Text>
+              </Text>            
             </TouchableOpacity>
           </View>
 
 
           
         </View>
+        {/* Cam kết bảo mật */}
+        <View style={styles.camKetContainer}>
+          <ImageBackground
+            resizeMode="contain"
+            style={styles.linhVat2}
+            source={IMAGES.LinhVat2}
+          />
+          <Text style= {styles.textCamKet}>
+            <Text style={{ color: Colors.DarkBlue }}>Nex</Text>
+            <Text style={{ color: "#1EA9F4" }}>Pay</Text>
+            <Text>cam kết bảo vệ thông tin và tài sản bằng các tiêu chuẩn bảo mật cao nhất</Text>
+          </Text>
+          <View style={styles.iconCamKet}>
+            <ImageBackground
+              resizeMode="contain"
+              style={styles.pciDss}
+              source={IMAGES.PCIDSS}
+            />
+            <ImageBackground
+              resizeMode="contain"
+              style={styles.secure}
+              source={IMAGES.SecureGlobalSign}
+            />
+          </View>
+        </View>
+        
       </View>
-
     </SafeAreaView>
   );
 };
@@ -201,7 +239,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     width: "100%",
-    height: heightScale(210),
+    height: heightScale(220),
     display: "flex",
   },
   banner: {
@@ -265,7 +303,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthScale(12),
     position: "absolute",
     zIndex: 1,
-    top: heightScale(-30),
+    top: heightScale(-40),
     elevation: 4,
 
   },
@@ -350,7 +388,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignSelf: 'center',
-    marginTop: heightScale(119),
+    marginTop: heightScale(100),
   },
   bodyMainService: {
     display: 'flex',
@@ -371,12 +409,85 @@ const styles = StyleSheet.create({
     marginTop: heightScale(4),
   },
   iconChuyentien: {
+    width: widthScale(30),
+    height: heightScale(30),
+    shadowColor: '#000', 
+    shadowOffset: {
+      width: 0,
+      height: heightScale(4), 
+    },
+    shadowOpacity: 0.25, 
+    shadowRadius: 4, 
+    elevation: 4,
+  },
+  iconThanhToanHD: {
+    width: widthScale(34),
+    height: heightScale(28.85),
+    shadowColor: '#000', 
+    shadowOffset: {
+      width: 0,
+      height: heightScale(4), 
+    },
+    shadowOpacity: 0.25, 
+    shadowRadius: 4, 
+    elevation: 4,
+  },
+
+  iconData: {
+    width: widthScale(27),
+    height: heightScale(27),
+    shadowColor: '#000', 
+    shadowOffset: {
+      width: 0,
+      height: heightScale(4), 
+    },
+    shadowOpacity: 0.25, 
+    shadowRadius: 4, 
+    elevation: 4,
+  },
+  iconThanhToanKV: {
+    width: widthScale(25),
+    height: heightScale(25),
+    shadowColor: '#000', 
+    shadowOffset: {
+      width: 0,
+      height: heightScale(4), 
+    },
+    shadowOpacity: 0.25, 
+    shadowRadius: 4, 
+    elevation: 4,
+  },
+  iconXemPhim: {
+    width: widthScale(32),
+    height: heightScale(32),
+    shadowColor: '#000', 
+    shadowOffset: {
+      width: 0,
+      height: heightScale(4), 
+    },
+    shadowOpacity: 0.25, 
+    shadowRadius: 4, 
+    elevation: 4,
+  },
+  iconDuLich: {
     width: widthScale(40),
     height: heightScale(40),
     shadowColor: '#000', 
     shadowOffset: {
       width: 0,
-      height: 4, 
+      height: heightScale(4), 
+    },
+    shadowOpacity: 0.25, 
+    shadowRadius: 4, 
+    elevation: 4,
+  },
+  iconXemThem: {
+    width: widthScale(28),
+    height: heightScale(28),
+    shadowColor: '#000', 
+    shadowOffset: {
+      width: 0,
+      height: heightScale(4), 
     },
     shadowOpacity: 0.25, 
     shadowRadius: 4, 
@@ -387,7 +498,7 @@ const styles = StyleSheet.create({
     fontSize: fontScale(20),
     fontWeight: 'bold',
     marginLeft: widthScale(21),
-    marginTop: heightScale(30),
+    marginTop: heightScale(10),
   },
   otherServiceContainer: {
     width: widthScale(345),
@@ -395,9 +506,83 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignSelf: 'center',
-    marginTop: heightScale(10),
+    marginTop: heightScale(5),
   },
-
+  iconTuThien: {
+    width: widthScale(55.26),
+    height: heightScale(31),
+    shadowColor: '#000', 
+    shadowOffset: {
+      width: 0,
+      height: heightScale(4), 
+    },
+    shadowOpacity: 0.25, 
+    shadowRadius: 4, 
+    elevation: 4,
+  },
+  iconDiBo: {
+    width: widthScale(25),
+    height: heightScale(31.25),
+    shadowColor: '#000', 
+    shadowOffset: {
+      width: 0,
+      height: heightScale(4), 
+    },
+    shadowOpacity: 0.25, 
+    shadowRadius: 4, 
+    elevation: 4,
+  },
+  iconQuyTK: {
+    width: widthScale(30),
+    height: heightScale(31.4),
+    shadowColor: '#000', 
+    shadowOffset: {
+      width: 0,
+      height: heightScale(4), 
+    },
+    shadowOpacity: 0.25, 
+    shadowRadius: 4, 
+    elevation: 4,
+  },
+  // Cam kết bảo mật
+  camKetContainer: {
+    backgroundColor: "#E1E4F0",
+    width: widthScale(367),
+    height: heightScale(34),
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: "auto",
+    marginRight: "auto",
+    borderRadius: widthScale(10)
+  },
+  linhVat2: {
+    position: "absolute",
+    zIndex: 2,
+    width: widthScale(52),
+    height: heightScale(52),
+    left: widthScale(10),
+    top: heightScale(-18),
+  },
+  textCamKet: {
+    fontSize: fontScale(7),
+    marginLeft: widthScale(40),
+    marginTop: heightScale(12),
+  },
+  iconCamKet: {
+    display: "flex",
+    flexDirection: "row",
+    marginTop: heightScale(-5)
+  },
+  pciDss: {
+    width: widthScale(30),
+    height: heightScale(25),
+    marginRight: widthScale(3)
+  },
+  secure: {
+    width: widthScale(26),
+    height: heightScale(26),
+  }
 
 
 });

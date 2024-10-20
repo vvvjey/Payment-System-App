@@ -3,23 +3,24 @@ import { SCREENS } from "../../constants";
 import React from "react";
 import HomeScreen from "../../screens/HomeScreen";
 import LoginScreen from "../../screens/LoginScreen";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MyTabBar } from "../../components/MyTabBar";
+import PromotionScreen from "../../screens/PromotionScreen";
+import HistoryScreen from "../../screens/HistoryScreen";
+import ProfileScreen from "../../screens/ProfileScreen";
 
 const Stack = createNativeStackNavigator();
 
+const Tab = createBottomTabNavigator();
+
 const MainStack = () => {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-      initialRouteName={SCREENS.MAIN}
-    >
-      <Stack.Screen
-        name={SCREENS.MAIN}
-        component={HomeScreen}
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
+    <Tab.Navigator tabBar={props => <MyTabBar {...props} />}>
+      <Tab.Screen key="Home" name="Home" component={HomeScreen} options={{ headerShown: false }}/>
+      <Tab.Screen key="Promotion" name="Promotion" component={PromotionScreen} />
+      <Tab.Screen key="History" name="History" component={HistoryScreen} />
+      <Tab.Screen key="Profile" name="Profile" component={ProfileScreen} />
+    </Tab.Navigator>
   );
 };
 

@@ -22,6 +22,18 @@ const IMAGES = {
     NapTienDT: require('./icon_nạp tiền điện thoại 2.png'),    
     XemThem: require('./Xemthemdichvu.png'),
 
+    TuThien: require('./nesgive tu thien.png'),
+    DiBo: require('./di bo nhan qua.png'),
+    ChuyenTienNH: require('./icon_chuyển tiền ngân hàng 1.png'),
+    NuoiThu: require('./nuoi thu.png'),
+    ViTraSau: require('./icon_chuyển tiền 2.png'),
+    VayNhanh: require('./vay nhanh.png'),
+    QuyTietKiem: require('./quy tiet kiem.png'),
+    NexRewards: require('./nexrewards.png'),
+
+    LinhVat2: require('./Linhvat2.png'),
+    PCIDSS: require('./pci-dss.png'),
+    SecureGlobalSign: require('./secureGlobalSign.png'),
 }
 
 export default IMAGES
