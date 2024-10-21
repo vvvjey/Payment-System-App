@@ -34,6 +34,9 @@ const IMAGES = {
     LinhVat2: require('./Linhvat2.png'),
     PCIDSS: require('./pci-dss.png'),
     SecureGlobalSign: require('./secureGlobalSign.png'),
+
+    // PROFILE PAGE
+    ArrowBack: require('./short_arrow_left.png'),
 }
 
 export default IMAGES

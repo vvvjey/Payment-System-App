@@ -17,9 +17,9 @@ const MainStack = () => {
   return (
     <Tab.Navigator tabBar={props => <MyTabBar {...props} />}>
       <Tab.Screen key="Home" name="Home" component={HomeScreen} options={{ headerShown: false }}/>
-      <Tab.Screen key="Promotion" name="Promotion" component={PromotionScreen} />
-      <Tab.Screen key="History" name="History" component={HistoryScreen} />
-      <Tab.Screen key="Profile" name="Profile" component={ProfileScreen} />
+      <Tab.Screen key="Promotion" name="Promotion" component={PromotionScreen} options={{ headerShown: false }}/>
+      <Tab.Screen key="History" name="History" component={HistoryScreen} options={{ headerShown: false }}/>
+      <Tab.Screen key="Profile" name="Profile" component={ProfileScreen} options={{ headerShown: false }}/>
     </Tab.Navigator>
   );
 };

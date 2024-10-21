@@ -52,11 +52,13 @@ export function MyTabBar({ state, descriptors, navigation } : {state: any, descr
             onLongPress={onLongPress} 
             style={styles.container}
           >
-            <SvgUri
+            {/* <SvgUri
               width="100%"
               height="100%"
               uri="../../../assets/icons/homeIcon.svg"
-            />
+            /> */}
+            <Text>{label}</Text>
+            
           </TouchableOpacity>
         );
       })}
