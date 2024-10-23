@@ -3,7 +3,6 @@ import { WalletService } from './wallet.service';
 import { IsNotEmpty } from 'class-validator';
 // DTO
 class DTOWalletRequest{
-    @IsNotEmpty()
     userId:number;
     deposit:number;
 }
@@ -63,6 +62,13 @@ export class WalletController {
                 errCode : 1,
                 errMessage : error.message
             }
+        }
+    }
+    @Get("test")
+    async testApi(){
+        return {
+            errCode:0,
+            errMessage:"Hello mn"
         }
     }
 }
