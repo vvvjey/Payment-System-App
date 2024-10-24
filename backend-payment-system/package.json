@@ -33,11 +33,12 @@
     "@prisma/client": "^5.21.1",
     "@types/passport-jwt": "^4.0.1",
     "argon2": "^0.41.1",
+    "backend-payment-system": "file:",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "date-fns": "^4.1.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
-    "backend-payment-system": "file:",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },

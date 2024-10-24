@@ -65,4 +65,11 @@ export class WalletController {
             }
         }
     }
+    @Get("test")
+    async testApi(){
+        return {
+            errCode:0,
+            errMessage:"Hello mn"
+        }
+    }
 }
