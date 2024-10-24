@@ -22,9 +22,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Tab } from "react-native-elements";
 import { testApi } from "../../services/apiService";
 const HomeScreen = () => {
+  var abc;
   useEffect(()=>{
     const fetchData = async () => {
       const response = await testApi();
+      abc=response;
       console.log("testt response",response.data);
     }
     fetchData();
@@ -32,6 +34,9 @@ const HomeScreen = () => {
   },[])
   return (
     <SafeAreaView style={styles.headerPart}>
+      <View>
+       {abc}
+      </View>
       <View style={styles.headerContainer}>
         <ImageBackground style={styles.banner} source={IMAGES.banner}>
           <View style={styles.appBar}>

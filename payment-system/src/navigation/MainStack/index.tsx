@@ -8,6 +8,7 @@ import { MyTabBar } from "../../components/MyTabBar";
 import PromotionScreen from "../../screens/PromotionScreen";
 import HistoryScreen from "../../screens/HistoryScreen";
 import ProfileScreen from "../../screens/ProfileScreen";
+import RegisterScreen from "../../screens/RegisterScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,9 @@ const MainStack = () => {
       <Tab.Screen key="Promotion" name="Promotion" component={PromotionScreen} options={{ headerShown: false }}/>
       <Tab.Screen key="History" name="History" component={HistoryScreen} options={{ headerShown: false }}/>
       <Tab.Screen key="Profile" name="Profile" component={ProfileScreen} options={{ headerShown: false }}/>
+      <Tab.Screen key="Login" name="Login" component={LoginScreen} options={{ headerShown: false }}/>
+      <Tab.Screen key="Register" name="Register" component={RegisterScreen} options={{ headerShown: false }}/>
+
     </Tab.Navigator>
   );
 };
