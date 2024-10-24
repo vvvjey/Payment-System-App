@@ -1,19 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { TransactionService } from 'src/transaction/transaction.service';
 
-interface CreateWalletResponse {
-    wallet?: {
-        createdAt: Date;
-        updatedAt: Date;
-        wallet_id: number;
-        userId: number;
-        balance: number;
-    };
-    error?: string;
-}
+// interface CreateWalletResponse {
+//     wallet?: {
+//         createdAt: Date;
+//         updatedAt: Date;
+//         wallet_id: number;
+//         userId: number;
+//         balance: number;
+//     };
+//     error?: string;
+// }
 @Injectable()
 export class WalletService {
-    constructor(private prismaService:PrismaService){   
+    constructor(
+        private prismaService:PrismaService,
+        private transactionService:TransactionService
+    ){   
     }
     async createWallet(userId:number){
         try {
@@ -65,7 +69,17 @@ export class WalletService {
             if(!updatedWallet){
                 throw new Error("Cannot find this wallet");
             }
-            return updatedWallet;
+            const transaction = await this.transactionService.createTransaction(
+                updatedWallet.wallet_id,
+                deposit,
+                'deposit',
+                'completed',
+                'add deposit successfully'
+            );
+            if(!transaction){
+                throw new Error("Save transaction fail");
+            }
+            return {updatedWallet,transaction};
         } catch (error) {
             throw new Error("Errror : "+ error.message);
         }

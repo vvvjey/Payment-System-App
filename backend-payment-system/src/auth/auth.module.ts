@@ -6,6 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import {JwtStrategy} from './strategy';
 import { WalletModule } from 'src/wallet/wallet.module';
 import { WalletService } from 'src/wallet/wallet.service';
+import { TransactionService } from 'src/transaction/transaction.service';
 @Module({
     imports:[
         JwtModule.register({})
@@ -16,7 +17,8 @@ import { WalletService } from 'src/wallet/wallet.service';
     providers:[
         AuthService,
         JwtStrategy,
-        WalletService
+        WalletService,
+        TransactionService
     ]
 })
 export class AuthModule {}
