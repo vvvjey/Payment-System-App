@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import {
   Button,
   Image,
@@ -20,9 +20,17 @@ import ManageBar from "../../components/ManageBar";
 import { NavigationContainer,useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Tab } from "react-native-elements";
-
+import { testApi } from "../../services/apiService";
 const HomeScreen = () => {
   const navigation = useNavigation();
+  useEffect(()=>{
+    const fetchData = async () => {
+      const response = await testApi();
+      console.log("testt response",response.data);
+    }
+    fetchData();
+
+  },[])
   return (
     <SafeAreaView style={styles.headerPart}>
       <View style={styles.headerContainer}>
