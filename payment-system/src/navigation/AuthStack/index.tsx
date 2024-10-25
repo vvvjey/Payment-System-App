@@ -3,7 +3,7 @@ import React from "react";
 import { SCREENS } from "../../constants";
 import LoginScreen from "../../screens/LoginScreen";
 import RegisterScreen from "../../screens/RegisterScreen";
-
+import { QRCodeScreen } from "../../screens/QRCodeScreen";
 const Stack = createNativeStackNavigator();
 
 const AuthStack = () => {
@@ -24,6 +24,7 @@ const AuthStack = () => {
         component={RegisterScreen}
         options={{ headerShown: false }}
       />
+
     </Stack.Navigator>
   );
 };

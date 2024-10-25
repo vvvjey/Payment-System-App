@@ -21,16 +21,18 @@ import { NavigationContainer,useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Tab } from "react-native-elements";
 import { testApi } from "../../services/apiService";
+import {ScreenNavigationProp} from '../../navigation/type';
 const HomeScreen = () => {
-  const navigation = useNavigation();
-  useEffect(()=>{
-    const fetchData = async () => {
-      const response = await testApi();
-      console.log("testt response",response.data);
-    }
-    fetchData();
+  const navigation = useNavigation<ScreenNavigationProp>();
+  var walletId = 1;
+  // useEffect(()=>{
+  //   const fetchData = async () => {
+  //     const response = await testApi();
+  //     console.log("testt response",response.data);
+  //   }
+  //   fetchData();
 
-  },[])
+  // },[])
   return (
     <SafeAreaView style={styles.headerPart}>
       <View style={styles.headerContainer}>
@@ -100,14 +102,17 @@ const HomeScreen = () => {
               <Text style={styles.textBalance}>Nhận tiền</Text>          
             </TouchableOpacity>
             <TouchableOpacity 
-                style={styles.childBalance}
-                onPress={() => navigation.navigate("QRCodeScreen")}
-              >
-              
-              <Image source={IMAGES.QR} style={styles.iconQR}></Image>     
-              <Text style={styles.textBalance}>QR Thanh toán</Text>         
+              style={styles.childBalance}
+              onPress={() => navigation.navigate("QRCodeScreen",{walletId:walletId})}
+            >
+              <Image source={IMAGES.QR} style={styles.iconQR} />
+              <Text style={styles.textBalance}>QR Thanh toán</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.childBalance}>
+
+            <TouchableOpacity 
+              style={styles.childBalance}
+              onPress={() => navigation.navigate("CameraHandleQRCode")}
+            >
               <Image source={IMAGES.TienIch} style={styles.iconTienich}></Image>  
               <Text style={styles.textBalance}>Ví tiện ích</Text>            
             </TouchableOpacity>
