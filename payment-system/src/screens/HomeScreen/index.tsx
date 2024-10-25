@@ -17,10 +17,11 @@ import { fontScale, heightScale, widthScale } from "../../utils/spacing";
 import IMAGES from "../../../assets/images";
 import SearchBar from "../../components/SearchBar";
 import ManageBar from "../../components/ManageBar";
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer,useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Tab } from "react-native-elements";
 import { testApi } from "../../services/apiService";
+import {ScreenNavigationProp} from '../../navigation/type';
 const HomeScreen = () => {
   var abc;
   useEffect(()=>{
@@ -30,8 +31,10 @@ const HomeScreen = () => {
       console.log("testt response",response.data);
     }
     fetchData();
-
+    
   },[])
+  const navigation = useNavigation<ScreenNavigationProp>();
+  var walletId = 1;
   return (
     <SafeAreaView style={styles.headerPart}>
       <View>
@@ -85,7 +88,7 @@ const HomeScreen = () => {
                 <TouchableOpacity>
                   <Image source={IMAGES.Visibility} style={styles.visibility}></Image>              
                 </TouchableOpacity>
-                <Text style={styles.balance}>30.000.000đ</Text>
+                <Text style={styles.balance}>31.000.000đ</Text>
               </View>
             </View>
             <View style={styles.manageBar}>
@@ -103,11 +106,18 @@ const HomeScreen = () => {
               <Image source={IMAGES.RutTien} style={styles.iconRut}></Image>    
               <Text style={styles.textBalance}>Nhận tiền</Text>          
             </TouchableOpacity>
-            <TouchableOpacity style={styles.childBalance}>
-              <Image source={IMAGES.QR} style={styles.iconQR}></Image>     
-              <Text style={styles.textBalance}>QR Thanh toán</Text>         
+            <TouchableOpacity 
+              style={styles.childBalance}
+              onPress={() => navigation.navigate("QRCodeScreen",{walletId:walletId})}
+            >
+              <Image source={IMAGES.QR} style={styles.iconQR} />
+              <Text style={styles.textBalance}>QR Thanh toán</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.childBalance}>
+
+            <TouchableOpacity 
+              style={styles.childBalance}
+              onPress={() => navigation.navigate("CameraHandleQRCode")}
+            >
               <Image source={IMAGES.TienIch} style={styles.iconTienich}></Image>  
               <Text style={styles.textBalance}>Ví tiện ích</Text>            
             </TouchableOpacity>

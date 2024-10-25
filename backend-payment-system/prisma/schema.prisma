@@ -41,6 +41,19 @@ model Wallet{
   balance Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  transaction Transaction[]
   user User @relation(fields: [userId],references: [id])
   @@map("wallets")
+}
+model Transaction{
+  transaction_id Int @id @default(autoincrement())
+  wallet_id Int 
+  act_type String
+  amount Float
+  status String?
+  transaction_log_message String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  wallet Wallet @relation(fields: [wallet_id],references: [wallet_id])
+  @@map("transactions")
 }

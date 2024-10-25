@@ -5,6 +5,9 @@ import { IsNotEmpty } from 'class-validator';
 class DTOWalletRequest{
     userId:number;
     deposit:number;
+    senderWalletId:number
+    receiverWalletId:number
+    amount:number
 }
 // class CreateWalletRequest{
 //     userId:number;
@@ -69,6 +72,22 @@ export class WalletController {
         return {
             errCode:0,
             errMessage:"Hello mn"
+        }
+    }
+    @Post('tranfer-money')
+    async tranferMoney(@Body() req:DTOWalletRequest){
+        try {
+            const wallet = await this.walletService.tranferMoney(req.senderWalletId,req.receiverWalletId,req.amount); 
+            return {
+                errCode : 0 ,
+                errMessage : "Add successfully",
+                data: wallet
+            }
+        } catch (error) {
+            return {
+                errCode : 1,
+                errMessage : error.message
+            }
         }
     }
 }
