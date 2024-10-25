@@ -3,5 +3,7 @@
   "compilerOptions": {
     "strict": true,
     "jsx": "react",
-  }
+  },
+  "allowSyntheticDefaultImports": true,
+  "esModuleInterop": true
 }
