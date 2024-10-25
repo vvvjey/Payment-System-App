@@ -23,18 +23,23 @@ import { Tab } from "react-native-elements";
 import { testApi } from "../../services/apiService";
 import {ScreenNavigationProp} from '../../navigation/type';
 const HomeScreen = () => {
+  var abc;
+  useEffect(()=>{
+    const fetchData = async () => {
+      const response = await testApi();
+      abc=response;
+      console.log("testt response",response.data);
+    }
+    fetchData();
+    
+  },[])
   const navigation = useNavigation<ScreenNavigationProp>();
   var walletId = 1;
-  // useEffect(()=>{
-  //   const fetchData = async () => {
-  //     const response = await testApi();
-  //     console.log("testt response",response.data);
-  //   }
-  //   fetchData();
-
-  // },[])
   return (
     <SafeAreaView style={styles.headerPart}>
+      <View>
+       {abc}
+      </View>
       <View style={styles.headerContainer}>
         <ImageBackground style={styles.banner} source={IMAGES.banner}>
           <View style={styles.appBar}>

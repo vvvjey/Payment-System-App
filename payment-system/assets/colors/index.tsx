@@ -6,6 +6,7 @@ export interface IColors {
     readonly Black: string;
     readonly Gray: string;
     readonly DarkGray: string;
+    readonly MainColor: string;
   }
 
 export const Colors: IColors = {
@@ -16,4 +17,5 @@ export const Colors: IColors = {
     Black: '#000000',
     Gray: '#A09CAB',
     DarkGray: '#333333',
+    MainColor: "#1EA9F4",
   };

@@ -31,3 +31,6 @@ apiClient.interceptors.response.use(
 export const testApi = () => {
     return apiClient.get('/wallet/test');
 };
+export const registerHuong = ()=>{
+    return apiClient.post('/api/v1/auth/login');
+}

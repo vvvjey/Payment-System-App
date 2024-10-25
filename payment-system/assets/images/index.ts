@@ -37,6 +37,8 @@ const IMAGES = {
 
     // PROFILE PAGE
     ArrowBack: require('./short_arrow_left.png'),
+    // LOGIN PAGE
+    LogoNexPay: require('./loginImage.png'),
 }
 
 export default IMAGES
