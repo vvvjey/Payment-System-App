@@ -39,6 +39,7 @@ const IMAGES = {
     ArrowBack: require('./short_arrow_left.png'),
     // LOGIN PAGE
     LogoNexPay: require('./loginImage.png'),
+    Eye: require('./mdi_eye-off.png')
 }
 
 export default IMAGES
