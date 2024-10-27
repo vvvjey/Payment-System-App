@@ -1,24 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import QRCode from 'react-native-qrcode-svg';
-import { ScreenQRCodeRouteProp } from "../../navigation/type";
-import CryptoJS from 'crypto-js';
 import { useRoute } from '@react-navigation/native';
-const secretKey = 'qrcode-hoang-tu';
- const QRCodeScreen: React.FC = () => {
-    const route = useRoute<ScreenQRCodeRouteProp>();
-    const { walletId } = route.params; 
-    const encryptedData = CryptoJS.AES.encrypt(JSON.stringify({ walletId }), secretKey).toString();
+import CryptoJS from "crypto-js";
+import { ScreenQRCodeRouteProp } from "../../navigation/type";
 
-    const qrData = JSON.stringify({
-        encryptedData,
+const secretKey = 'qrcode-hoang-tu';
+const iv = 'your-iv-string-16chars';  // IV phải là 16 ký tự
+
+const QRCodeScreen: React.FC = () => {
+    const route = useRoute<ScreenQRCodeRouteProp>();
+    const { walletId } = route.params;
+    const [encryptedData, setEncryptedData] = useState<string>('');
+
+    const dataToEncrypt = JSON.stringify({
+        acc: "abc",
+        bcc: "bcc"
     });
+
+    useEffect(() => {
+        // Encrypt the data
+        const encrypted = CryptoJS.AES.encrypt(dataToEncrypt, secretKey).toString();
+        setEncryptedData(encrypted);
+        console.log("Encrypted data sample:", encrypted); // Log encrypted data
+    }, []);
+
+    useEffect(() => {
+        if (encryptedData) {
+            // Decrypt the data
+            const bytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
+            const decryptedData = bytes.toString(CryptoJS.enc.Utf8); // Convert bytes to string
+            console.log("Decrypted data:", decryptedData); // Should log original data
+        }
+    }, [encryptedData]); // Run when encryptedData changes
 
     return (
         <View style={styles.container}>
             <View style={styles.qrContainer}>
                 <QRCode
-                    value={qrData}
+                    value={encryptedData || "No data"} // Fallback text when no data is available
                     size={250}
                 />
             </View>
@@ -27,6 +47,7 @@ const secretKey = 'qrcode-hoang-tu';
         </View>
     );
 };
+
 
 const styles = StyleSheet.create({
     container: {
