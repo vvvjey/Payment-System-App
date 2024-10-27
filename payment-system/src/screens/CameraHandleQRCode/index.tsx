@@ -1,36 +1,49 @@
-import React from 'react';
-import { useNavigation } from '@react-navigation/native';
-import Camera from 'react-native-camera';
-import CryptoJS from 'crypto-js';
-import { View } from 'react-native';
+import { CameraView, useCameraPermissions } from 'expo-camera';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
-const secretKey = 'qrcode-hoang-tu';
+export default function CameraHandleQRCode() {
+  const [facing, setFacing] = useState<"back" | "front">('back');
+  const [permission, requestPermission] = useCameraPermissions();
+  const cameraRef = useRef<CameraView>(null);
 
-const CameraHandleQRCode:React.FC = () => {
-    const navigation = useNavigation();
+  useEffect(() => {
+    (async () => {
+      if (!permission || !permission.granted) {
+        const { status } = await requestPermission();
+        if (status === 'granted') {
+          console.log('Camera access granted');
+        } else {
+          console.log('Camera access denied');
+        }
+      }
+    })();
+  }, [permission, requestPermission]);
 
-    const handleQRCodeScanned = ({ data }: { data: string }) => {
-        const { encryptedData } = JSON.parse(data);
+  return (
+    <View style={styles.container}>
+      {permission?.granted ? (
+        <CameraView
+          ref={cameraRef}
+          style={styles.camera}
+          facing={facing}
+        />
+      ) : (
+        <Text>No access to camera</Text>
+      )}
+    </View>
+  );
+}
 
-        // Giải mã dữ liệu đã quét
-        const bytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
-        const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-
-        // Lấy walletId từ dữ liệu đã giải mã
-        const { walletId } = decryptedData;
-        console.log("wallet id ", walletId)
-        // Điều hướng đến màn hình chuyển tiền và gửi dữ liệu đã quét
-        // navigation.navigate('TransferMoney', { receiverWalletId: walletId, amount: 120 }); // Số tiền có thể thay đổi tùy theo logic của bạn
-    };
-
-    return (
-        <View>
-            {/* <Camera
-                onBarCodeRead={handleQRCodeScanned}
-                style={{ flex: 1 }}
-            /> */}
-        </View>
-    );
-};
-
-export default CameraHandleQRCode;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
+  camera: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
+});
