@@ -24,7 +24,7 @@ import { testApi } from "../../services/apiService";
 import { registerHuong } from "../../services/apiService";
 // import ve
 // useEffect ( call thử bằng cách truyển thử data vào , r xem kết quả nhận , vào database)
-const LoginScreen = () => {
+const RegisterScreen = () => {
   return (
     <SafeAreaView style={styles.headerPart}>
       <View style={styles.headerContainer}>
@@ -51,7 +51,7 @@ const LoginScreen = () => {
     </SafeAreaView>
     );
   };
-export default LoginScreen;
+export default RegisterScreen;
 
 const styles = StyleSheet.create({
   headerPart: {
