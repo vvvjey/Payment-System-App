@@ -16,6 +16,7 @@ import { Colors } from "../../../assets/colors";
 import { fontScale, heightScale, widthScale } from "../../utils/spacing";
 import IMAGES from "../../../assets/images";
 import TextboxLogin from "../../components/TextboxLogin";
+import ButtonLogin from "../../components/ButtonLogin";
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Tab } from "react-native-elements";
@@ -24,9 +25,6 @@ import { testApi } from "../../services/apiService";
 const LoginScreen = () => {
   return (
     <SafeAreaView style={styles.headerPart}>
-      <View style={styles.headerContainer}>
-        <ImageBackground resizeMode="contain" style={styles.iconBack} source={IMAGES.ArrowBack} />
-      </View>
       <View style={styles.logoContainer}>
         <ImageBackground
             resizeMode="contain"
@@ -38,17 +36,23 @@ const LoginScreen = () => {
         <View style={styles.titleLogin}>
           <Text style={styles.title}>Đăng nhập</Text>
         </View>
-        <View style={styles.textboxLogin}>
+        <View>
           <TextboxLogin />
         </View>
         <Text style={styles.dksd}>
-            Khi đăng nhập hoặc đăng ký, bạn đồng ý với{" "} {'\n'}
-            <Text style={styles.link}>điều khoản sử dụng</Text> và{" "}
-            <Text style={styles.link}>chính sách bảo mật</Text> của {'\n'}chúng tôi.
+            Khi đăng nhập hoặc đăng ký, bạn đồng ý với{" "}
+            <Text style={styles.link}>điều {'\n'} khoản sử dụng</Text> và{" "}
+            <Text style={styles.link}>chính sách bảo mật</Text> của chúng tôi.
         </Text>
-        <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Đăng nhập</Text>
-        </TouchableOpacity>
+        <View>
+          <ButtonLogin />
+        </View>
+        <View style={styles.loginTextBottomContainer}>
+          <Text style={styles.loginTextBottom}>Chưa có tài khoản? </Text>
+          <TouchableOpacity>
+            <Text style={styles.buttonRegister}>Đăng ký</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
     );
@@ -60,16 +64,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.White,
     paddingTop: heightScale(10),
   },
-  headerContainer: {
-    marginLeft: widthScale(37),
-    marginTop: heightScale(10), 
-  },
-  iconBack: {
-    width: widthScale(14),
-    height: heightScale(11),
-  },
   logoContainer: {
     alignSelf: "center", 
+    marginTop: heightScale(50)
   },
   logo: {
     width: widthScale(130),
@@ -87,13 +84,11 @@ const styles = StyleSheet.create({
     fontSize: fontScale(25),
     fontWeight: "bold",
   },
-  textboxLogin: {
-    // alignSelf: "center",
-  },
   dksd: {
-    fontSize: fontScale(16),
+    fontWeight: "400",
+    fontSize: fontScale(14),
     color: "#929292", 
-    marginLeft: widthScale(26)
+    marginTop: heightScale(49),
   },
   link: {
     textDecorationLine: "underline",
@@ -102,9 +97,27 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: Colors.MainColor,
     borderRadius: widthScale(10),
+    height: heightScale(55),
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: heightScale(19)
   },
   buttonText: {
-
+    color: Colors.White,
+    fontSize: fontScale(17),
+    fontWeight: "500"
+  },
+  loginTextBottomContainer: {
+    flexDirection: "row",
+    alignItems: "center", 
+    justifyContent: "center", 
+    marginTop: heightScale(80), 
+  },
+  loginTextBottom: {
+    color: "#7B7B7B"
+  },
+  buttonRegister: {
+    color: Colors.MainColor,
   },
 }
 )

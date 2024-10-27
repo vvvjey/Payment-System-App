@@ -8,7 +8,7 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    FlatList,
+    FlatList,   
     ScrollView,
   } from "react-native";
 import IMAGES from "../../../assets/images";
@@ -16,10 +16,22 @@ import { widthScale, heightScale, fontScale } from "../../utils/spacing";
 import { Colors } from "../../../assets/colors";
 
 const TextboxLogin = () => {
+    const [name, setName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [password, setPassword] = useState("");
     return (
     <View style={styles.container}>
+        <Text style={styles.text}>Họ và tên</Text>
+        <View style={styles.pwdContainer}>
+            <View>
+                <TextInput
+                    style={styles.inputPwd}
+                    placeholder="Nhập họ và tên"
+                    value={name}
+                    onChangeText={setName}
+                />
+            </View>
+        </View>
         <Text style={styles.text}>Số điện thoại</Text>
         <View style={styles.phoneContainer}>
             <View style={styles.firstChild}>
@@ -52,19 +64,21 @@ const TextboxLogin = () => {
                 <Image source={IMAGES.Eye} style={styles.eye}></Image>              
             </TouchableOpacity>
         </View>
-        <View style={styles.FaceIDContainer}>
-            <TouchableOpacity style={styles.loginFaceID}>
-                <Image source={IMAGES.FaceID} style={styles.iconFaceID}></Image> 
-                <Text style={styles.textFaceID}>Đăng nhập bằng Face ID</Text>             
-            </TouchableOpacity>
+        <Text style={styles.text}>Xác nhận mật khẩu</Text>
+        <View style={styles.pwdContainer}>
+            <View>
+                <TextInput
+                    style={styles.inputPwd}
+                    placeholder="Nhập mật khẩu"
+                    secureTextEntry={true}
+                    value={password} 
+                    onChangeText={setPassword} 
+                />
+            </View>
             <TouchableOpacity>
-                <Text style={styles.forgetPwd}>Quên mật khẩu?</Text>
+                <Image source={IMAGES.Eye} style={styles.eye}></Image>              
             </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.FingerPrintContainer}>
-            <Image source={IMAGES.FingerPrint} style={styles.iconFingerPrint}></Image> 
-            <Text style={styles.textFaceID}>Đăng nhập bằng vân tay</Text>             
-        </TouchableOpacity>
         
       </View>
     );
@@ -135,42 +149,5 @@ const styles = StyleSheet.create({
         width: widthScale(24),
         height: heightScale(24),
         marginRight: widthScale(20),
-    },
-    forgetPwd: {
-        fontSize: fontScale(15),
-        color: Colors.MainColor,
-        alignSelf: 'flex-end',
-        marginRight: widthScale(15),
-    },
-    FaceIDContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        marginTop: heightScale(7),
-    },
-    loginFaceID: {
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    textFaceID: {
-        fontSize: fontScale(14),
-        fontWeight: "600",
-    },
-    FingerPrintContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginTop: heightScale(12),
-    },
-    iconFaceID: {
-        width: widthScale(20),
-        height: heightScale(19),
-        marginRight: widthScale(8),
-        marginLeft: widthScale(5),
-    },
-    iconFingerPrint: {
-        width: widthScale(17.25),
-        height: heightScale(19.17),
-        marginRight: widthScale(9),
-        marginLeft: widthScale(5),
     },
   });
