@@ -1,7 +1,10 @@
 import axios, {AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 let BackendUrl = "http://10.0.2.2:3002";
 const apiClient = axios.create({
-    baseURL: BackendUrl
+    baseURL: BackendUrl,
+    headers: {
+        'Content-Type': 'application/json', // Thêm header Content-Type
+    },
 })
 apiClient.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
@@ -29,9 +32,9 @@ apiClient.interceptors.response.use(
 );
 
 export const testApi = () => {
-    return apiClient.get('/wallet/test');
+    return apiClient.get('/api/v1/wallet/test');
 };
-export const registerHuong = (data: { name: string, phoneNumber: string; password: string }) => {
+export const registerHuong = (data: { email: string, password: string }) => {
     return apiClient.post('/api/v1/auth/register', data);
 };
 export const loginHuong = (data: { phoneNumber: string; password: string }) => {
