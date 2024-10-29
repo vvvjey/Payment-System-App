@@ -1,17 +1,51 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet , Image} from 'react-native';
-import { SvgUri } from 'react-native-svg';
+import React from "react";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { heightScale } from "../../utils/spacing";
+import { Colors } from "../../../assets/colors";
+import HomeTab from "./homeTab";
+import PromotionTab from "./promotionTab";
+import HistoryTab from "./historyTab";
+import ProfileTab from "./profileTab";
+import QRTab from "./qrTab";
 
-const menuIcon = {
-  Home: "../../../assets/icons/homeIcon.svg",
-  Promotion: "../../../assets/icons/promotionIcon.svg",
-  History: "../../../assets/icons/historyIcon.svg",
-  profile: "../../../assets/icons/profileIcon.svg",
-}
+const renderItem = (TabName: string, Focused: boolean) => {
+  switch (TabName) {
+    case "Home": {
+      return <HomeTab focused={Focused} />;
+    }
+    case "Promotion": {
+      return <PromotionTab focused={Focused} />;
+    }
+    case "CameraHandleQRCodeTab": {
+      return <QRTab />;
+    }
+    case "History": {
+      return <HistoryTab focused={Focused} />;
+    }
+    case "Profile": {
+      return <ProfileTab focused={Focused} />;
+    }
+  }
+};
 
-export function MyTabBar({ state, descriptors, navigation } : {state: any, descriptors: any, navigation: any}) {
+export function MyTabBar({
+  state,
+  descriptors,
+  navigation,
+}: {
+  state: any;
+  descriptors: any;
+  navigation: any;
+}) {
   return (
-    <View style={{ flexDirection: 'row' }}>
+    <View
+      style={{
+        flexDirection: "row",
+        height: heightScale(80),
+        justifyContent: "space-around",
+        alignItems: "center",
+      }}
+    >
       {state.routes.map((route: any, index: any) => {
         const { options } = descriptors[route.key];
         const label =
@@ -25,19 +59,21 @@ export function MyTabBar({ state, descriptors, navigation } : {state: any, descr
 
         const onPress = () => {
           const event = navigation.emit({
-            type: 'tabPress',
+            type: "tabPress",
             target: route.key,
             canPreventDefault: true,
           });
 
           if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name, route.params);
+            if (label === "CameraHandleQRCodeTab") {
+              navigation.navigate("CameraHandleQRCode");
+            } else navigation.navigate(route.name, route.params);
           }
         };
 
         const onLongPress = () => {
           navigation.emit({
-            type: 'tabLongPress',
+            type: "tabLongPress",
             target: route.key,
           });
         };
@@ -49,26 +85,31 @@ export function MyTabBar({ state, descriptors, navigation } : {state: any, descr
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
             onPress={onPress}
-            onLongPress={onLongPress} 
-            style={styles.container}
+            onLongPress={onLongPress}
+            style={isFocused ? styles.focused : styles.blured}
+            key={label}
           >
-            {/* <SvgUri
-              width="100%"
-              height="100%"
-              uri="../../../assets/icons/homeIcon.svg"
-            /> */}
-            <Text>{label}</Text>
-            
+            {renderItem(label, isFocused)}
           </TouchableOpacity>
         );
       })}
     </View>
   );
-
 }
 
 const styles = StyleSheet.create({
-  container: {
-    display: "flex"
-  }
-})
+  focused: {
+    display: "flex",
+    borderTopColor: Colors.MainColor,
+    borderTopWidth: heightScale(2),
+    height: "100%",
+    justifyContent: "center",
+  },
+  blured: {
+    display: "flex",
+    borderTopColor: "transparent",
+    borderTopWidth: heightScale(2),
+    height: "100%",
+    justifyContent: "center",
+  },
+});
