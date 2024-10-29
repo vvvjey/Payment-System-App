@@ -1,11 +1,13 @@
-import { CameraView, useCameraPermissions } from 'expo-camera';
-import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Alert } from 'react-native';
+import { BarCodeScanner, BarCodeScanningResult } from 'expo-barcode-scanner';
+import CryptoJS from 'crypto-js';
+
+const secretKey = 'qrcode-hoang-tu';
 
 export default function CameraHandleQRCode() {
-  const [facing, setFacing] = useState<"back" | "front">('back');
-  const [permission, requestPermission] = useCameraPermissions();
-  const cameraRef = useRef<CameraView>(null);
+  const [permission, requestPermission] = BarCodeScanner.usePermissions();
+  const [scanned, setScanned] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -20,16 +22,35 @@ export default function CameraHandleQRCode() {
     })();
   }, [permission, requestPermission]);
 
+  const handleBarCodeScanned = ({ data }: BarCodeScanningResult) => {
+    setScanned(true);
+    try {
+      // Decrypt the scanned data
+      const bytes = CryptoJS.AES.decrypt(data, secretKey);
+      const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+      console.log('Decrypted data:', decryptedData);
+
+      Alert.alert('QR Code scanned!', `Decrypted data: ${decryptedData}`);
+    } catch (error) {
+      console.error('Error decrypting QR code data:', error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       {permission?.granted ? (
-        <CameraView
-          ref={cameraRef}
-          style={styles.camera}
-          facing={facing}
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+          barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
         />
       ) : (
         <Text>No access to camera</Text>
+      )}
+      {scanned && (
+        <Text onPress={() => setScanned(false)} style={styles.rescanText}>
+          Tap to scan again
+        </Text>
       )}
     </View>
   );
@@ -41,9 +62,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'white',
   },
-  camera: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
+  rescanText: {
+    fontSize: 16,
+    color: 'blue',
+    textAlign: 'center',
+    padding: 20,
   },
 });
