@@ -4,6 +4,8 @@ type RootStackParamList = {
     Home: undefined
     QRCodeScreen : {walletId : number | undefined}
     CameraHandleQRCode:undefined
+    LoginScreen:undefined
+    RegisterScreen:undefined
 }
 export type ScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 export type ScreenQRCodeRouteProp = RouteProp<RootStackParamList,"QRCodeScreen">  

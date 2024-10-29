@@ -22,6 +22,9 @@ const MainStack = () => (
       <Stack.Screen name="MainTabs" component={MainTabs} options={{headerShown:false}}/>
       <Stack.Screen name="QRCodeScreen" component={QRCodeScreen} />
       <Stack.Screen name="CameraHandleQRCode" component={CameraHandleQRCode} />
+      <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown:false}}/>
+      <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerShown:false}}/>
+
   </Stack.Navigator>
 );
 
