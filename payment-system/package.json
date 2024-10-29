@@ -1,5 +1,5 @@
 {
-  "name": "payment-system",
+  "name": "hihi",
   "version": "1.0.0",
   "main": "expo/AppEntry.js",
   "scripts": {
@@ -15,7 +15,9 @@
     "axios": "^1.7.7",
     "crypto-js": "^3.1.9-1",
     "expo": "~51.0.28",
+    "expo-barcode-scanner": "^13.0.1",
     "expo-camera": "^15.0.16",
+    "expo-local-authentication": "~14.0.1",
     "expo-media-library": "^16.0.5",
     "expo-status-bar": "~1.12.1",
     "payment-system": "file:",
@@ -36,5 +38,6 @@
     "@types/react": "~18.2.45",
     "typescript": "~5.3.3"
   },
-  "private": true
+  "private": true,
+  "license": "MIT"
 }
