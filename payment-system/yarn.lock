@@ -17,7 +17,6 @@
 
 "@babel/code-frame@7.10.4", "@babel/code-frame@~7.10.4":
   version "7.10.4"
-
   resolved "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.10.4.tgz"
   integrity sha512-vG6SvB6oYEhvgisZNFRmRCUkLz11c7rp+tbNTynGqc6mS1d5ATd/sGyV6W0KZZnXRKMTzZDRgQT3Ou9jhpAfUg==
   dependencies:
@@ -26,7 +25,6 @@
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.25.9", "@babel/code-frame@^7.26.0":
   version "7.26.0"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.26.0.tgz#9374b5cd068d128dac0b94ff482594273b1c2815"
-
   integrity sha512-INCKxTtbXtcNbUZ3YXutwMpEleqttcswhAdee7dhuoVrD2cnuc3PqtERBtxkX5nziX9vnBL8WXmSGwv8CuPV6g==
   dependencies:
     "@babel/helper-validator-identifier" "^7.25.9"
@@ -42,7 +40,6 @@
   version "7.26.0"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.26.0.tgz#d78b6023cc8f3114ccf049eb219613f74a747b40"
   integrity sha512-i1SLeK+DzNnQ3LL/CswPCa/E5u4lh1k6IAEphON8F+cXt0t9euTshDru0q7/IqMa1PMPz5RnHuHscF8/ZJsStg==
-
   dependencies:
     "@ampproject/remapping" "^2.2.0"
     "@babel/code-frame" "^7.26.0"
@@ -75,6 +72,12 @@
   version "7.26.0"
   resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.26.0.tgz#505cc7c90d92513f458a477e5ef0703e7c91b8d7"
   integrity sha512-/AIkAmInnWwgEAJGQr9vY0c66Mj6kjkE2ZPB1PurTRaRAh3U+J45sAQMjQDJdh4WbR3l0x5xkimXBKyBXXAu2w==
+  dependencies:
+    "@babel/parser" "^7.26.0"
+    "@babel/types" "^7.26.0"
+    "@jridgewell/gen-mapping" "^0.3.5"
+    "@jridgewell/trace-mapping" "^0.3.25"
+    jsesc "^3.0.2"
 
 "@babel/helper-annotate-as-pure@^7.25.9":
   version "7.25.9"
@@ -83,7 +86,7 @@
   dependencies:
     "@babel/types" "^7.25.9"
 
-"@babel/helper-compilation-targets@^7.20.7", "@babel/helper-compilation-targets@^7.22.6", "@babel/helper-compilation-targets@^7.25.7", "@babel/helper-compilation-targets@^7.25.9":
+"@babel/helper-compilation-targets@^7.20.7", "@babel/helper-compilation-targets@^7.22.6", "@babel/helper-compilation-targets@^7.25.9":
   version "7.25.9"
   resolved "https://registry.yarnpkg.com/@babel/helper-compilation-targets/-/helper-compilation-targets-7.25.9.tgz#55af025ce365be3cdc0c1c1e56c6af617ce88875"
   integrity sha512-j9Db8Suy6yV/VHa4qzrj9yZfZxhLWQdVnRlXxmKLYlhWUVB1sB2G5sxuWYXk/whHD9iW76PmNzxZ4UCnTQTVEQ==
@@ -167,7 +170,6 @@
     "@babel/types" "^7.25.9"
 
 "@babel/helper-plugin-utils@^7.10.4", "@babel/helper-plugin-utils@^7.18.6", "@babel/helper-plugin-utils@^7.20.2", "@babel/helper-plugin-utils@^7.22.5", "@babel/helper-plugin-utils@^7.25.9", "@babel/helper-plugin-utils@^7.8.0":
-
   version "7.25.9"
   resolved "https://registry.yarnpkg.com/@babel/helper-plugin-utils/-/helper-plugin-utils-7.25.9.tgz#9cbdd63a9443a2c92a725cca7ebca12cc8dd9f46"
   integrity sha512-kSMlyUVdWe25rEsRGviIgOWnoT/nfABVWlqt9N19/dIPWViAOW2s9wznP5tURbs/IDuNk4gPy3YdYRgH3uxhBw==
@@ -497,7 +499,6 @@
     "@babel/helper-plugin-utils" "^7.25.9"
     "@babel/plugin-syntax-flow" "^7.25.9"
 
-
 "@babel/plugin-transform-function-name@^7.0.0":
   version "7.25.9"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-function-name/-/plugin-transform-function-name-7.25.9.tgz#939d956e68a606661005bfd550c4fc2ef95f7b97"
@@ -611,7 +612,6 @@
     "@babel/helper-annotate-as-pure" "^7.25.9"
     "@babel/helper-plugin-utils" "^7.25.9"
 
-
 "@babel/plugin-transform-runtime@^7.0.0":
   version "7.25.9"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-runtime/-/plugin-transform-runtime-7.25.9.tgz#62723ea3f5b31ffbe676da9d6dae17138ae580ea"
@@ -666,7 +666,6 @@
     "@babel/helper-plugin-utils" "^7.25.9"
 
 "@babel/preset-flow@^7.13.13":
-
   version "7.25.9"
   resolved "https://registry.yarnpkg.com/@babel/preset-flow/-/preset-flow-7.25.9.tgz#ef8b5e7e3f24a42b3711e77fb14919b87dffed0a"
   integrity sha512-EASHsAhE+SSlEzJ4bzfusnXSHiU+JfAYzj+jbw2vgQKgq5HrUr8qs+vgtiEL5dOH6sEweI+PNt2D7AqrDSHyqQ==
@@ -4407,7 +4406,7 @@ jsesc@^2.5.1:
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-2.5.2.tgz#80564d2e483dacf6e8ef209650a67df3f0c283a4"
   integrity sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA==
 
-jsesc@^3.0.2, jsesc@~3.0.2:
+jsesc@~3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-3.0.2.tgz#bb8b09a6597ba426425f2e4a07245c3d00b9343e"
   integrity sha512-xKqzzWXDttJuOcawBt4KnKHHIf5oQ/Cxax+0PWFG+DFDgHNAdi+TXECADI+RYiFUMmx8792xsMbbgXj4CwnP4g==
@@ -5489,9 +5488,10 @@ path-type@^4.0.0:
     expo "~51.0.28"
     expo-barcode-scanner "^13.0.1"
     expo-camera "^15.0.16"
+    expo-local-authentication "~14.0.1"
     expo-media-library "^16.0.5"
     expo-status-bar "~1.12.1"
-    payment-system "file:C:/Users/PC/AppData/Local/Yarn/Cache/v6/npm-payment-system-1.0.0-57ae4369-7f0e-4abb-b334-e599d8e28bac-1730189270783/node_modules/payment-system"
+    payment-system "file:C:/Users/PC/AppData/Local/Yarn/Cache/v6/npm-payment-system-1.0.0-90cffe2a-44a1-4c49-b226-0606d1be4166-1730192864261/node_modules/payment-system"
     react "18.2.0"
     react-native "0.74.5"
     react-native-elements "^3.4.3"
@@ -5744,6 +5744,11 @@ react-is@^17.0.1:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
+
+react-native-biometrics@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-biometrics/-/react-native-biometrics-3.0.1.tgz#23c5a0bdbae1fcb1e08b22936223fe0fc4af846e"
+  integrity sha512-Ru80gXRa9KG04sl5AB9HyjLjVbduhqZVjA+AiOSGqr+fNqCDmCu9y5WEksnjbnniNLmq1yGcw+qcLXmR1ddLDQ==
 
 react-native-elements@^3.4.3:
   version "3.4.3"
