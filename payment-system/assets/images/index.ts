@@ -42,6 +42,9 @@ const IMAGES = {
     Eye: require('./mdi_eye-off.png'),
     FaceID: require('./icon Face ID.png'),
     FingerPrint: require('./van tay.png'),
+    // Deposit page
+    BIDV: require('./bidv.png'),
+    BankRespository: require('./thêm NH 1.png'),
 }
 
 export default IMAGES
