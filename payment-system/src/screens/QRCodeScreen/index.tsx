@@ -8,7 +8,7 @@ import { ScreenQRCodeRouteProp } from "../../navigation/type";
 const secretKey = 'qrcode-hoang-tu';
 const iv = 'your-iv-string-16chars';  // IV phải là 16 ký tự
 
-const QRCodeScreen: React.FC = () => {
+export const QRCodeScreen: React.FC = () => {
     const route = useRoute<ScreenQRCodeRouteProp>();
     const { walletId } = route.params;
     const [encryptedData, setEncryptedData] = useState<string>('');
@@ -47,6 +47,7 @@ const QRCodeScreen: React.FC = () => {
         </View>
     );
 };
+
 
 
 const styles = StyleSheet.create({

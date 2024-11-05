@@ -144,11 +144,20 @@ const HomeScreen = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.bodyMainService}>
-            <TouchableOpacity style={styles.childMainService}>            
+            <TouchableOpacity 
+              style={styles.childMainService}
+              onPress={() => navigation.navigate("RegisterScreen")}
+
+              
+            >            
               <Image source={IMAGES.ThanhToanKV} style={styles.iconThanhToanKV}></Image>  
               <Text style={styles.textMainService}>Thanh toán{"\n"}khoản vay</Text>            
             </TouchableOpacity>
-            <TouchableOpacity style={styles.childMainService}>
+            <TouchableOpacity 
+              style={styles.childMainService}
+              onPress={() => navigation.navigate("LoginScreen")}
+  
+            >
               <Image source={IMAGES.XemPhim} style={styles.iconXemPhim}></Image>    
               <Text style={styles.textMainService}>Mua vé{"\n"}xem phim</Text>          
             </TouchableOpacity> 
@@ -258,7 +267,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   headerPart: {
     backgroundColor: Colors.LightBlue,
-    paddingTop: heightScale(40),
+    paddingTop: heightScale(20),
   },
   headerContainer: {
     width: "100%",

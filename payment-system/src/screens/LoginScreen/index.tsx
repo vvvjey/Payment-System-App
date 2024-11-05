@@ -20,6 +20,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Tab } from "react-native-elements";
 import { testApi } from "../../services/apiService";
 import { loginHuong } from "../../services/apiService";
+import * as LocalAuthentication from 'expo-local-authentication';
 
 const LoginScreen = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -38,6 +39,62 @@ const LoginScreen = () => {
       console.error("Registration error:", error);
   }
 };
+const handleLoginFaceID = async()=>{
+  try {
+    
+    // Check for biometric authentication availability
+    const hasHardware = await LocalAuthentication.hasHardwareAsync();
+    console.log("Has Hardware:", hasHardware);
+    const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+    console.log("Is Enrolled:", isEnrolled);
+        
+    if (hasHardware && isEnrolled) {
+      const result = await LocalAuthentication.authenticateAsync({
+        promptMessage: "Xác thực để tiếp tục",
+        fallbackLabel: "Sử dụng mật khẩu",
+      });
+      
+      if (result.success) {
+        console.log("Biometric authentication successful");
+        // Proceed to next screen or perform any post-login action
+      } else {
+        console.error("Biometric authentication failed");
+      }
+    } else {
+      console.log("Biometric authentication not available");
+    }
+  } catch (error) {
+    console.error("Login error:", error);
+  }
+}
+const handleLoginFingerprint = async () => {
+  try {
+    const hasHardware = await LocalAuthentication.hasHardwareAsync();
+    console.log("Has Hardware:", hasHardware);
+
+    const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+    console.log("Is Enrolled:", isEnrolled);
+
+    if (hasHardware && isEnrolled) {
+      const result = await LocalAuthentication.authenticateAsync({
+        promptMessage: "Xác thực để tiếp tục",
+        fallbackLabel: "Sử dụng mật khẩu",
+      });
+
+      if (result.success) {
+        console.log("Fingerprint authentication successful");
+        // Proceed to next screen or perform any post-login action
+      } else {
+        console.error("Fingerprint authentication failed");
+      }
+    } else {
+      console.log("Fingerprint authentication not available");
+    }
+  } catch (error) {
+    console.error("Login error:", error);
+  }
+};
+
   return (
     <SafeAreaView style={styles.headerPart}>
       <View style={styles.logoContainer}>
@@ -85,7 +142,10 @@ const LoginScreen = () => {
               </TouchableOpacity>
           </View>
           <View style={styles.FaceIDContainer}>
-              <TouchableOpacity style={styles.loginFaceID}>
+              <TouchableOpacity 
+                style={styles.loginFaceID}
+                onPress={handleLoginFaceID}
+              >
                   <Image source={IMAGES.FaceID} style={styles.iconFaceID}></Image> 
                   <Text style={styles.textFaceID}>Đăng nhập bằng Face ID</Text>             
               </TouchableOpacity>
@@ -93,7 +153,11 @@ const LoginScreen = () => {
                   <Text style={styles.forgetPwd}>Quên mật khẩu?</Text>
               </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.FingerPrintContainer}>
+          <TouchableOpacity 
+            style={styles.FingerPrintContainer}
+            onPress={handleLoginFingerprint}
+
+            >
               <Image source={IMAGES.FingerPrint} style={styles.iconFingerPrint}></Image> 
               <Text style={styles.textFaceID}>Đăng nhập bằng vân tay</Text>             
           </TouchableOpacity>        
