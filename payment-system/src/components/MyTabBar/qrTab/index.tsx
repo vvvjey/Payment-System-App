@@ -17,15 +17,14 @@ export default QRTab;
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-around",
     alignItems: "center",
     backgroundColor: Colors.MainColor,
-    borderRadius: 90,
+    borderRadius: 9999,
     padding: widthScale(10),
     zIndex: 1,
-    transform: [{ translateY: -heightScale(25) }]
+    transform: [{ translateY: -heightScale(25) }],
+    width: widthScale(80),  // set this equal to heightScale
+    
   },
   textContainer: {
     display: "flex",

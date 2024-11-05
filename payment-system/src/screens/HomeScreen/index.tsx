@@ -267,7 +267,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   headerPart: {
     backgroundColor: Colors.LightBlue,
-    paddingTop: heightScale(40),
+    paddingTop: heightScale(20),
   },
   headerContainer: {
     width: "100%",
