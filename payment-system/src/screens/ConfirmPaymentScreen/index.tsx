@@ -10,8 +10,8 @@ import {
   View,
   FlatList,
   ScrollView,
-  
 } from "react-native";
+// import CheckBox from "expo-checkbox";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../../../assets/colors";
 import { fontScale, heightScale, widthScale } from "../../utils/spacing";
@@ -22,9 +22,8 @@ import { testApi } from "../../services/apiService";
 import { registerHuong } from "../../services/apiService";
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import {ScreenNavigationProp} from '../../navigation/type';
-import Checkbox from 'expo-checkbox';
 
-const DepositWithdraw = () => {
+const ConfirmPayment = () => {
   const [activeTab, setActiveTab] = useState("deposit");
   const [inputMoneyQuantity, setInputMoney] = useState("");
   const [isSelected, setSelection] = useState(false);
@@ -32,8 +31,6 @@ const DepositWithdraw = () => {
     setSelection(!isSelected);
   };
   const navigation = useNavigation<ScreenNavigationProp>();
-  const [isChecked, setChecked] = useState(false);
-
   return (
     <SafeAreaView style={styles.headerPart}>
       <View style={styles.headerContainer}>
@@ -56,7 +53,7 @@ const DepositWithdraw = () => {
             Nạp tiền
           </Text>
         </TouchableOpacity>
-        <View style={styles.line} />
+        <View style={styles.lineVerticle} />
         <TouchableOpacity
           style={[
             styles.buttonDeposit,
@@ -77,80 +74,35 @@ const DepositWithdraw = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.bodyContainer}>
-        <Text style={styles.textDeposit}>Nạp tiền vào</Text>
-        <View style={styles.inputMoneyContainer}>
-          <TextInput
-            style={styles.inputMoneyQuantity}
-            placeholder="Số tiền cần nạp"
-            keyboardType="phone-pad"
-            value={inputMoneyQuantity}
-            onChangeText={setInputMoney}
-          />
-        </View>
-        <Text style={styles.textDeposit}>Từ nguồn tiền</Text>
-        <View style={styles.MoneyRespository}>
-          <TouchableOpacity style={styles.contentInnerResposity}>
-            <Image source={IMAGES.BIDV} style={styles.bidvIcon}></Image>
+      <View style={styles.bodyContainer}>        
+        <View style={styles.MoneyRespository}>          
             <View style={styles.textInnerRespository}>
-              <Text style={styles.textBIDV}>BIDV</Text>
-              <Text style={styles.texFreeDeposit}>Miễn phí nạp tiền</Text>
-            </View>
-            <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={handlePress}
-            style={[
-              styles.contentInnerResposity,
-              { marginBottom: 0 },
-              { backgroundColor: isSelected ? Colors.LightBlue : "#FFFFFF" },
-            ]}
-          >
-            <Image
-              source={IMAGES.BankRespository}
-              style={styles.bankIcon}
-            ></Image>
-            <View style={styles.textInnerRespository}>
-              <Text style={styles.textBIDV}>Thêm ngân hàng</Text>
-              <Text style={styles.texFreeDeposit}>
-                Liên kết ngân hàng hoặc mở tài khoản mới
+              <Text style={styles.textBefore}>Dịch vụ</Text>
+              <Text style={styles.textAfter}>
+                <Text style={{ color: 'black' }}> Nạp tiền vào Ví </Text>
+                <Text style={{ color: Colors.DarkBlue }}>Nex</Text>
+                <Text style={{ color: "#1EA9F4" }}>Pay</Text>
               </Text>
-            </View>
-            <View>
-              <ImageBackground
-                resizeMode="contain"
-                style={styles.iconMuiten}
-                source={IMAGES.MuiTen}
-              />
-            </View>
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.textDeposit}>Tiện ích</Text>
-        <View style={styles.MoneyRespository}>
-          <TouchableOpacity
-            onPress={handlePress}
-            style={[
-              styles.contentInnerResposity,
-              { marginBottom: 0 },
-              { backgroundColor: isSelected ? Colors.LightBlue : "#FFFFFF" },
-            ]}
-          >
-            <Image source={IMAGES.ViTienIch} style={styles.bankIcon}></Image>
+            </View>   
             <View style={styles.textInnerRespository}>
-              <Text style={styles.textBIDV}>Ví trả sau</Text>
-              <Text style={styles.texFreeDeposit}>
-                Cho phép thanh toán trước, trả sau
+              <Text style={styles.textBefore}>Nguồn tiền</Text>
+              <Text style={styles.textAfter}>
+                BIDV
               </Text>
-            </View>
-            <View>
-              <ImageBackground
-                resizeMode="contain"
-                style={styles.iconMuitenDuoi}
-                source={IMAGES.MuiTen}
-              />
-            </View>
-          </TouchableOpacity>
+            </View> 
+            <View style={styles.textInnerRespository}>
+              <Text style={styles.textBefore}>Số tiền</Text>
+              <Text style={styles.textAfter}>
+                20.000.000<Text style={{ color: "black" }}>đ</Text>
+              </Text>
+            </View> 
+            <View style={styles.lineHorizontal} />
+            <View style={styles.textInnerRespository}>
+              <Text style={styles.textBefore}>Phí giao dịch</Text>
+              <Text style={styles.textAfter}>
+                Miễn phí
+              </Text>
+            </View>          
         </View>
 
         {/* Cam kết bảo mật */}
@@ -178,19 +130,22 @@ const DepositWithdraw = () => {
             />
           </View>
         </View>
-
+        <View style={styles.totalMoney}>
+          <Text style={styles.textBefore}>Tổng tiền</Text>
+          <Text style={styles.textAfter}>
+            20.000.000<Text style={{ color: "black" }}>đ</Text>
+          </Text>
+        </View>
         <TouchableOpacity 
               onPress={() => navigation.navigate("ConfirmPayment")}
               style={styles.button}>
-            <Text style={styles.buttonContent}>Nạp tiền</Text>
+            <Text style={styles.buttonContent}>Xác nhận</Text>
         </TouchableOpacity>
-
-
       </View>
     </SafeAreaView>
   );
 };
-export default DepositWithdraw;
+export default ConfirmPayment;
 
 const styles = StyleSheet.create({
   headerPart: {
@@ -221,7 +176,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: fontScale(18),
   },
-  line: {
+  lineVerticle: {
     width: widthScale(1),
     height: heightScale(25),
     backgroundColor: "gray",
@@ -231,30 +186,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthScale(18),
     paddingVertical: heightScale(10),
   },
-  textDeposit: {
-    fontSize: fontScale(20),
-    color: "black",
-    fontWeight: "600",
-  },
-  inputMoneyContainer: {
-    backgroundColor: "#DCF1FF",
-    shadowColor: "#000000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 2.5,
-    shadowRadius: 4,
-    elevation: 4,
-    padding: 10,
-    borderRadius: widthScale(10),
-    marginVertical: heightScale(10),
-  },
-  inputMoneyQuantity: {
-    backgroundColor: "white",
-    borderWidth: 1,
-    borderColor: "#1EA9F4",
-    paddingHorizontal: widthScale(11),
-    paddingVertical: heightScale(8),
-    borderRadius: 10,
-  },
+  
   MoneyRespository: {
     backgroundColor: "#DCF1FF",
     shadowColor: "#000000",
@@ -268,31 +200,24 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
+    gap: heightScale(14)
   },
-  contentInnerResposity: {
-    paddingVertical: heightScale(12),
-    paddingHorizontal: widthScale(15),
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: widthScale(10),
-    marginBottom: heightScale(10),
-  },
-  bidvIcon: {
-    width: widthScale(36),
-    height: heightScale(12),
-    marginRight: widthScale(16),
-  },
+
   textInnerRespository: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
-  textBIDV: {
+  textBefore: {
     fontSize: fontScale(18),
-    fontWeight: "bold",
+    fontWeight: "600",
+    color: "#A09CAB"
   },
-  texFreeDeposit: {
-    fontSize: fontScale(12),
+  textAfter: {
+    fontSize: fontScale(18),
+    color: '#000',
+    fontWeight: "600",
   },
   bankIcon: {
     width: widthScale(28),
@@ -308,6 +233,12 @@ const styles = StyleSheet.create({
     width: widthScale(12.41),
     height: heightScale(22.83),
     marginLeft: 87,
+  },
+  lineHorizontal: {
+    width: widthScale(365),
+    height: heightScale(1),
+    backgroundColor: Colors.MainColor,
+    alignSelf: "center",
   },
   // CAM KẾT BẢO MẬT
   camKetContainer: {
@@ -357,12 +288,18 @@ const styles = StyleSheet.create({
     height: heightScale(55),
     justifyContent: "center",
     alignItems: "center",
-    marginTop: heightScale(150),
+    marginTop: heightScale(19),
     marginHorizontal: 'auto'
   },
   buttonContent: {
     color: Colors.White,
-    fontSize: fontScale(18),
+    fontSize: fontScale(17),
     fontWeight: "500"
   },
+  totalMoney: {
+    marginTop: 350,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  }
 });

@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     padding: widthScale(10),
     zIndex: 1,
     transform: [{ translateY: -heightScale(25) }],
-    width: widthScale(80),  // set this equal to heightScale
+    width: widthScale(80),
     
   },
   textContainer: {
