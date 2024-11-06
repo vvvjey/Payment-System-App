@@ -17,11 +17,12 @@ import { fontScale, heightScale, widthScale } from "../../utils/spacing";
 import IMAGES from "../../../assets/images";
 import SearchBar from "../../components/SearchBar";
 import ManageBar from "../../components/ManageBar";
-import { NavigationContainer,useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Tab } from "react-native-elements";
 import { testApi } from "../../services/apiService";
 import {ScreenNavigationProp} from '../../navigation/type';
+
 const HomeScreen = () => {
   var abc;
   useEffect(()=>{
@@ -98,9 +99,12 @@ const HomeScreen = () => {
           <View style={styles.line}>
           </View>   
           <View style={styles.bodyBalance}>
-            <TouchableOpacity style={styles.childBalance}>            
-              <Image source={IMAGES.NapTien} style={styles.iconNap}></Image>  
-              <Text style={styles.textBalance}>Nạp/Rút</Text>            
+            <TouchableOpacity
+              style={styles.childBalance}
+              onPress={() => navigation.navigate("DepositWithdraw")}
+            >
+              <Image source={IMAGES.NapTien} style={styles.iconNap} />
+              <Text style={styles.textBalance}>Nạp/Rút</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.childBalance}>
               <Image source={IMAGES.RutTien} style={styles.iconRut}></Image>    
@@ -272,7 +276,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   headerPart: {
     backgroundColor: Colors.LightBlue,
-    paddingTop: heightScale(40),
+    paddingTop: heightScale(20),
   },
   headerContainer: {
     width: "100%",

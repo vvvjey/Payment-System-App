@@ -7,6 +7,7 @@ type RootStackParamList = {
     LoginScreen:undefined
     RegisterScreen:undefined
     WebviewZaloPayScreen:undefined
+    DepositWithdraw: undefined;
 }
 export type ScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 export type ScreenQRCodeRouteProp = RouteProp<RootStackParamList,"QRCodeScreen">  
