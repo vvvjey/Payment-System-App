@@ -13,7 +13,8 @@ import DepositWithdrawScreen from "../../screens/DepositWithdrawScreen";
 
 
 import QRCodeScreen from "../../screens/QRCodeScreen";
-import CameraHandleQRCode from "../../screens/CameraHandleQRCode";
+import CameraHandleQRCode from '../../screens/CameraHandleQRCode';
+import WebviewZaloPayScreen from "../../screens/WebviewZaloPay";
 import { Colors } from "../../../assets/colors";
 import { fontScale } from "../../utils/spacing";
 const Stack = createNativeStackNavigator();
@@ -21,6 +22,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const MainStack = () => (
+
   <Stack.Navigator>
     <Stack.Screen
       name="MainTabs"
@@ -29,6 +31,8 @@ const MainStack = () => (
     />
     <Stack.Screen name="QRCodeScreen" component={QRCodeScreen} />
     <Stack.Screen name="CameraHandleQRCode" component={CameraHandleQRCode} />
+    <Stack.Screen name="WebviewZaloPayScreen" component={WebviewZaloPayScreen} options={{headerShown:false}}/>
+
     <Stack.Screen
       name="LoginScreen"
       component={LoginScreen}

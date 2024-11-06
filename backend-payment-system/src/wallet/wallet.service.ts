@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { error } from 'console';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { TransactionService } from 'src/transaction/transaction.service';
+import * as moment from 'moment'; // npm install moment
+import * as CryptoJS from 'crypto-js'; // npm install crypto-js
+import axios from 'axios';
 
 // interface CreateWalletResponse {
 //     wallet?: {
@@ -74,7 +77,7 @@ export class WalletService {
                 updatedWallet.wallet_id,
                 deposit,
                 'deposit',
-                'completed',
+                'completedd',
                 'add deposit successfully'
             );
             if(!transaction){
@@ -152,6 +155,56 @@ export class WalletService {
                 receiverTransaction
             }
 
+        } catch (error) {
+            throw new Error("Errror : "+ error.message);
+        }
+    }
+    async createZaloPayOrder(amount: number){
+        try {
+            // ZaloPay configuration
+            const config = {
+                app_id: '2554',
+                key1: 'sdngKKJmqEMzvh5QQcdD2A9XBSKUNaYn',
+                key2: 'kLtgPl8HHhfvMuDHPwKfgfsY4Ydm9eIz',
+                endpoint: 'https://sb-openapi.zalopay.vn/v2/create',
+            };
+            
+            const items = [];
+            const transID = Math.floor(Math.random() * 1000000);
+            const order = {
+                app_id: config.app_id,
+                app_trans_id: `${moment().format('YYMMDD')}_${transID}`,
+                app_user: 'user123',
+                app_time: Date.now(),
+                item: JSON.stringify(items),
+                embed_data: JSON.stringify({}),
+                amount: amount,
+                callback_url: 'https://2b92-42-119-230-28.ngrok-free.app/api/v1/wallet/callback',
+                description: `Chó fiii :) #${transID}`,
+                bank_code: '',
+            };
+
+            // Generate HMAC
+            const data =
+                config.app_id +
+                '|' +
+                order.app_trans_id +
+                '|' +
+                order.app_user +
+                '|' +
+                order.amount +
+                '|' +
+                order.app_time +
+                '|' +
+                order.embed_data +
+                '|' +
+                order.item;
+            order['mac'] = CryptoJS.HmacSHA256(data, config.key1).toString();
+
+            // Make request to ZaloPay API
+            const result = await axios.post(config.endpoint, null, { params: order });
+            console.log("result", result.data);
+            return result.data;
         } catch (error) {
             throw new Error("Errror : "+ error.message);
         }
