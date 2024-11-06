@@ -10,6 +10,7 @@ import HistoryScreen from "../../screens/HistoryScreen";
 import ProfileScreen from "../../screens/ProfileScreen";
 import RegisterScreen from "../../screens/RegisterScreen";
 import DepositWithdrawScreen from "../../screens/DepositWithdrawScreen";
+import ConfirmPaymentScreen from "../../screens/ConfirmPaymentScreen";
 
 
 import QRCodeScreen from "../../screens/QRCodeScreen";
@@ -44,6 +45,22 @@ const MainStack = () => (
       component={DepositWithdrawScreen}
       options={{
         title: 'Nạp/Rút',
+        headerStyle: {
+          backgroundColor: Colors.LightBlue,
+        },
+        headerTintColor: "#000",
+        headerTitleAlign: "center",
+        headerTitleStyle: {
+          fontSize: fontScale(24),
+          fontWeight: "600"
+        },
+      }}
+    />
+    <Stack.Screen
+      name="ConfirmPayment"
+      component={ConfirmPaymentScreen}
+      options={{
+        title: 'Thanh toán an toàn',
         headerStyle: {
           backgroundColor: Colors.LightBlue,
         },

@@ -45,6 +45,7 @@ const IMAGES = {
     // Deposit page
     BIDV: require('./bidv.png'),
     BankRespository: require('./thêm NH 1.png'),
+    ViTienIch: require('./tienich.png'),
 }
 
 export default IMAGES
