@@ -148,7 +148,6 @@ const HomeScreen = () => {
               style={styles.childMainService}
               onPress={() => navigation.navigate("RegisterScreen")}
 
-              
             >            
               <Image source={IMAGES.ThanhToanKV} style={styles.iconThanhToanKV}></Image>  
               <Text style={styles.textMainService}>Thanh toán{"\n"}khoản vay</Text>            
@@ -161,7 +160,10 @@ const HomeScreen = () => {
               <Image source={IMAGES.XemPhim} style={styles.iconXemPhim}></Image>    
               <Text style={styles.textMainService}>Mua vé{"\n"}xem phim</Text>          
             </TouchableOpacity> 
-            <TouchableOpacity style={styles.childMainService}>
+            <TouchableOpacity 
+              style={styles.childMainService}
+
+            >
               <Image source={IMAGES.DuLich} style={styles.iconDuLich}></Image>     
               <Text style={styles.textMainService}>Du lịch{"\n"}Đi lại</Text>         
             </TouchableOpacity>
@@ -190,7 +192,10 @@ const HomeScreen = () => {
                 <Text > {"\n"}Từ thiện</Text>
               </Text>            
             </TouchableOpacity>
-            <TouchableOpacity style={styles.childMainService}>
+            <TouchableOpacity style={styles.childMainService}
+              onPress={() => navigation.navigate("WebviewZaloPayScreen")}
+
+            >
               <Image source={IMAGES.DiBo} style={styles.iconDiBo}></Image>    
               <Text style={styles.textMainService}>Đi bộ{"\n"}nhận quà</Text>          
             </TouchableOpacity>

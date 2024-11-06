@@ -40,3 +40,6 @@ export const registerHuong = (data: { name: string, phoneNumber: string, passwor
 export const loginHuong = (data: { phoneNumber: string; password: string }) => {
     return apiClient.post('/api/v1/auth/login', data);
 }
+export const getDataCreateOrderZalopay = (amount:number)=>{
+    return apiClient.post('/api/v1/wallet/create-order-zalopay', {amount});
+}

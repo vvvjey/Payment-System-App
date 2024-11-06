@@ -71,7 +71,7 @@ export class WalletController {
     async testApi(){
         return {
             errCode:0,
-            errMessage:"Hello mn"
+            errMessage:"Hello mn aa"
         }
     }
     @Post('tranfer-money')
@@ -82,6 +82,39 @@ export class WalletController {
                 errCode : 0 ,
                 errMessage : "Add successfully",
                 data: wallet
+            }
+        } catch (error) {
+            return {
+                errCode : 1,
+                errMessage : error.message
+            }
+        }
+    }
+    @Post('create-order-zalopay')
+    async createZaloPayOrder(@Body() req:DTOWalletRequest){
+        try {
+            console.log("data moi",req)
+            const wallet = await this.walletService.createZaloPayOrder(req.amount); 
+            return {
+                errCode : 0 ,
+                errMessage : "Add successfully",
+                data: wallet
+            }
+        } catch (error) {
+            return {
+                errCode : 1,
+                errMessage : error.message
+            }
+        }
+    }
+    @Post('callback')
+    async callback(@Body() req:DTOWalletRequest){
+        try {
+            console.log("data",req);
+            return {
+                errCode : 0 ,
+                errMessage : "Call back return successfully",
+                data:req
             }
         } catch (error) {
             return {

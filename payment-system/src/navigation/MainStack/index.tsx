@@ -12,6 +12,7 @@ import RegisterScreen from "../../screens/RegisterScreen";
 
 import QRCodeScreen from "../../screens/QRCodeScreen";
 import CameraHandleQRCode from '../../screens/CameraHandleQRCode';
+import WebviewZaloPayScreen from "../../screens/WebviewZaloPay";
 const Stack = createNativeStackNavigator();
 
 const Tab = createBottomTabNavigator();
@@ -24,7 +25,7 @@ const MainStack = () => (
       <Stack.Screen name="CameraHandleQRCode" component={CameraHandleQRCode} />
       <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown:false}}/>
       <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerShown:false}}/>
-
+      <Stack.Screen name="WebviewZaloPayScreen" component={WebviewZaloPayScreen} options={{headerShown:false}}/>
   </Stack.Navigator>
 );
 
