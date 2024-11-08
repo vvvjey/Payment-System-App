@@ -7,5 +7,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1')
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(3002);
+  console.log('Server is running on http://localhost:3002');
+
 }
 bootstrap();
