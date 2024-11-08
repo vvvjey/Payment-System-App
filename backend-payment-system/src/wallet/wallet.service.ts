@@ -179,7 +179,7 @@ export class WalletService {
                 item: JSON.stringify(items),
                 embed_data: JSON.stringify({}),
                 amount: amount,
-                callback_url: 'https://2b92-42-119-230-28.ngrok-free.app/api/v1/wallet/callback',
+                callback_url: 'https://f324-2402-800-6311-4e-ec16-7fbb-d120-64fb.ngrok-free.app/api/v1/wallet/callback',
                 description: `Chó fiii :) #${transID}`,
                 bank_code: '',
             };

@@ -6,6 +6,8 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { WalletModule } from './wallet/wallet.module';
 import { TransactionModule } from './transaction/transaction.module';
+import { EventsModule } from './events/events.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -16,6 +18,7 @@ import { TransactionModule } from './transaction/transaction.module';
   NoteModule,  
   PrismaModule, 
   WalletModule, TransactionModule,
+  EventsModule
   ],
 
 })

@@ -101,5 +101,34 @@ export class TransactionService {
             throw new Error("Error: " + error.message);
         }
     }
+    async addBalanceZalopayOrder(userId:number,walletId:number,amount:number,status:string){
+        try {
+            let transaction = await this.prismaService.transaction.create({
+                data:{
+                    wallet_id:walletId,
+                    act_type:'receive',
+                    amount:amount,
+                    status:status,
+                    transaction_log_message:`Receive zalopay app money successfully with amount ${amount}`
+                }
+            });
+            const updatedWallet = await this.prismaService.wallet.update({
+                where: {
+                    wallet_id: walletId, 
+                },
+                data: {
+                    balance: {
+                        increment: amount, 
+                    },
+                },
+            });
+            return {
+                transaction,
+                updatedWallet,
+            };
 
+        } catch (error) {
+            throw new Error("Error: " + error.message);
+        }
+    }
 }
