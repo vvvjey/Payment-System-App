@@ -50,6 +50,12 @@ const IMAGES = {
     iconSuccess: require('./Group.png'),
     // Profile page
     iconProfileHeader: require('./profile.png'),
+    iconIdentification: require('./xac thuc.png'),
+    iconLink: require('./lien ket.png'),
+    iconSetting: require('./setting.png'),
+    iconSpending: require('./spending.png'),
+    iconHelp: require('./help.png'),
+    iconLogout: require('./log out.png'),
 }
 
 export default IMAGES

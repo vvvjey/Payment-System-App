@@ -19,6 +19,10 @@ import CameraHandleQRCode from "../../screens/CameraHandleQRCode";
 import WebviewZaloPayScreen from "../../screens/WebviewZaloPay";
 import { Colors } from "../../../assets/colors";
 import { fontScale } from "../../utils/spacing";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { testApi } from "../../services/apiService";
+import { ScreenNavigationProp } from "../../navigation/type";
+
 
 const ProfileStack = createNativeStackNavigator();
 
@@ -61,24 +65,6 @@ const QRStackScreen = () => (
           fontSize: fontScale(20),
           fontWeight: "600",
         },
-        headerLeft: () => (
-          <Ionicons
-            name="home-outline"
-            size={24}
-            color="#000"
-            style={{ marginLeft: 16 }}
-            onPress={() => navigation.navigate("Home")}
-          />
-        ),
-        headerRight: () => (
-          <Ionicons
-            name="home-outline"
-            size={24}
-            color="#000"
-            style={{ marginLeft: 16 }}
-            onPress={() => navigation.navigate("Home")}
-          />
-        ),
       }}
     />
   </QRCodeStack.Navigator>

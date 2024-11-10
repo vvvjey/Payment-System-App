@@ -111,7 +111,11 @@ const DepositWithdraw = () => {
               },
             ]}
           >
-            <Image source={IMAGES.BIDV} style={styles.bidvIcon}></Image>
+            <Image
+              source={IMAGES.BIDV}
+              style={styles.bidvIcon}
+              resizeMode="contain"
+            ></Image>
             <View style={styles.textInnerRespository}>
               <Text style={styles.textBIDV}>BIDV</Text>
               <Text style={styles.texFreeDeposit}>Miễn phí nạp tiền</Text>
@@ -133,6 +137,7 @@ const DepositWithdraw = () => {
             <Image
               source={IMAGES.BankRespository}
               style={styles.bankIcon}
+              resizeMode="contain"
             ></Image>
             <View style={styles.textInnerRespository}>
               <Text style={styles.textBIDV}>Thêm ngân hàng</Text>
@@ -163,7 +168,11 @@ const DepositWithdraw = () => {
               },
             ]}
           >
-            <Image source={IMAGES.ViTienIch} style={styles.bankIcon}></Image>
+            <Image
+              source={IMAGES.ViTienIch}
+              style={styles.bankIcon}
+              resizeMode="contain"
+            ></Image>
             <View style={styles.textInnerRespository}>
               <Text style={styles.textBIDV}>Ví trả sau</Text>
               <Text style={styles.texFreeDeposit}>
@@ -230,7 +239,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: heightScale(-49),
+    marginTop: heightScale(-40),
     paddingHorizontal: widthScale(18),
     paddingVertical: widthScale(6),
     shadowColor: "#000000",
