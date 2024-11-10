@@ -29,7 +29,7 @@ export class WalletService {
                 where: { id: userId },
             });
             if (!userExists) {
-                throw new Error('User does not exist'); 
+                throw new Error('User does not exist '); 
             }
             const wallet = await this.prismaService.wallet.create({
                 data:{

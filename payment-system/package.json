@@ -14,6 +14,7 @@
     "@react-navigation/bottom-tabs": "^6.6.1",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.11.0",
+    "@reduxjs/toolkit": "^2.3.0",
     "axios": "^1.7.7",
     "crypto-js": "^3.1.9-1",
     "expo": "~51.0.28",
@@ -35,6 +36,7 @@
     "react-native-svg-transformer": "^1.5.0",
     "react-native-vector-icons": "^10.2.0",
     "react-native-webview": "13.8.6",
+    "react-redux": "^9.1.2",
     "socket.io-client": "^4.8.1",
     "yarn": "^1.22.22",
     "zustand": "^5.0.0-rc.2"
