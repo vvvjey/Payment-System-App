@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect, useState, useRef } from "react";
 import {
   Button,
   Image,
@@ -11,7 +11,6 @@ import {
   FlatList,
   ScrollView,
 } from "react-native";
-// import CheckBox from "expo-checkbox";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../../../assets/colors";
 import { fontScale, heightScale, widthScale } from "../../utils/spacing";
@@ -20,8 +19,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Tab } from "react-native-elements";
 import { testApi } from "../../services/apiService";
 import { registerHuong } from "../../services/apiService";
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import {ScreenNavigationProp} from '../../navigation/type';
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { ScreenNavigationProp } from "../../navigation/type";
 
 const ConfirmPayment = () => {
   const [activeTab, setActiveTab] = useState("deposit");
@@ -74,35 +73,31 @@ const ConfirmPayment = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.bodyContainer}>        
-        <View style={styles.MoneyRespository}>          
-            <View style={styles.textInnerRespository}>
-              <Text style={styles.textBefore}>Dịch vụ</Text>
-              <Text style={styles.textAfter}>
-                <Text style={{ color: 'black' }}> Nạp tiền vào Ví </Text>
-                <Text style={{ color: Colors.DarkBlue }}>Nex</Text>
-                <Text style={{ color: "#1EA9F4" }}>Pay</Text>
-              </Text>
-            </View>   
-            <View style={styles.textInnerRespository}>
-              <Text style={styles.textBefore}>Nguồn tiền</Text>
-              <Text style={styles.textAfter}>
-                BIDV
-              </Text>
-            </View> 
-            <View style={styles.textInnerRespository}>
-              <Text style={styles.textBefore}>Số tiền</Text>
-              <Text style={styles.textAfter}>
-                20.000.000<Text style={{ color: "black" }}>đ</Text>
-              </Text>
-            </View> 
-            <View style={styles.lineHorizontal} />
-            <View style={styles.textInnerRespository}>
-              <Text style={styles.textBefore}>Phí giao dịch</Text>
-              <Text style={styles.textAfter}>
-                Miễn phí
-              </Text>
-            </View>          
+      <View style={styles.bodyContainer}>
+        <View style={styles.MoneyRespository}>
+          <View style={styles.textInnerRespository}>
+            <Text style={styles.textBefore}>Dịch vụ</Text>
+            <Text style={styles.textAfter}>
+              <Text style={{ color: "black" }}> Nạp tiền vào Ví </Text>
+              <Text style={{ color: Colors.DarkBlue }}>Nex</Text>
+              <Text style={{ color: "#1EA9F4" }}>Pay</Text>
+            </Text>
+          </View>
+          <View style={styles.textInnerRespository}>
+            <Text style={styles.textBefore}>Nguồn tiền</Text>
+            <Text style={styles.textAfter}>BIDV</Text>
+          </View>
+          <View style={styles.textInnerRespository}>
+            <Text style={styles.textBefore}>Số tiền</Text>
+            <Text style={styles.textAfter}>
+              20.000.000<Text style={{ color: "black" }}>đ</Text>
+            </Text>
+          </View>
+          <View style={styles.lineHorizontal} />
+          <View style={styles.textInnerRespository}>
+            <Text style={styles.textBefore}>Phí giao dịch</Text>
+            <Text style={styles.textAfter}>Miễn phí</Text>
+          </View>
         </View>
 
         {/* Cam kết bảo mật */}
@@ -112,10 +107,13 @@ const ConfirmPayment = () => {
             style={styles.linhVat2}
             source={IMAGES.LinhVat2}
           />
-          <Text style= {styles.textCamKet}>
+          <Text style={styles.textCamKet}>
             <Text style={{ color: Colors.DarkBlue }}>Nex</Text>
             <Text style={{ color: "#1EA9F4" }}>Pay</Text>
-            <Text>cam kết bảo vệ thông tin và tài sản bằng các tiêu chuẩn bảo mật cao nhất</Text>
+            <Text>
+              cam kết bảo vệ thông tin và tài sản bằng các tiêu chuẩn bảo mật
+              cao nhất
+            </Text>
           </Text>
           <View style={styles.iconCamKet}>
             <ImageBackground
@@ -136,10 +134,11 @@ const ConfirmPayment = () => {
             20.000.000<Text style={{ color: "black" }}>đ</Text>
           </Text>
         </View>
-        <TouchableOpacity 
-              onPress={() => navigation.navigate("ConfirmPayment")}
-              style={styles.button}>
-            <Text style={styles.buttonContent}>Xác nhận</Text>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("PaymentSuccess")}
+          style={styles.button}
+        >
+          <Text style={styles.buttonContent}>Xác nhận</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -186,7 +185,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthScale(18),
     paddingVertical: heightScale(10),
   },
-  
+
   MoneyRespository: {
     backgroundColor: "#DCF1FF",
     shadowColor: "#000000",
@@ -194,29 +193,29 @@ const styles = StyleSheet.create({
     shadowOpacity: 2.5,
     shadowRadius: 4,
     elevation: 4,
-    padding: 10,
+    padding: widthScale(10),
     borderRadius: widthScale(10),
     marginVertical: heightScale(10),
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    gap: heightScale(14)
+    gap: heightScale(14),
   },
 
   textInnerRespository: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   textBefore: {
     fontSize: fontScale(18),
     fontWeight: "600",
-    color: "#A09CAB"
+    color: "#A09CAB",
   },
   textAfter: {
     fontSize: fontScale(18),
-    color: '#000',
+    color: "#000",
     fontWeight: "600",
   },
   bankIcon: {
@@ -227,12 +226,12 @@ const styles = StyleSheet.create({
   iconMuiten: {
     width: widthScale(12.41),
     height: heightScale(22.83),
-    marginLeft: 50,
+    marginLeft: widthScale(50),
   },
   iconMuitenDuoi: {
     width: widthScale(12.41),
     height: heightScale(22.83),
-    marginLeft: 87,
+    marginLeft: widthScale(87),
   },
   lineHorizontal: {
     width: widthScale(365),
@@ -243,14 +242,14 @@ const styles = StyleSheet.create({
   // CAM KẾT BẢO MẬT
   camKetContainer: {
     backgroundColor: "#E1E4F0",
-    width: '100%',
+    width: "100%",
     height: heightScale(51),
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: widthScale(10),
     paddingRight: widthScale(15),
-    marginTop: heightScale(20)
+    marginTop: heightScale(20),
   },
   linhVat2: {
     position: "absolute",
@@ -261,7 +260,7 @@ const styles = StyleSheet.create({
     top: heightScale(-20),
   },
   textCamKet: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: fontScale(10),
     marginLeft: widthScale(70),
     marginTop: heightScale(5),
@@ -269,12 +268,12 @@ const styles = StyleSheet.create({
   iconCamKet: {
     display: "flex",
     flexDirection: "row",
-    marginTop: heightScale(-5)
+    marginTop: heightScale(-5),
   },
   pciDss: {
     width: widthScale(30),
     height: heightScale(25),
-    marginRight: widthScale(3)
+    marginRight: widthScale(3),
   },
   secure: {
     width: widthScale(26),
@@ -284,22 +283,22 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: Colors.MainColor,
     borderRadius: widthScale(10),
-    width: '90%',
+    width: "90%",
     height: heightScale(55),
     justifyContent: "center",
     alignItems: "center",
     marginTop: heightScale(19),
-    marginHorizontal: 'auto'
+    marginHorizontal: "auto",
   },
   buttonContent: {
     color: Colors.White,
     fontSize: fontScale(17),
-    fontWeight: "500"
+    fontWeight: "500",
   },
   totalMoney: {
-    marginTop: 350,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  }
+    marginTop: heightScale(350),
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
 });

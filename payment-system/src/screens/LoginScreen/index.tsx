@@ -15,15 +15,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../../../assets/colors";
 import { fontScale, heightScale, widthScale } from "../../utils/spacing";
 import IMAGES from "../../../assets/images";
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Tab } from "react-native-elements";
 import { testApi } from "../../services/apiService";
 import * as LocalAuthentication from 'expo-local-authentication';
 import { loginAction } from "../../redux/actions/userActions";
 import { useSelector, useDispatch } from "react-redux";
 
+
 const LoginScreen = () => {
+  const navigation = useNavigation<ScreenNavigationProp>();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
@@ -34,74 +36,74 @@ const LoginScreen = () => {
     try {
       dispatch(loginAction(phoneNumber, password)); 
       console.log("hekki");
+
     } catch (error) {
       console.error("Registration error:", error);
-  }
-};
-const handleLoginFaceID = async()=>{
-  try {
-    
-    // Check for biometric authentication availability
-    const hasHardware = await LocalAuthentication.hasHardwareAsync();
-    console.log("Has Hardware:", hasHardware);
-    const isEnrolled = await LocalAuthentication.isEnrolledAsync();
-    console.log("Is Enrolled:", isEnrolled);
-        
-    if (hasHardware && isEnrolled) {
-      const result = await LocalAuthentication.authenticateAsync({
-        promptMessage: "Xác thực để tiếp tục",
-        fallbackLabel: "Sử dụng mật khẩu",
-      });
-      
-      if (result.success) {
-        console.log("Biometric authentication successful");
-        // Proceed to next screen or perform any post-login action
-      } else {
-        console.error("Biometric authentication failed");
-      }
-    } else {
-      console.log("Biometric authentication not available");
     }
-  } catch (error) {
-    console.error("Login error:", error);
-  }
-}
-const handleLoginFingerprint = async () => {
-  try {
-    const hasHardware = await LocalAuthentication.hasHardwareAsync();
-    console.log("Has Hardware:", hasHardware);
+  };
+  const handleLoginFaceID = async () => {
+    try {
+      // Check for biometric authentication availability
+      const hasHardware = await LocalAuthentication.hasHardwareAsync();
+      console.log("Has Hardware:", hasHardware);
+      const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+      console.log("Is Enrolled:", isEnrolled);
 
-    const isEnrolled = await LocalAuthentication.isEnrolledAsync();
-    console.log("Is Enrolled:", isEnrolled);
+      if (hasHardware && isEnrolled) {
+        const result = await LocalAuthentication.authenticateAsync({
+          promptMessage: "Xác thực để tiếp tục",
+          fallbackLabel: "Sử dụng mật khẩu",
+        });
 
-    if (hasHardware && isEnrolled) {
-      const result = await LocalAuthentication.authenticateAsync({
-        promptMessage: "Xác thực để tiếp tục",
-        fallbackLabel: "Sử dụng mật khẩu",
-      });
-
-      if (result.success) {
-        console.log("Fingerprint authentication successful");
-        // Proceed to next screen or perform any post-login action
+        if (result.success) {
+          console.log("Biometric authentication successful");
+          // Proceed to next screen or perform any post-login action
+        } else {
+          console.error("Biometric authentication failed");
+        }
       } else {
-        console.error("Fingerprint authentication failed");
+        console.log("Biometric authentication not available");
       }
-    } else {
-      console.log("Fingerprint authentication not available");
+    } catch (error) {
+      console.error("Login error:", error);
     }
-  } catch (error) {
-    console.error("Login error:", error);
-  }
-};
+  };
+  const handleLoginFingerprint = async () => {
+    try {
+      const hasHardware = await LocalAuthentication.hasHardwareAsync();
+      console.log("Has Hardware:", hasHardware);
+
+      const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+      console.log("Is Enrolled:", isEnrolled);
+
+      if (hasHardware && isEnrolled) {
+        const result = await LocalAuthentication.authenticateAsync({
+          promptMessage: "Xác thực để tiếp tục",
+          fallbackLabel: "Sử dụng mật khẩu",
+        });
+
+        if (result.success) {
+          console.log("Fingerprint authentication successful");
+          // Proceed to next screen or perform any post-login action
+        } else {
+          console.error("Fingerprint authentication failed");
+        }
+      } else {
+        console.log("Fingerprint authentication not available");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.headerPart}>
       <View style={styles.logoContainer}>
         <ImageBackground
-            resizeMode="contain"
-            style={styles.logo}
-            source={IMAGES.LogoNexPay}
-          />
+          resizeMode="contain"
+          style={styles.logo}
+          source={IMAGES.LogoNexPay}
+        />
       </View>
       <View style={styles.bodyContainer}>
         <View style={styles.titleLogin}>
@@ -110,75 +112,82 @@ const handleLoginFingerprint = async () => {
         <View>
           <Text style={styles.text}>Số điện thoại</Text>
           <View style={styles.phoneContainer}>
-              <View style={styles.firstChild}>
-                  <View style={styles.countryCodeContainer}>
-                      <Text style={styles.countryCode}>+84</Text>
-                  </View>
+            <View style={styles.firstChild}>
+              <View style={styles.countryCodeContainer}>
+                <Text style={styles.countryCode}>+84</Text>
               </View>
-              <View>
-                  <TextInput
-                      style={styles.inputPhone}
-                      placeholder="712345678"
-                      keyboardType="phone-pad"
-                      value={phoneNumber}
-                      onChangeText={setPhoneNumber}
-                  />
-              </View>
+            </View>
+            <View>
+              <TextInput
+                style={styles.inputPhone}
+                placeholder="712345678"
+                keyboardType="phone-pad"
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
+              />
+            </View>
           </View>
           <Text style={styles.text}>Mật khẩu</Text>
           <View style={styles.pwdContainer}>
-              <View>
-                  <TextInput
-                      style={styles.inputPwd}
-                      placeholder="Nhập mật khẩu"
-                      secureTextEntry={true}
-                      value={password} 
-                      onChangeText={setPassword} 
-                  />
-              </View>
-              <TouchableOpacity>
-                  <Image source={IMAGES.Eye} style={styles.eye}></Image>              
-              </TouchableOpacity>
+            <View>
+              <TextInput
+                style={styles.inputPwd}
+                placeholder="Nhập mật khẩu"
+                secureTextEntry={true}
+                value={password}
+                onChangeText={setPassword}
+              />
+            </View>
+            <TouchableOpacity>
+              <Image source={IMAGES.Eye} style={styles.eye}></Image>
+            </TouchableOpacity>
           </View>
           <View style={styles.FaceIDContainer}>
-              <TouchableOpacity 
-                style={styles.loginFaceID}
-                onPress={handleLoginFaceID}
-              >
-                  <Image source={IMAGES.FaceID} style={styles.iconFaceID}></Image> 
-                  <Text style={styles.textFaceID}>Đăng nhập bằng Face ID</Text>             
-              </TouchableOpacity>
-              <TouchableOpacity>
-                  <Text style={styles.forgetPwd}>Quên mật khẩu?</Text>
-              </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.loginFaceID}
+              onPress={handleLoginFaceID}
+            >
+              <Image source={IMAGES.FaceID} style={styles.iconFaceID}></Image>
+              <Text style={styles.textFaceID}>Đăng nhập bằng Face ID</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text style={styles.forgetPwd}>Quên mật khẩu?</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.FingerPrintContainer}
             onPress={handleLoginFingerprint}
-
-            >
-              <Image source={IMAGES.FingerPrint} style={styles.iconFingerPrint}></Image> 
-              <Text style={styles.textFaceID}>Đăng nhập bằng vân tay</Text>             
-          </TouchableOpacity>        
+          >
+            <Image
+              source={IMAGES.FingerPrint}
+              style={styles.iconFingerPrint}
+            ></Image>
+            <Text style={styles.textFaceID}>Đăng nhập bằng vân tay</Text>
+          </TouchableOpacity>
         </View>
         <Text style={styles.dksd}>
-            Khi đăng nhập hoặc đăng ký, bạn đồng ý với{" "}
-            <Text style={styles.link}>điều {'\n'} khoản sử dụng</Text> và{" "}
-            <Text style={styles.link}>chính sách bảo mật</Text> của chúng tôi.
+          Khi đăng nhập hoặc đăng ký, bạn đồng ý với{" "}
+          <Text style={styles.link}>điều {"\n"} khoản sử dụng</Text> và{" "}
+          <Text style={styles.link}>chính sách bảo mật</Text> của chúng tôi.
         </Text>
         <TouchableOpacity onPress={handleLogin} style={styles.button}>
-            <Text style={styles.buttonText}>Đăng nhập</Text>
+          <Text style={styles.buttonText}>Đăng nhập</Text>
         </TouchableOpacity>
         <View style={styles.loginTextBottomContainer}>
           <Text style={styles.loginTextBottom}>Chưa có tài khoản? </Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              console.log("Button pressed");
+              navigation.navigate("RegisterScreen");
+            }}
+          >
             <Text style={styles.buttonRegister}>Đăng ký</Text>
           </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
-    );
-  };
+  );
+};
 export default LoginScreen;
 
 const styles = StyleSheet.create({
@@ -187,8 +196,8 @@ const styles = StyleSheet.create({
     paddingTop: heightScale(10),
   },
   logoContainer: {
-    alignSelf: "center", 
-    marginTop: heightScale(50)
+    alignSelf: "center",
+    marginTop: heightScale(50),
   },
   logo: {
     width: widthScale(130),
@@ -200,7 +209,7 @@ const styles = StyleSheet.create({
   },
   titleLogin: {
     marginTop: heightScale(54),
-    marginLeft: widthScale(25)
+    marginLeft: widthScale(25),
   },
   title: {
     fontSize: fontScale(25),
@@ -209,12 +218,12 @@ const styles = StyleSheet.create({
   dksd: {
     fontWeight: "400",
     fontSize: fontScale(14),
-    color: "#929292", 
+    color: "#929292",
     marginTop: heightScale(49),
   },
   link: {
     textDecorationLine: "underline",
-    color: Colors.Black, 
+    color: Colors.Black,
   },
   button: {
     backgroundColor: Colors.MainColor,
@@ -222,21 +231,21 @@ const styles = StyleSheet.create({
     height: heightScale(55),
     justifyContent: "center",
     alignItems: "center",
-    marginTop: heightScale(19)
+    marginTop: heightScale(19),
   },
   buttonText: {
     color: Colors.White,
     fontSize: fontScale(17),
-    fontWeight: "500"
+    fontWeight: "500",
   },
   loginTextBottomContainer: {
     flexDirection: "row",
-    alignItems: "center", 
-    justifyContent: "center", 
-    marginTop: heightScale(80), 
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: heightScale(80),
   },
   loginTextBottom: {
-    color: "#7B7B7B"
+    color: "#7B7B7B",
   },
   buttonRegister: {
     color: Colors.MainColor,
@@ -247,96 +256,94 @@ const styles = StyleSheet.create({
     marginLeft: widthScale(5),
     marginBottom: heightScale(-7),
     marginTop: heightScale(20),
-
-},
-phoneContainer: {
+  },
+  phoneContainer: {
     flexDirection: "row",
     borderWidth: 1,
-    borderColor: Colors.MainColor, 
+    borderColor: Colors.MainColor,
     borderRadius: 10,
     marginTop: heightScale(22),
     alignItems: "center",
-},
-countryCodeContainer: {
-    width: widthScale(60),  
+  },
+  countryCodeContainer: {
+    width: widthScale(60),
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: Colors.MainColor, 
-},
-firstChild: {
+    backgroundColor: Colors.MainColor,
+  },
+  firstChild: {
     backgroundColor: Colors.MainColor,
     paddingHorizontal: heightScale(20),
     paddingVertical: heightScale(14),
     borderTopLeftRadius: 9,
     borderBottomLeftRadius: 9,
-},
-countryCode: {
+  },
+  countryCode: {
     color: "#fff",
     fontWeight: "bold",
     fontSize: heightScale(18),
-},
-inputPhone: {
+  },
+  inputPhone: {
     fontSize: heightScale(15),
-    color: "#7B7B7B", 
+    color: "#7B7B7B",
     paddingLeft: widthScale(21),
-    width: widthScale(250)
-},
-pwdContainer: {
+    width: widthScale(250),
+  },
+  pwdContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     borderWidth: 1,
-    borderColor: Colors.MainColor, 
+    borderColor: Colors.MainColor,
     borderRadius: widthScale(10),
     marginTop: heightScale(22),
-    paddingVertical: heightScale(14)
-},
-inputPwd: {
+    paddingVertical: heightScale(14),
+  },
+  inputPwd: {
     color: "#333",
     paddingLeft: widthScale(20),
     fontSize: heightScale(15),
-},
-eye: {
+  },
+  eye: {
     width: widthScale(24),
     height: heightScale(24),
     marginRight: widthScale(20),
-},
-forgetPwd: {
+  },
+  forgetPwd: {
     fontSize: fontScale(15),
     color: Colors.MainColor,
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
     marginRight: widthScale(15),
-},
-FaceIDContainer: {
+  },
+  FaceIDContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     marginTop: heightScale(7),
-},
-loginFaceID: {
+  },
+  loginFaceID: {
     flexDirection: "row",
     alignItems: "center",
-},
-textFaceID: {
+  },
+  textFaceID: {
     fontSize: fontScale(14),
     fontWeight: "600",
-},
-FingerPrintContainer: {
+  },
+  FingerPrintContainer: {
     flexDirection: "row",
     alignItems: "center",
     marginTop: heightScale(12),
-},
-iconFaceID: {
+  },
+  iconFaceID: {
     width: widthScale(20),
     height: heightScale(19),
     marginRight: widthScale(8),
     marginLeft: widthScale(5),
-},
-iconFingerPrint: {
+  },
+  iconFingerPrint: {
     width: widthScale(17.25),
     height: heightScale(19.17),
     marginRight: widthScale(9),
     marginLeft: widthScale(5),
-},
-}
-)
+  },
+});

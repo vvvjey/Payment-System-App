@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
-import { heightScale } from "../../utils/spacing";
+import { heightScale, widthScale } from "../../utils/spacing";
 import { Colors } from "../../../assets/colors";
 import HomeTab from "./homeTab";
 import PromotionTab from "./promotionTab";
@@ -16,7 +16,7 @@ const renderItem = (TabName: string, Focused: boolean) => {
     case "Promotion": {
       return <PromotionTab focused={Focused} />;
     }
-    case "CameraHandleQRCodeTab": {
+    case "CameraHandleQRCode": {
       return <QRTab />;
     }
     case "History": {
@@ -44,6 +44,10 @@ export function MyTabBar({
         height: heightScale(80),
         justifyContent: "space-around",
         alignItems: "center",
+        backgroundColor: 'white',
+        borderTopWidth: 1,
+        borderTopColor: '#D7D7D7' ,
+        paddingHorizontal: widthScale(18)
       }}
     >
       {state.routes.map((route: any, index: any) => {
