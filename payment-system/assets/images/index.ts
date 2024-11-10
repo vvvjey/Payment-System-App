@@ -46,6 +46,10 @@ const IMAGES = {
     BIDV: require('./bidv.png'),
     BankRespository: require('./thêm NH 1.png'),
     ViTienIch: require('./tienich.png'),
+    // Payment success notification
+    iconSuccess: require('./Group.png'),
+    // Profile page
+    iconProfileHeader: require('./profile.png'),
 }
 
 export default IMAGES

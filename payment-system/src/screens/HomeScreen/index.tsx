@@ -338,10 +338,9 @@ const styles = StyleSheet.create({
   balanceContainer: {
     backgroundColor: "white",
     borderRadius: widthScale(10),
-    width: widthScale(389),
     height: heightScale(136),
     alignSelf: "center",
-    paddingHorizontal: widthScale(12),
+    paddingHorizontal: widthScale(18),
     position: "absolute",
     zIndex: 1,
     top: heightScale(-40),
@@ -382,7 +381,6 @@ const styles = StyleSheet.create({
     height: heightScale(1),
     marginTop: heightScale(9), 
     backgroundColor: '#1EA9F4',
-    color: 'red',
   },
   bodyBalance: {
     display: 'flex',
@@ -588,7 +586,7 @@ const styles = StyleSheet.create({
   // Cam kết bảo mật
   camKetContainer: {
     backgroundColor: "#E1E4F0",
-    width: widthScale(367),
+    width: widthScale(389),
     height: heightScale(34),
     display: "flex",
     justifyContent: "center",
