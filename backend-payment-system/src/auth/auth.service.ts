@@ -21,6 +21,7 @@ export class AuthService{
             let hassedPassword = await argon.hash(authDTO.password);
             const user = await this.prismaService.user.create({
                 data:{
+                    phoneNumber:authDTO.phoneNumber,
                     email:authDTO.email,
                     hassedPassword:hassedPassword,
                     firstName:'',
@@ -28,17 +29,17 @@ export class AuthService{
                 },
                 select:{
                     id:true,
-                    email:true,
+                    phoneNumber:true,
                     createdAt:true
                 }
 
             });
             const newWallet  = await this.walletService.createWallet(user.id);
-            const jwtToken = await this.signJwtToken(user.id,user.email);
-            return {
-                newWallet,
-                jwtToken
-            }
+            // const jwtToken = await this.signJwtToken(user.id,user.email);
+            // return {
+            //     newWallet,
+            //     jwtToken
+            // }
 
         } catch (error) {
             throw new ForbiddenException("Error",error.message)
@@ -47,31 +48,44 @@ export class AuthService{
     }
     async login(authDTO : AuthDTO){
         try {
+            console.log("auuth",authDTO)
             let user = await this.prismaService.user.findUnique({
                 where:{
-                    email: authDTO.email
+                    phoneNumber: authDTO.phoneNumber
                 },
+                select:{
+                    id:true,
+                    email:true,
+                    firstName:true,
+                    phoneNumber:true,
+                    hassedPassword:true,
+                }
             });
             if(!user){
                 throw new ForbiddenException("User not exist")
-            }
+            }  
             const passwordMatched = await argon.verify(
                 user.hassedPassword,
                 authDTO.password
             );
 
             if(!passwordMatched){
-                console.log(2);
-
                 throw new ForbiddenException("Incorrect password")
             }
             console.log(3);
+            const { hassedPassword, ...userWithoutPassword } = user; // Create a new object without hassedPassword
 
-            return await this.signJwtToken(user.id,user.email);
+            const accessToken = await this.signJwtToken(user.id,user.phoneNumber);
+            console.log("access",accessToken)
+            return {
+                user:userWithoutPassword,
+                accessToken
+            };
             
 
         } catch (error) {
-            throw new ForbiddenException("Error 1")
+            console.log("error",error);
+            throw new ForbiddenException("Error 1"+error)
         }
     }
     async signJwtToken(userId:number,email:string):Promise<{accessToken:string}>{

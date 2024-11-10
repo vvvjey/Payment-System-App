@@ -19,7 +19,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Tab } from "react-native-elements";
 import { testApi } from "../../services/apiService";
-import { registerHuong } from "../../services/apiService";
+import { register } from "../../services/apiService";
 // import ve
 // useEffect ( call thử bằng cách truyển thử data vào , r xem kết quả nhận , vào database)
 const RegisterScreen = () => {
@@ -33,7 +33,7 @@ const RegisterScreen = () => {
             name, phoneNumber, password          
           };
           console.log("Request data:", requestData); 
-          const response = await registerHuong(requestData);
+          const response = await register(requestData);
           
           console.log("Registration response:", response.data);
       } catch (error) {
@@ -42,6 +42,8 @@ const RegisterScreen = () => {
   };
   return (
     <SafeAreaView style={styles.headerPart}>
+      <ScrollView>
+
       <View style={styles.headerContainer}>
           <ImageBackground resizeMode="contain" style={styles.iconBack} source={IMAGES.ArrowBack} />
         </View>
@@ -127,6 +129,7 @@ const RegisterScreen = () => {
             <Text style={styles.buttonText}>Đăng ký</Text>
         </TouchableOpacity>
       </View>
+      </ScrollView>
     </SafeAreaView>
     );
   };
