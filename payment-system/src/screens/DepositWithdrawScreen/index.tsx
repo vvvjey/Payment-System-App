@@ -297,6 +297,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
+    gap: heightScale(10),
   },
   contentInnerResposity: {
     paddingVertical: heightScale(12),
