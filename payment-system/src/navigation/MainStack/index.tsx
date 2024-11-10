@@ -91,12 +91,12 @@ const MainStack = () => (
     <Stack.Screen
       name="LoginScreen"
       component={LoginScreen}
-      options={{ headerShown: false }}
+      options={{ headerShown: true }}
     />
     <Stack.Screen
       name="RegisterScreen"
       component={RegisterScreen}
-      options={{ headerShown: false }}
+      options={{ headerShown: true }}
     />
     <Stack.Screen
       name="DepositWithdraw"
