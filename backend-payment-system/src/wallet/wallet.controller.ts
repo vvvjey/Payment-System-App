@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { WalletService } from './wallet.service';
 import { IsNotEmpty } from 'class-validator';
+import { EventsGateway } from 'src/events/events.gateway';
 // DTO
 class DTOWalletRequest{
     userId:number;
@@ -8,6 +9,11 @@ class DTOWalletRequest{
     senderWalletId:number
     receiverWalletId:number
     amount:number
+    app_trans_id:any
+    zp_trans_id:any
+    status:any
+    sub_return_code:any
+    data:any
 }
 // class CreateWalletRequest{
 //     userId:number;
@@ -15,8 +21,10 @@ class DTOWalletRequest{
 
 @Controller('wallet')
 export class WalletController {
-    constructor(private walletService:WalletService){
-
+    constructor(private walletService:WalletService,
+        private eventGateway:EventsGateway
+    ){
+        
     }
     @Post('create')
     async createWallet(@Body() body:DTOWalletRequest){
@@ -111,9 +119,18 @@ export class WalletController {
     async callback(@Body() req:DTOWalletRequest){
         try {
             console.log("data",req);
+            console.log("data amount",req.data)
+            const { sub_return_code } = req;
+            let status = 'success';
+            if(req.data){
+                status = 'success';      
+            } else {
+                status = 'fail';
+            }
+            this.eventGateway.server.emit('transactionStatus', { status });
             return {
                 errCode : 0 ,
-                errMessage : "Call back return successfully",
+                errMessage : "Call back returan successfully",
                 data:req
             }
         } catch (error) {

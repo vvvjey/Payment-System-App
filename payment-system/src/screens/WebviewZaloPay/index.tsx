@@ -2,17 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SvgQRCode from 'react-native-qrcode-svg';
-import { getDataCreateOrderZalopay, testApi } from '../../services/apiService';
+import { getDataCreateOrderZalopay } from '../../services/apiService';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import io from 'socket.io-client';
 
 const WebviewZaloPayScreen = () => {
     const [urlZalopayQR, setUrlZalopayQR] = useState('');
     const [orderValue, setOrderValue] = useState<string>('');
-    const [timeLeft, setTimeLeft] = useState<number>(600); // 10 minutes in seconds
+    const [timeLeft, setTimeLeft] = useState<number>(120); // 2 minutes in seconds
+    const [transactionSuccess, setTransactionSuccess] = useState(false);
     const navigation = useNavigation();
-
-    // Save QR code data along with the start time
+    let amount = 100000;
     async function saveQRCodeData(url: string, orderValue: string, startTime: number) {
         try {
             await AsyncStorage.setItem('qrUrl', url);
@@ -23,7 +24,6 @@ const WebviewZaloPayScreen = () => {
         }
     }
 
-    // Load QR code data and calculate remaining time
     async function loadQRCodeData() {
         try {
             const qrUrl = await AsyncStorage.getItem('qrUrl');
@@ -32,7 +32,7 @@ const WebviewZaloPayScreen = () => {
 
             if (qrUrl && orderValue && storedStartTime) {
                 const elapsed = Math.floor((Date.now() - parseInt(storedStartTime)) / 1000);
-                const remainingTime = Math.max(600 - elapsed, 0); // 600 seconds = 10 minutes
+                const remainingTime = Math.max(120 - elapsed, 0); // 2 minutes
                 setUrlZalopayQR(qrUrl);
                 setOrderValue(orderValue);
                 setTimeLeft(remainingTime);
@@ -48,20 +48,18 @@ const WebviewZaloPayScreen = () => {
         }
     }
 
-    // Refresh QR code when the timer reaches zero
     async function refreshQRCode() {
         try {
-            const data = await getDataCreateOrderZalopay(500000);
+            const data = await getDataCreateOrderZalopay(amount);
             const originalUrl = data.data.data.order_url;
             const urlParams = new URLSearchParams(originalUrl.split('?')[1]);
             const extractedOrderValue = urlParams.get('order') || '';
             const modifiedUrl = `https://qcgateway.zalopay.vn/pay/v2/qr?order=${extractedOrderValue}`;
-    
+
             setOrderValue(extractedOrderValue);
             setUrlZalopayQR(modifiedUrl);
-            setTimeLeft(600); // Reset timer to 10 minutes
-    
-            // Save new QR data and current time
+            setTimeLeft(120); // Reset to 2 minutes
+
             await saveQRCodeData(modifiedUrl, extractedOrderValue, Date.now());
         } catch (error) {
             console.error("Error refreshing QR code:", error);
@@ -70,7 +68,6 @@ const WebviewZaloPayScreen = () => {
 
     useEffect(() => {
         async function initApi() {
-            // Load cached QR data if available
             const isCached = await loadQRCodeData();
             if (!isCached) {
                 await refreshQRCode();
@@ -81,19 +78,64 @@ const WebviewZaloPayScreen = () => {
     }, []);
 
     useEffect(() => {
-        // Start countdown timer
+        // Socket code to listen for transaction status updates
+        const socket = io("http://10.0.2.2:3002", {
+            transports: ['websocket'],
+            forceNew: true,
+        });
+        socket.on("connect", () => {
+            console.log("Connected to server with ID:", socket.id);
+            socket.emit("message", "Hello from React Native client");
+        });
+
+        socket.on("transactionStatus", (data) => {
+            console.log("Received transaction status data:", data);
+            if (data.status === "success") { // Check if transaction was successful
+                setTransactionSuccess(true); // Set transaction success state
+                setTimeLeft(0); // Reset the timer to 0 (since the transaction is complete)
+
+                // Clear AsyncStorage after successful transaction
+                AsyncStorage.removeItem('qrUrl');
+                AsyncStorage.removeItem('orderValue');
+                AsyncStorage.removeItem('startTime');
+                let dataOrderStatus = {
+                    userId:1,
+                    walletId:1,
+                    amount: amount
+                }
+                socket.emit("zalopay-order-status",dataOrderStatus);
+
+                console.log("Sent ZaloPay order status:", dataOrderStatus);
+
+            }
+        });
+
+        socket.on("disconnect", () => {
+            console.log("Disconnected from server");
+        });
+
+        socket.on("connect_error", (err) => {
+            console.log("Socket connection error:", err);
+        });
+
+        return () => {
+            socket.disconnect();
+        };
+    }, []); // Only run once when the component is mounted
+
+    useEffect(() => {
         const interval = setInterval(() => {
             setTimeLeft((prevTime) => {
                 if (prevTime <= 1) {
                     clearInterval(interval);
-                    refreshQRCode(); // Refresh QR code when timer expires
-                    return 600; // Reset countdown for the new QR code
+                    refreshQRCode();
+                    return 120; // Restart with 2 minutes
                 }
                 return prevTime - 1;
             });
         }, 1000);
 
-        return () => clearInterval(interval); // Clean up on component unmount
+        return () => clearInterval(interval);
     }, [timeLeft]);
 
     return (
@@ -105,20 +147,24 @@ const WebviewZaloPayScreen = () => {
                 <Text style={styles.title}>Thanh toán qua Zalopay</Text>
             </View>
             <View style={styles.contentContainer}>
-                {urlZalopayQR ? (
-                    <View style={styles.qrContainer}>
-                        <SvgQRCode
-                            value={urlZalopayQR}
-                            size={180}
-                        />
-                        <Text style={styles.infoText}>Quét mã để thanh toán</Text>
-                        <Text style={styles.timerText}>Thời gian còn lại: {Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? '0' : ''}{timeLeft % 60}</Text>
-                    </View>
+                {transactionSuccess ? (
+                    <Text style={styles.successText}>Giao dịch thành công!</Text>
                 ) : (
-                    <View style={styles.loadingContainer}>
-                        <ActivityIndicator size="large" color="#FFFFFF" />
-                        <Text style={styles.loadingText}>Đang tải mã QR...</Text>
-                    </View>
+                    urlZalopayQR ? (
+                        <View style={styles.qrContainer}>
+                            <SvgQRCode
+                                value={urlZalopayQR}
+                                size={180}
+                            />
+                            <Text style={styles.infoText}>Quét mã để thanh toán</Text>
+                            <Text style={styles.timerText}>Thời gian còn lại: {Math.floor(timeLeft / 60)}:{timeLeft % 60 < 10 ? '0' : ''}{timeLeft % 60}</Text>
+                        </View>
+                    ) : (
+                        <View style={styles.loadingContainer}>
+                            <ActivityIndicator size="large" color="#FFFFFF" />
+                            <Text style={styles.loadingText}>Đang tải mã QR...</Text>
+                        </View>
+                    )
                 )}
             </View>
         </View>
@@ -149,13 +195,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         flex: 1,
-        marginRight: 24, // Adjust space to center the text with the icon
+        marginRight: 24,
     },
     contentContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 60, // Adds padding below header to avoid overlap
+        marginTop: 60,
     },
     qrContainer: {
         width: '85%',
@@ -180,7 +226,7 @@ const styles = StyleSheet.create({
     timerText: {
         marginTop: 10,
         fontSize: 16,
-        color: '#FF0000', // Optional: use red color for countdown
+        color: '#FF0000',
     },
     loadingContainer: {
         justifyContent: 'center',
@@ -190,6 +236,11 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontSize: 16,
         color: 'white',
+    },
+    successText: {
+        fontSize: 20,
+        color: 'white',
+        fontWeight: 'bold',
     },
 });
 
