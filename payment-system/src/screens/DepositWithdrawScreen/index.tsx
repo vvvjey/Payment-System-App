@@ -10,7 +10,6 @@ import {
   View,
   FlatList,
   ScrollView,
-  
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../../../assets/colors";
@@ -20,16 +19,28 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Tab } from "react-native-elements";
 import { testApi } from "../../services/apiService";
 import { registerHuong } from "../../services/apiService";
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import {ScreenNavigationProp} from '../../navigation/type';
-import Checkbox from 'expo-checkbox';
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { ScreenNavigationProp } from "../../navigation/type";
 
 const DepositWithdraw = () => {
   const [activeTab, setActiveTab] = useState("deposit");
   const [inputMoneyQuantity, setInputMoney] = useState("");
-  const [isSelected, setSelection] = useState(false);
-  const handlePress = () => {
-    setSelection(!isSelected);
+  // BIDV selected
+  const [isBIDVSelected, setBIDVSelection] = useState(false);
+  const handleBIDVPress = () => {
+    setBIDVSelection(!isBIDVSelected);
+  };
+
+  // Add bank selected
+  const [isAddBankSelected, setAddBankSelection] = useState(false);
+  const handleAddBankPress = () => {
+    setAddBankSelection(!isAddBankSelected);
+  };
+
+  // PostPaid selected
+  const [isPostPaidSelected, setPostPaidSelection] = useState(false);
+  const handlePostPaidPress = () => {
+    setPostPaidSelection(!isPostPaidSelected);
   };
   const navigation = useNavigation<ScreenNavigationProp>();
   const [isChecked, setChecked] = useState(false);
@@ -90,26 +101,43 @@ const DepositWithdraw = () => {
         </View>
         <Text style={styles.textDeposit}>Từ nguồn tiền</Text>
         <View style={styles.MoneyRespository}>
-          <TouchableOpacity style={styles.contentInnerResposity}>
-            <Image source={IMAGES.BIDV} style={styles.bidvIcon}></Image>
+          <TouchableOpacity
+            onPress={handleBIDVPress}
+            style={[
+              styles.contentInnerResposity,
+              { marginBottom: 0 },
+              {
+                backgroundColor: isBIDVSelected ? Colors.LightBlue : "#FFFFFF",
+              },
+            ]}
+          >
+            <Image
+              source={IMAGES.BIDV}
+              style={styles.bidvIcon}
+              resizeMode="contain"
+            ></Image>
             <View style={styles.textInnerRespository}>
               <Text style={styles.textBIDV}>BIDV</Text>
               <Text style={styles.texFreeDeposit}>Miễn phí nạp tiền</Text>
             </View>
-            <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked} />
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={handlePress}
+            onPress={handleAddBankPress}
             style={[
               styles.contentInnerResposity,
               { marginBottom: 0 },
-              { backgroundColor: isSelected ? Colors.LightBlue : "#FFFFFF" },
+              {
+                backgroundColor: isAddBankSelected
+                  ? Colors.LightBlue
+                  : "#FFFFFF",
+              },
             ]}
           >
             <Image
               source={IMAGES.BankRespository}
               style={styles.bankIcon}
+              resizeMode="contain"
             ></Image>
             <View style={styles.textInnerRespository}>
               <Text style={styles.textBIDV}>Thêm ngân hàng</Text>
@@ -129,14 +157,22 @@ const DepositWithdraw = () => {
         <Text style={styles.textDeposit}>Tiện ích</Text>
         <View style={styles.MoneyRespository}>
           <TouchableOpacity
-            onPress={handlePress}
+            onPress={handlePostPaidPress}
             style={[
               styles.contentInnerResposity,
               { marginBottom: 0 },
-              { backgroundColor: isSelected ? Colors.LightBlue : "#FFFFFF" },
+              {
+                backgroundColor: isPostPaidSelected
+                  ? Colors.LightBlue
+                  : "#FFFFFF",
+              },
             ]}
           >
-            <Image source={IMAGES.ViTienIch} style={styles.bankIcon}></Image>
+            <Image
+              source={IMAGES.ViTienIch}
+              style={styles.bankIcon}
+              resizeMode="contain"
+            ></Image>
             <View style={styles.textInnerRespository}>
               <Text style={styles.textBIDV}>Ví trả sau</Text>
               <Text style={styles.texFreeDeposit}>
@@ -160,10 +196,13 @@ const DepositWithdraw = () => {
             style={styles.linhVat2}
             source={IMAGES.LinhVat2}
           />
-          <Text style= {styles.textCamKet}>
+          <Text style={styles.textCamKet}>
             <Text style={{ color: Colors.DarkBlue }}>Nex</Text>
             <Text style={{ color: "#1EA9F4" }}>Pay</Text>
-            <Text>cam kết bảo vệ thông tin và tài sản bằng các tiêu chuẩn bảo mật cao nhất</Text>
+            <Text>
+              cam kết bảo vệ thông tin và tài sản bằng các tiêu chuẩn bảo mật
+              cao nhất
+            </Text>
           </Text>
           <View style={styles.iconCamKet}>
             <ImageBackground
@@ -179,13 +218,12 @@ const DepositWithdraw = () => {
           </View>
         </View>
 
-        <TouchableOpacity 
-              onPress={() => navigation.navigate("ConfirmPayment")}
-              style={styles.button}>
-            <Text style={styles.buttonContent}>Nạp tiền</Text>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("ConfirmPayment")}
+          style={styles.button}
+        >
+          <Text style={styles.buttonContent}>Nạp tiền</Text>
         </TouchableOpacity>
-
-
       </View>
     </SafeAreaView>
   );
@@ -201,7 +239,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: heightScale(-49),
+    marginTop: heightScale(-40),
     paddingHorizontal: widthScale(18),
     paddingVertical: widthScale(6),
     shadowColor: "#000000",
@@ -268,6 +306,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
+    gap: heightScale(10),
   },
   contentInnerResposity: {
     paddingVertical: heightScale(12),
@@ -312,14 +351,14 @@ const styles = StyleSheet.create({
   // CAM KẾT BẢO MẬT
   camKetContainer: {
     backgroundColor: "#E1E4F0",
-    width: '100%',
+    width: "100%",
     height: heightScale(51),
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: widthScale(10),
     paddingRight: widthScale(15),
-    marginTop: heightScale(20)
+    marginTop: heightScale(20),
   },
   linhVat2: {
     position: "absolute",
@@ -330,7 +369,7 @@ const styles = StyleSheet.create({
     top: heightScale(-20),
   },
   textCamKet: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: fontScale(10),
     marginLeft: widthScale(70),
     marginTop: heightScale(5),
@@ -338,12 +377,12 @@ const styles = StyleSheet.create({
   iconCamKet: {
     display: "flex",
     flexDirection: "row",
-    marginTop: heightScale(-5)
+    marginTop: heightScale(-5),
   },
   pciDss: {
     width: widthScale(30),
     height: heightScale(25),
-    marginRight: widthScale(3)
+    marginRight: widthScale(3),
   },
   secure: {
     width: widthScale(26),
@@ -353,16 +392,16 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: Colors.MainColor,
     borderRadius: widthScale(10),
-    width: '90%',
+    width: "90%",
     height: heightScale(55),
     justifyContent: "center",
     alignItems: "center",
-    marginTop: heightScale(150),
-    marginHorizontal: 'auto'
+    marginTop: heightScale(140),
+    marginHorizontal: "auto",
   },
   buttonContent: {
     color: Colors.White,
     fontSize: fontScale(18),
-    fontWeight: "500"
+    fontWeight: "500",
   },
 });

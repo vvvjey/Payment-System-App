@@ -19,7 +19,6 @@
     "expo": "~51.0.28",
     "expo-barcode-scanner": "^13.0.1",
     "expo-camera": "^15.0.16",
-    "expo-checkbox": "^3.0.0",
     "expo-local-authentication": "~14.0.1",
     "expo-media-library": "^16.0.5",
     "expo-status-bar": "~1.12.1",
