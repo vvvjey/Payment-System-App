@@ -19,23 +19,22 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Tab } from "react-native-elements";
 import { testApi } from "../../services/apiService";
-import { loginHuong } from "../../services/apiService";
 import * as LocalAuthentication from 'expo-local-authentication';
+import { loginAction } from "../../redux/actions/userActions";
+import { useSelector, useDispatch } from "react-redux";
 
 const LoginScreen = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user); // assuming user is stored in state.user
+  console.log("User State in Login Screen:", user);
+
   const handleLogin = async () => {
     try {
-      console.log("testapi")
-      const requestData = {
-        phoneNumber, password          
-      };
-      console.log("Request data:", requestData); 
-      const response = await loginHuong(requestData);
-      
-      console.log("Registration response:", response.data);
-  } catch (error) {
+      dispatch(loginAction(phoneNumber, password)); 
+      console.log("hekki");
+    } catch (error) {
       console.error("Registration error:", error);
   }
 };

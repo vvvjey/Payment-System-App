@@ -75,8 +75,9 @@ export class WalletController {
             }
         }
     }
-    @Get("test")
-    async testApi(){
+    @Post("test")
+    async testApi(@Body() req:DTOWalletRequest){
+        console.log('test',req);
         return {
             errCode:0,
             errMessage:"Hello mn aa"
