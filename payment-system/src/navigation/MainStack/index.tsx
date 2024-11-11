@@ -22,6 +22,9 @@ import { fontScale } from "../../utils/spacing";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { testApi } from "../../services/apiService";
 import { ScreenNavigationProp } from "../../navigation/type";
+import InputMoney from "../../screens/InputMoneyScreen";
+import ConfirmPaymentInsideWallet from "../../screens/ConfirmPaymentInsideWalletScreen";
+
 
 
 const ProfileStack = createNativeStackNavigator();
@@ -154,6 +157,38 @@ const MainStack = () => (
             onPress={() => navigation.navigate("Home")}
           />
         ),
+      })}
+    />
+    <Stack.Screen
+      name="InputMoney"
+      component={InputMoney}
+      options={({ navigation }) => ({
+        title: "Chuyển tiền",
+        headerStyle: {
+          backgroundColor: Colors.LightBlue,
+        },
+        headerTintColor: "#000",
+        headerTitleAlign: "center",
+        headerTitleStyle: {
+          fontSize: fontScale(24),
+          fontWeight: "600",
+        },        
+      })}
+    />
+    <Stack.Screen
+      name="ConfirmPaymentInsideWallet"
+      component={ConfirmPaymentInsideWallet}
+      options={({ navigation }) => ({
+        title: "Thanh toán an toàn",
+        headerStyle: {
+          backgroundColor: Colors.LightBlue,
+        },
+        headerTintColor: "#000",
+        headerTitleAlign: "center",
+        headerTitleStyle: {
+          fontSize: fontScale(24),
+          fontWeight: "600",
+        },        
       })}
     />
   </Stack.Navigator>

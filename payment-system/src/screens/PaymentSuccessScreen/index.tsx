@@ -21,6 +21,7 @@ import { testApi } from "../../services/apiService";
 import { registerHuong } from "../../services/apiService";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { ScreenNavigationProp } from "../../navigation/type";
+import { fonts } from "react-native-elements/dist/config";
 
 const PaymentSuccess = () => {
   const [activeTab, setActiveTab] = useState("deposit");
@@ -102,6 +103,20 @@ const PaymentSuccess = () => {
               source={IMAGES.SecureGlobalSign}
             />
           </View>
+        </View>
+        <View style={styles.buttonBottom}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Home")}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Trang chủ</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Home")}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Giao dịch mới</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -229,4 +244,22 @@ const styles = StyleSheet.create({
     height: heightScale(26),
   },
   // Button
+  buttonBottom: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  button: {
+    backgroundColor: Colors.MainColor,
+    marginTop: 220,
+    paddingVertical: heightScale(14),
+    borderRadius: 10,
+    width: 165,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: Colors.White,
+    fontWeight: "bold",
+    fontSize: fontScale(18),
+  },
 });

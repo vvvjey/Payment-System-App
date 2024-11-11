@@ -22,7 +22,7 @@ import { testApi } from "../../services/apiService";
 import * as LocalAuthentication from 'expo-local-authentication';
 import { loginAction } from "../../redux/actions/userActions";
 import { useSelector, useDispatch } from "react-redux";
-
+import { ScreenNavigationProp } from "../../navigation/type";
 
 const LoginScreen = () => {
   const navigation = useNavigation<ScreenNavigationProp>();
@@ -193,11 +193,9 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   headerPart: {
     backgroundColor: Colors.White,
-    paddingTop: heightScale(10),
   },
   logoContainer: {
     alignSelf: "center",
-    marginTop: heightScale(50),
   },
   logo: {
     width: widthScale(130),
@@ -242,7 +240,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: heightScale(80),
+    marginTop: heightScale(50),
   },
   loginTextBottom: {
     color: "#7B7B7B",
