@@ -6,10 +6,12 @@ type RootStackParamList = {
     CameraHandleQRCode:undefined
     LoginScreen:undefined
     RegisterScreen:undefined
-    WebviewZaloPayScreen:undefined
+    WebviewZaloPayScreen:{amount : string | undefined}
     DepositWithdraw: undefined;
     ConfirmPayment: undefined;
     PaymentSuccess: undefined;
+    CreateWebviewZaloPay:undefined;
 }
 export type ScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
-export type ScreenQRCodeRouteProp = RouteProp<RootStackParamList,"QRCodeScreen">  
+export type ScreenQRCodeRouteProp = RouteProp<RootStackParamList,"QRCodeScreen">
+export type ScreenQRCodeZaloQRRouteProp = RouteProp<RootStackParamList,"WebviewZaloPayScreen">

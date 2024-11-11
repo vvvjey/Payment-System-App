@@ -22,7 +22,7 @@ import { fontScale } from "../../utils/spacing";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { testApi } from "../../services/apiService";
 import { ScreenNavigationProp } from "../../navigation/type";
-
+import CreateWebviewZaloPay from "../../screens/CreateWebviewZaloPay";
 
 const ProfileStack = createNativeStackNavigator();
 
@@ -86,6 +86,22 @@ const MainStack = () => (
       name="WebviewZaloPayScreen"
       component={WebviewZaloPayScreen}
       options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="CreateWebviewZaloPay"
+      component={CreateWebviewZaloPay}
+      options={{
+        title:"Tạo mã QR Zalopay",
+        headerStyle:{
+          backgroundColor:Colors.LightBlue
+        },
+        headerTintColor: "#000",
+        headerTitleAlign: "center",
+        headerTitleStyle: {
+          fontSize: fontScale(24),
+          fontWeight: "600",
+        },
+      }}
     />
 
     <Stack.Screen

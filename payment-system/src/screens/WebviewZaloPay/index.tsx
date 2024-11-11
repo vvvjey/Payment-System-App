@@ -4,16 +4,19 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import SvgQRCode from 'react-native-qrcode-svg';
 import { getDataCreateOrderZalopay } from '../../services/apiService';
 import { useNavigation } from '@react-navigation/native';
+import {ScreenQRCodeZaloQRRouteProp,ScreenNavigationProp} from '../../navigation/type';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import io from 'socket.io-client';
-
+import { useRoute } from '@react-navigation/native';
 const WebviewZaloPayScreen = () => {
     const [urlZalopayQR, setUrlZalopayQR] = useState('');
     const [orderValue, setOrderValue] = useState<string>('');
     const [timeLeft, setTimeLeft] = useState<number>(120); // 2 minutes in seconds
     const [transactionSuccess, setTransactionSuccess] = useState(false);
-    const navigation = useNavigation();
-    let amount = 100000;
+    const navigation = useNavigation<ScreenNavigationProp>();
+    const route = useRoute<ScreenQRCodeZaloQRRouteProp>();
+
+    const amount = route.params.amount || 100000;
     async function saveQRCodeData(url: string, orderValue: string, startTime: number) {
         try {
             await AsyncStorage.setItem('qrUrl', url);
@@ -137,11 +140,16 @@ const WebviewZaloPayScreen = () => {
 
         return () => clearInterval(interval);
     }, [timeLeft]);
-
+    const goBack = () =>{
+        AsyncStorage.removeItem('qrUrl');
+        AsyncStorage.removeItem('orderValue');
+        AsyncStorage.removeItem('startTime');
+        navigation.goBack();
+    }
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <TouchableOpacity onPress={goBack}>
                     <Icon name="arrow-back" size={24} color="white" />
                 </TouchableOpacity>
                 <Text style={styles.title}>Thanh toán qua Zalopay</Text>
@@ -245,3 +253,4 @@ const styles = StyleSheet.create({
 });
 
 export default WebviewZaloPayScreen;
+

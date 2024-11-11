@@ -56,6 +56,8 @@ const IMAGES = {
     iconSpending: require('./spending.png'),
     iconHelp: require('./help.png'),
     iconLogout: require('./log out.png'),
+    // Zalo QR page
+    zaloQrCodeImage: require('./qrcode-zalopay.jpg')
 }
 
 export default IMAGES

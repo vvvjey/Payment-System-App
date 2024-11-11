@@ -17,22 +17,29 @@ import { fontScale, heightScale, widthScale } from "../../utils/spacing";
 import IMAGES from "../../../assets/images";
 import SearchBar from "../../components/SearchBar";
 import ManageBar from "../../components/ManageBar";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer, useFocusEffect, useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Tab } from "react-native-elements";
 import { testApi } from "../../services/apiService";
 import { ScreenNavigationProp } from "../../navigation/type";
-
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../redux/store";
 const HomeScreen = () => {
   var abc;
   useEffect(() => {
     const fetchData = async () => {
-      const response = await testApi();
-      abc = response;
-      console.log("testt response", response.data);
+      // const response = await testApi();
+      // abc = response;
+      // console.log("testt responseee", response.data);
     };
     fetchData();
   }, []);
+  const dispatch = useDispatch();
+  const user = useSelector((state:RootState) => state.user); // assuming user is stored in state.user
+  useEffect(()=>{
+    console.log('userrrr',user);
+  },[]);  
+  
   const navigation = useNavigation<ScreenNavigationProp>();
   var walletId = 1;
   return (
@@ -294,7 +301,10 @@ const HomeScreen = () => {
               ></Image>
               <Text style={styles.textMainService}>Ví trả sau</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.childMainService}>
+            <TouchableOpacity 
+              style={styles.childMainService}
+              onPress={() => navigation.navigate("CreateWebviewZaloPay")}
+            >
               <Image
                 source={IMAGES.VayNhanh}
                 style={styles.iconDiBo}
@@ -302,7 +312,24 @@ const HomeScreen = () => {
               ></Image>
               <Text style={styles.textMainService}>Vay nhanh</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.childMainService}>
+            <TouchableOpacity 
+              style={styles.childMainService}
+              onPress={
+                async ()=>{
+                  try {
+                    let a={
+                      b:'a',
+                      c:'d'
+                    }
+                    let r = await testApi(a);
+                    console.log('r',r.data);
+                  } catch (error) {
+                    console.log('errr',error)
+                  }
+                 
+                }
+              }
+            >
               <Image
                 source={IMAGES.QuyTietKiem}
                 style={styles.iconQuyTK}
