@@ -21,7 +21,7 @@ import { testApi } from "../../services/apiService";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { ScreenNavigationProp } from "../../navigation/type";
 
-const ConfirmPayment = () => {
+const ConfirmPaymentInsideWallet = () => {
   const [activeTab, setActiveTab] = useState("deposit");
   const [inputMoneyQuantity, setInputMoney] = useState("");
   const [isSelected, setSelection] = useState(false);
@@ -32,59 +32,65 @@ const ConfirmPayment = () => {
   return (
     <SafeAreaView style={styles.headerPart}>
       <View style={styles.headerContainer}>
-        <TouchableOpacity
-          style={[
-            styles.buttonDeposit,
-            {
-              backgroundColor:
-                activeTab === "deposit" ? Colors.MainColor : "transparent",
-            },
-          ]}
-          onPress={() => setActiveTab("deposit")}
-        >
-          <Text
+        <View style={styles.headerTextRow}>
+          <Text style={styles.headerText}>Tài khoản/Thẻ</Text>
+          <TouchableOpacity>
+            <Text style={styles.seeAll}>Xem tất cả</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.MoneyRespository}>
+          <TouchableOpacity
             style={[
-              styles.buttonText,
-              { color: activeTab === "deposit" ? "white" : "black" },
+              styles.buttonDeposit,
+              {
+                borderColor:
+                  activeTab === "deposit" ? Colors.MainColor : "#dadada",
+              },
             ]}
+            onPress={() => setActiveTab("deposit")}
           >
-            Nạp tiền
-          </Text>
-        </TouchableOpacity>
-        <View style={styles.lineVerticle} />
-        <TouchableOpacity
-          style={[
-            styles.buttonDeposit,
-            {
-              backgroundColor:
-                activeTab === "withdraw" ? Colors.MainColor : "transparent",
-            },
-          ]}
-          onPress={() => setActiveTab("withdraw")}
-        >
-          <Text
+            <Image
+              resizeMode="contain"
+              style={styles.logo}
+              source={IMAGES.iconLogo}
+            ></Image>
+            <View>
+              <Text style={styles.textOn}>Ví NexPay</Text>
+              <Text style={styles.textBelow}>2500000<Text>đ</Text></Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[
-              styles.buttonText,
-              { color: activeTab === "deposit" ? "black" : "white" },
+              styles.buttonDeposit,
+              {
+                borderColor:
+                  activeTab === "withdraw" ? Colors.MainColor : "#dadada",
+              },
             ]}
+            onPress={() => setActiveTab("withdraw")}
           >
-            Rút tiền
-          </Text>
-        </TouchableOpacity>
+            <Image
+              resizeMode="contain"
+              style={styles.logo}
+              source={IMAGES.iconBIDV}
+            ></Image>
+            <View>
+              <Text style={styles.textOn}>BIDV</Text>
+              <Text style={styles.textBelow}>GD từ 10k</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
       <View style={styles.bodyContainer}>
-        <View style={styles.MoneyRespository}>
+        <View>
+          <Text style={styles.title}>CHI TIẾT GIAO DỊCH</Text>
+        </View>
+        <View style={styles.Details}>
           <View style={styles.textInnerRespository}>
-            <Text style={styles.textBefore}>Dịch vụ</Text>
+            <Text style={styles.textBefore}>Người nhận</Text>
             <Text style={styles.textAfter}>
-              <Text style={{ color: "black" }}> Nạp tiền vào Ví </Text>
-              <Text style={{ color: Colors.DarkBlue }}>Nex</Text>
-              <Text style={{ color: "#1EA9F4" }}>Pay</Text>
+              <Text style={{ color: "black" }}>Bùi Thị Hương</Text>
             </Text>
-          </View>
-          <View style={styles.textInnerRespository}>
-            <Text style={styles.textBefore}>Nguồn tiền</Text>
-            <Text style={styles.textAfter}>BIDV</Text>
           </View>
           <View style={styles.textInnerRespository}>
             <Text style={styles.textBefore}>Số tiền</Text>
@@ -92,10 +98,18 @@ const ConfirmPayment = () => {
               20.000.000<Text style={{ color: "black" }}>đ</Text>
             </Text>
           </View>
+          <View style={styles.textInnerRespository}>
+            <Text style={styles.textBefore}>Số điện thoại</Text>
+            <Text style={styles.textAfter}>*******987</Text>
+          </View>
           <View style={styles.lineHorizontal} />
           <View style={styles.textInnerRespository}>
             <Text style={styles.textBefore}>Phí giao dịch</Text>
             <Text style={styles.textAfter}>Miễn phí</Text>
+          </View>
+          <View style={styles.textInnerRespository}>
+            <Text style={styles.textBefore}>Mã tham chiếu</Text>
+            <Text style={styles.textAfter}>01983953673975</Text>
           </View>
         </View>
 
@@ -143,7 +157,7 @@ const ConfirmPayment = () => {
     </SafeAreaView>
   );
 };
-export default ConfirmPayment;
+export default ConfirmPaymentInsideWallet;
 
 const styles = StyleSheet.create({
   headerPart: {
@@ -152,23 +166,65 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     display: "flex",
+    flexDirection: "column",
+    marginTop: heightScale(-20),
+    paddingHorizontal: widthScale(18),
+    marginBottom: heightScale(10),
+  },
+  headerTextRow: {
+    display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: heightScale(-45),
-    paddingHorizontal: widthScale(18),
+    marginBottom: heightScale(11),
+  },
+  headerText: {
+    fontSize: fontScale(20),
+    fontWeight: "600",
+  },
+  seeAll: {
+    fontSize: fontScale(14),
+    fontWeight: "600",
+    color: Colors.MainColor,
+  },
+  MoneyRespository: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    // marginTop: heightScale(-45),
+    paddingHorizontal: widthScale(8),
     paddingVertical: widthScale(6),
-    shadowColor: "#000000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 4,
+    
     backgroundColor: "white",
   },
   buttonDeposit: {
-    backgroundColor: Colors.MainColor,
+    backgroundColor: 'transparent',
     paddingVertical: widthScale(6),
-    paddingHorizontal: widthScale(51.5),
+    paddingHorizontal: widthScale(30),
     borderRadius: widthScale(10),
+    borderColor: "#dadada",
+    borderWidth: 2,
+    display: 'flex',
+    flexDirection: "row",
+    gap: 20,
+    alignItems: 'center'
+  },
+  logo: {
+    width: widthScale(32),
+    height: heightScale(32)
+  },
+  textOn: {
+    fontWeight: "600",
+    fontSize: fontScale(14),
+  },
+  textBelow: {
+    fontWeight: "500",
+    fontSize: fontScale(11),
+    color: '#929292'
+  },
+  title: {
+    fontSize: fontScale(20),
+    fontWeight: '500',
+    color: '#000000B2'
   },
   buttonText: {
     fontWeight: "700",
@@ -185,7 +241,7 @@ const styles = StyleSheet.create({
     paddingVertical: heightScale(10),
   },
 
-  MoneyRespository: {
+  Details: {
     backgroundColor: "#DCF1FF",
     shadowColor: "#000000",
     shadowOffset: { width: 0, height: 4 },
@@ -295,7 +351,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   totalMoney: {
-    marginTop: heightScale(350),
+    marginTop: heightScale(200),
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",

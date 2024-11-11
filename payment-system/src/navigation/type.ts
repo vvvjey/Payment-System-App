@@ -10,6 +10,7 @@ type RootStackParamList = {
     DepositWithdraw: undefined;
     ConfirmPayment: undefined;
     PaymentSuccess: undefined;
+    ConfirmPaymentInsideWallet: undefined
 }
 export type ScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 export type ScreenQRCodeRouteProp = RouteProp<RootStackParamList,"QRCodeScreen">  

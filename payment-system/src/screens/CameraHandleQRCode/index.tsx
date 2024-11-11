@@ -15,10 +15,15 @@ import { fontScale, heightScale, widthScale } from "../../utils/spacing";
 import { Colors } from "../../../assets/colors";
 import QRCode from "react-native-qrcode-svg";
 import IMAGES from "../../../assets/images";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { ScreenNavigationProp } from "../../navigation/type";
 
 const secretKey = "qrcode-hoang-tu";
 
 export default function CameraHandleQRCode() {
+
+  const navigation = useNavigation<ScreenNavigationProp>();
+
   const [permission, requestPermission] = BarCodeScanner.usePermissions();
   const [scanned, setScanned] = useState(false);
 
@@ -228,7 +233,7 @@ export default function CameraHandleQRCode() {
             <Text style={styles.subTitle}>
               Giữ mã QR bên trong khung, nó sẽ được quét tự động
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("InputMoney")}>
               <Text style={styles.selectImage}>Chọn ảnh QR</Text>
             </TouchableOpacity>
           </View>
