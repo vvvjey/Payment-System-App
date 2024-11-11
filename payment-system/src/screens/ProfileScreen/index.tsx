@@ -20,8 +20,11 @@ import ManageBar from "../../components/ManageBar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Tab } from "react-native-elements";
+import { useSelector, useDispatch } from "react-redux";
 
 const ProfileScreen = () => {
+  const user = useSelector((state) => state.user);
+  console.log("User State in test:", user);
   return (
     <SafeAreaView style={styles.headerPart}>
       <View style={styles.headerContainer}>
@@ -31,8 +34,8 @@ const ProfileScreen = () => {
             source={IMAGES.iconProfileHeader}
           ></Image>
         </View>
-        <Text style={styles.userName}>Bùi Thị Hương</Text>
-        <Text style={styles.userPhone}>0987364673</Text>
+        <Text style={styles.userName}>{user.user.firstName}</Text>
+        <Text style={styles.userPhone}>{user.user.phoneNumber}</Text>
       </View>
       <View style={styles.bodyContainer}>
         <TouchableOpacity style={styles.contentInnerResposity}>

@@ -58,6 +58,13 @@ const IMAGES = {
     iconLogout: require('./log out.png'),
     // Zalo QR page
     zaloQrCodeImage: require('./qrcode-zalopay.jpg')
+
+    //Nhập số tiền để chuyển tiền
+    avatar: require('./avatar.png'),
+
+    // xác nhận chuyển tiền trong ví
+    iconLogo: require('./ICON_LOGO 1.png'),
+    iconBIDV: require('./image 4.png'),
 }
 
 export default IMAGES

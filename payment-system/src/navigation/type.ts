@@ -11,6 +11,7 @@ type RootStackParamList = {
     ConfirmPayment: undefined;
     PaymentSuccess: undefined;
     CreateWebviewZaloPay:undefined;
+    ConfirmPaymentInsideWallet: undefined
 }
 export type ScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 export type ScreenQRCodeRouteProp = RouteProp<RootStackParamList,"QRCodeScreen">
