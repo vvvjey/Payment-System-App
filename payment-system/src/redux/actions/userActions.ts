@@ -3,21 +3,29 @@ import { login } from "../../services/apiService";
 export const SET_USER = "SET_USER";
 export const LOGOUT = "LOGOUT";
 import { Dispatch } from 'redux';
+import { AppThunk } from "../store";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const LOGIN = "LOGIN";
-export const loginAction = (phoneNumber: string, password: string) => async (dispatch: Dispatch) => {
+export const loginAction = (phoneNumber: string, password: string):AppThunk => async (dispatch: Dispatch) => {
     try {
       // Call the API (or perform your logic)
       const data = {
         phoneNumber,password
       }
       const response = await login(data);
-      
+      console.log('res',response.data)
+      if(response.data){
+        const token = response.data.accessToken.accessToken;
+        console.log('token here',token);
+        await AsyncStorage.setItem('jwtToken', JSON.stringify(token));
+
+      }
       // Dispatch success action
 
       dispatch({
         type: 'LOGIN',
-        payload: response.data.user, // or whatever data you need
+        payload: response.data, // or whatever data you need
       });
     } catch (error) {
       // Dispatch error action

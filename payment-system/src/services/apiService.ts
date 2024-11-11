@@ -1,4 +1,5 @@
 import axios, {AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 let BackendUrl = "http://10.0.2.2:3002";
 const apiClient = axios.create({
     baseURL: BackendUrl,
@@ -7,19 +8,24 @@ const apiClient = axios.create({
     },
 })
 apiClient.interceptors.request.use(
-    (config: InternalAxiosRequestConfig) => {
-        // Thêm token vào header nếu có
-        // const token = localStorage.getItem('token'); // Hoặc lấy từ Redux store
-        // if (token) {
-        //     config.headers['Authorization'] = `Bearer ${token}`;
-        // }
+    async (config: InternalAxiosRequestConfig) => {
+        try {
+            const tokenString = await AsyncStorage.getItem('jwtToken');
+            const token = tokenString ? JSON.parse(tokenString) : null; // Parse the token if it exists
+            if (token) {
+                config.headers['Authorization'] = `Bearer ${token}`;
+                console.log('token',token);
+            }
+        } catch (error) {
+            console.error('Error retrieving JWT token:', error);
+        }
         return config;
     },
     (error) => {
-        // Xử lý lỗi trước khi yêu cầu được gửi đi
         return Promise.reject(error);
     }
 );
+
 apiClient.interceptors.response.use(
     (response: AxiosResponse) => {
         // Xử lý phản hồi thành công
@@ -27,7 +33,11 @@ apiClient.interceptors.response.use(
     },
     (error) => {
         // Xử lý lỗi phản hồi
-        return Promise.reject(error);
+        // if (error.response.status === 401) {
+        //     // Customize this message as needed
+        //     return Promise.reject(new Error("Unauthorized access. Please check your credentials."));
+        // }
+        return Promise.reject(error.response.data);
     }
 );
 

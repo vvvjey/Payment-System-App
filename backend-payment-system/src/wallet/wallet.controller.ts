@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req,UseGuards } from '@nestjs/common';
 import { WalletService } from './wallet.service';
 import { IsNotEmpty } from 'class-validator';
 import { EventsGateway } from 'src/events/events.gateway';
+import { MyJWTGuard } from 'src/auth/guard';
 // DTO
 class DTOWalletRequest{
     userId:number;
@@ -75,6 +76,7 @@ export class WalletController {
             }
         }
     }
+    @UseGuards(MyJWTGuard)
     @Post("test")
     async testApi(@Body() req:DTOWalletRequest){
         console.log('test',req);

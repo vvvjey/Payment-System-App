@@ -4,25 +4,29 @@ import QRCode from 'react-native-qrcode-svg';
 import { useRoute } from '@react-navigation/native';
 import CryptoJS from "crypto-js";
 import { ScreenQRCodeRouteProp } from "../../navigation/type";
+import { RootState } from "../../redux/store";
 
 const secretKey = 'qrcode-hoang-tu';
 const iv = 'your-iv-string-16chars';  // IV phải là 16 ký tự
+import { useSelector, useDispatch } from "react-redux";
 
 export const QRCodeScreen: React.FC = () => {
     const route = useRoute<ScreenQRCodeRouteProp>();
     const { walletId } = route.params;
+    const amount = 10000;
     const [encryptedData, setEncryptedData] = useState<string>('');
+    const user = useSelector((state:RootState) => state.user); 
 
     const dataToEncrypt = JSON.stringify({
-        acc: "abc",
-        bcc: "bcc"
+        receiverWalletId:walletId,
+        amount
     });
 
     useEffect(() => {
         // Encrypt the data
         const encrypted = CryptoJS.AES.encrypt(dataToEncrypt, secretKey).toString();
         setEncryptedData(encrypted);
-        console.log("Encrypted data sample:", encrypted); // Log encrypted data
+        console.log("Encrypted dataa sample:", encrypted); // Log encrypted data
     }, []);
 
     useEffect(() => {

@@ -22,15 +22,15 @@ import { testApi } from "../../services/apiService";
 import * as LocalAuthentication from 'expo-local-authentication';
 import { loginAction } from "../../redux/actions/userActions";
 import { useSelector, useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import { RootState } from "../../redux/store";
 import { ScreenNavigationProp } from "../../navigation/type";
-
 const LoginScreen = () => {
   const navigation = useNavigation<ScreenNavigationProp>();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user); // assuming user is stored in state.user
-  console.log("User State in Login Screen:", user);
+  const dispatch = useDispatch<AppDispatch>();
+  const user = useSelector((state:RootState) => state.user); // assuming user is stored in state.user
 
   const handleLogin = async () => {
     try {
