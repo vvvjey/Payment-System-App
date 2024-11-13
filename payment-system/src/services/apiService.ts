@@ -43,3 +43,22 @@ export const login = (data: any) => {
 export const getDataCreateOrderZalopay = (amount:number)=>{
     return apiClient.post('/api/v1/wallet/create-order-zalopay', {amount});
 }
+
+export const getTransactionsByMonth = async (userId: any, year: any, month: any) => {
+    try {
+      const response = await axios.get(
+        `/api/v1/transaction/get-all-transactions-by-month-user-id`,
+        {
+          params: {
+            userId,
+            year,
+            month,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching transactions:", error);
+      return [];
+    }
+  };
