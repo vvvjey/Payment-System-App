@@ -26,6 +26,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
 const HomeScreen = () => {
   const [userId,setUserId] = useState<number>();
+  const [balance,setBalance] = useState<number>(0);
   var abc;
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +41,8 @@ const HomeScreen = () => {
   useEffect(()=>{
     console.log('userrrrr',user);
     setUserId(user.user?.user?.id);
-  },[]);  
+    setBalance(user.user?.user?.wallets?.balance)
+  },[user]);  
   
   const navigation = useNavigation<ScreenNavigationProp>();
   return (
@@ -98,7 +100,7 @@ const HomeScreen = () => {
                     resizeMode="contain"
                   ></Image>
                 </TouchableOpacity>
-                <Text style={styles.balance}>31.000.000đ</Text>
+                <Text style={styles.balance}>{balance}</Text>
               </View>
             </View>
             <View style={styles.manageBar}>
@@ -261,7 +263,6 @@ const HomeScreen = () => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.childMainService}
-              onPress={() => navigation.navigate("WebviewZaloPayScreen")}
             >
               <Image
                 source={IMAGES.DiBo}

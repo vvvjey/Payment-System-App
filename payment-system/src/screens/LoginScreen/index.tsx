@@ -25,20 +25,28 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { RootState } from "../../redux/store";
 import { ScreenNavigationProp } from "../../navigation/type";
+import { login } from "../../services/apiService";
+
 const LoginScreen = () => {
   const navigation = useNavigation<ScreenNavigationProp>();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector((state:RootState) => state.user); // assuming user is stored in state.user
 
   const handleLogin = async () => {
     try {
-      dispatch(loginAction(phoneNumber, password)); 
-      console.log("hekki",phoneNumber, password);
+      const data = {
+        phoneNumber,password
+      }
+      let checkStatus = await login (data);
+      dispatch(loginAction(phoneNumber, password,navigation)); 
 
-    } catch (error) {
-      console.error("Registration error:", error);
+    } catch (error:any) {
+      setErrorMessage("Sai mật khẩu hoặc số điện thoại không hợp lệ");
+      console.error("Login error:", error);
     }
   };
   const handleLoginFaceID = async () => {
@@ -98,93 +106,98 @@ const LoginScreen = () => {
 
   return (
     <SafeAreaView style={styles.headerPart}>
-      <View style={styles.logoContainer}>
-        <ImageBackground
-          resizeMode="contain"
-          style={styles.logo}
-          source={IMAGES.LogoNexPay}
-        />
-      </View>
-      <View style={styles.bodyContainer}>
-        <View style={styles.titleLogin}>
-          <Text style={styles.title}>Đăng nhập</Text>
+      <ScrollView>
+        <View style={styles.logoContainer}>
+          <ImageBackground
+            resizeMode="contain"
+            style={styles.logo}
+            source={IMAGES.LogoNexPay}
+          />
         </View>
-        <View>
-          <Text style={styles.text}>Số điện thoại</Text>
-          <View style={styles.phoneContainer}>
-            <View style={styles.firstChild}>
-              <View style={styles.countryCodeContainer}>
-                <Text style={styles.countryCode}>+84</Text>
+        <View style={styles.bodyContainer}>
+          <View style={styles.titleLogin}>
+            <Text style={styles.title}>Đăng nhập</Text>
+          </View>
+          <View>
+            <Text style={styles.text}>Số điện thoại</Text>
+            <View style={styles.phoneContainer}>
+              <View style={styles.firstChild}>
+                <View style={styles.countryCodeContainer}>
+                  <Text style={styles.countryCode}>+84</Text>
+                </View>
+              </View>
+              <View>
+                <TextInput
+                  style={styles.inputPhone}
+                  placeholder="712345678"
+                  keyboardType="phone-pad"
+                  value={phoneNumber}
+                  onChangeText={setPhoneNumber}
+                />
               </View>
             </View>
-            <View>
-              <TextInput
-                style={styles.inputPhone}
-                placeholder="712345678"
-                keyboardType="phone-pad"
-                value={phoneNumber}
-                onChangeText={setPhoneNumber}
-              />
+            <Text style={styles.text}>Mật khẩu</Text>
+            <View style={styles.pwdContainer}>
+              <View>
+                <TextInput
+                  style={styles.inputPwd}
+                  placeholder="Nhập mật khẩu"
+                  secureTextEntry={true}
+                  value={password}
+                  onChangeText={setPassword}
+                />
+              </View>
+              <TouchableOpacity>
+                <Image source={IMAGES.Eye} style={styles.eye}></Image>
+              </TouchableOpacity>
             </View>
-          </View>
-          <Text style={styles.text}>Mật khẩu</Text>
-          <View style={styles.pwdContainer}>
-            <View>
-              <TextInput
-                style={styles.inputPwd}
-                placeholder="Nhập mật khẩu"
-                secureTextEntry={true}
-                value={password}
-                onChangeText={setPassword}
-              />
+            <View style={styles.FaceIDContainer}>
+              <TouchableOpacity
+                style={styles.loginFaceID}
+                onPress={handleLoginFaceID}
+              >
+                <Image source={IMAGES.FaceID} style={styles.iconFaceID}></Image>
+                <Text style={styles.textFaceID}>Đăng nhập bằng Face ID</Text>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Text style={styles.forgetPwd}>Quên mật khẩu?</Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity>
-              <Image source={IMAGES.Eye} style={styles.eye}></Image>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.FaceIDContainer}>
             <TouchableOpacity
-              style={styles.loginFaceID}
-              onPress={handleLoginFaceID}
+              style={styles.FingerPrintContainer}
+              onPress={handleLoginFingerprint}
             >
-              <Image source={IMAGES.FaceID} style={styles.iconFaceID}></Image>
-              <Text style={styles.textFaceID}>Đăng nhập bằng Face ID</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.forgetPwd}>Quên mật khẩu?</Text>
+              <Image
+                source={IMAGES.FingerPrint}
+                style={styles.iconFingerPrint}
+              ></Image>
+              <Text style={styles.textFaceID}>Đăng nhập bằng vân tay</Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            style={styles.FingerPrintContainer}
-            onPress={handleLoginFingerprint}
-          >
-            <Image
-              source={IMAGES.FingerPrint}
-              style={styles.iconFingerPrint}
-            ></Image>
-            <Text style={styles.textFaceID}>Đăng nhập bằng vân tay</Text>
+          <Text style={styles.dksd}>
+            Khi đăng nhập hoặc đăng ký, bạn đồng ý với{" "}
+            <Text style={styles.link}>điều {"\n"} khoản sử dụng</Text> và{" "}
+            <Text style={styles.link}>chính sách bảo mật</Text> của chúng tôi.
+          </Text>
+          <View style={styles.errorMessageContainer}>
+            {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>}
+          </View>
+          <TouchableOpacity onPress={handleLogin} style={styles.button}>
+            <Text style={styles.buttonText}>Đăng nhập</Text>
           </TouchableOpacity>
+          <View style={styles.loginTextBottomContainer}>
+            <Text style={styles.loginTextBottom}>Chưa có tài khoản? </Text>
+            <TouchableOpacity
+              onPress={() => {
+                console.log("Button pressed");
+                navigation.navigate("RegisterScreen");
+              }}
+            >
+              <Text style={styles.buttonRegister}>Đăng ký</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <Text style={styles.dksd}>
-          Khi đăng nhập hoặc đăng ký, bạn đồng ý với{" "}
-          <Text style={styles.link}>điều {"\n"} khoản sử dụng</Text> và{" "}
-          <Text style={styles.link}>chính sách bảo mật</Text> của chúng tôi.
-        </Text>
-        <TouchableOpacity onPress={handleLogin} style={styles.button}>
-          <Text style={styles.buttonText}>Đăng nhập</Text>
-        </TouchableOpacity>
-        <View style={styles.loginTextBottomContainer}>
-          <Text style={styles.loginTextBottom}>Chưa có tài khoản? </Text>
-          <TouchableOpacity
-            onPress={() => {
-              console.log("Button pressed");
-              navigation.navigate("RegisterScreen");
-            }}
-          >
-            <Text style={styles.buttonRegister}>Đăng ký</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -343,5 +356,13 @@ const styles = StyleSheet.create({
     height: heightScale(19.17),
     marginRight: widthScale(9),
     marginLeft: widthScale(5),
+  },
+  errorMessageContainer: {
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  errorMessage: {
+    color: 'red',
+    fontSize: fontScale(14),
   },
 });

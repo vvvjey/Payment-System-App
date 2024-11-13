@@ -14,7 +14,6 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
         try {
-            console.log(8,BACKEND_URL);
             const tokenString = await AsyncStorage.getItem('jwtToken');
             const token = tokenString ? JSON.parse(tokenString) : null; // Parse the token if it exists
             if (token) {
@@ -35,7 +34,6 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
     (response: AxiosResponse) => {
         // Xử lý phản hồi thành công
-        console.log(9)
         return response;
     },
     (error) => {

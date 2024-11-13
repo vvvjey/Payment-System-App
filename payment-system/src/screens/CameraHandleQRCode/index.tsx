@@ -15,8 +15,10 @@ import { fontScale, heightScale, widthScale } from "../../utils/spacing";
 import { Colors } from "../../../assets/colors";
 import QRCode from "react-native-qrcode-svg";
 import IMAGES from "../../../assets/images";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer, useFocusEffect, useNavigation } from "@react-navigation/native";
 import { ScreenNavigationProp } from "../../navigation/type";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const secretKey = "qrcode-hoang-tu";
 
@@ -40,19 +42,31 @@ export default function CameraHandleQRCode() {
     setBIDVSelection(!isBIDVSelected);
   };
 
-  const [encryptedData, setEncryptedData] = useState<string>("");
+  // Handle QR code screen
+  const user = useSelector((state:RootState) => state.user); 
+  const [timer, setTimer] = useState(300); // 5 minutes = 300 seconds
 
-  const dataToEncrypt = JSON.stringify({
-    acc: "abc",
-    bcc: "bcc",
-  });
+  const [userId,setUserId] = useState<number>();
+  const [encryptedData, setEncryptedData] = useState<string>("");
+  useEffect(()=>{
+    console.log('abcd',user?.user?.user?.id)
+    setUserId(user?.user?.user?.id)
+  },[user])
 
   useEffect(() => {
-    // Encrypt the data
-    const encrypted = CryptoJS.AES.encrypt(dataToEncrypt, secretKey).toString();
-    setEncryptedData(encrypted);
-    console.log("Encrypted data sample:", encrypted); // Log encrypted data
-  }, []);
+    if (userId) {
+      const dataToEncrypt = JSON.stringify({
+        receiverId: userId,
+        amount: 10000,
+      });
+
+      // Encrypt the data each time the `userId` or `amount` changes
+      const encrypted = CryptoJS.AES.encrypt(dataToEncrypt, secretKey).toString();
+      setEncryptedData(encrypted);
+      console.log("Encrypted data:", encrypted);
+    }
+  }, [userId]); // Re-run when `userId` changes
+
 
   useEffect(() => {
     if (encryptedData) {
@@ -62,6 +76,29 @@ export default function CameraHandleQRCode() {
       console.log("Decrypted data:", decryptedData); // Should log original data
     }
   }, [encryptedData]); // Run when encryptedData changes
+  // Timer QR code
+  useEffect(() => {
+    const timerInterval = setInterval(() => {
+      if (timer > 0) {
+        setTimer(timer - 1);
+      } else {
+        const dataToEncrypt = JSON.stringify({
+          receiverId: userId,
+          amount: 10000,
+        });
+  
+        // Encrypt the data each time the `userId` or `amount` changes
+        const encrypted = CryptoJS.AES.encrypt(dataToEncrypt, secretKey).toString();
+        setEncryptedData(encrypted);
+        console.log("Encrypted data:", encrypted);
+          setTimer(300); // Reset to 5 minutes
+      }
+    }, 1000);
+
+    return () => clearInterval(timerInterval);
+  }, [timer]);
+ 
+
 
   useEffect(() => {
     (async () => {
@@ -75,7 +112,23 @@ export default function CameraHandleQRCode() {
       }
     })();
   }, [permission, requestPermission]);
+  useFocusEffect(
+    React.useCallback(() => {
+      // Reset scanned state to false each time the screen is focused
 
+      setScanned(false);
+      setTimer(300); // Reset timer when screen is focused
+
+      // QR code screen   
+    }, [])
+  );
+  useFocusEffect(
+    React.useCallback(() => {
+      if (currentTab === 1) {
+        setScanned(false);  // Reset scanned state when switching to the QR scanning tab
+      }
+    }, [currentTab])
+  );
   const handleBarCodeScanned = ({ data }: BarCodeScanningResult) => {
     setScanned(true);
     try {
@@ -88,7 +141,12 @@ export default function CameraHandleQRCode() {
       // Now you can access the receiverWalletId and amount
       const receiverId = parsedData.receiverId;
       const amount = parsedData.amount;
-            navigation.navigate('InputMoney',{receiverId:receiverId})
+      // Handle self scan
+      if(userId == receiverId){
+        Alert.alert("QR Code Error!", `Cannot scan own QRcode`);
+      }else {
+        navigation.navigate('InputMoney',{receiverId:receiverId})
+      }
       // Alert.alert("QR Code scanned!", `Decrypted data: ${decryptedData}`);
     } catch (error) {
       console.error("Error decrypting QR code data:", error);
@@ -157,7 +215,7 @@ export default function CameraHandleQRCode() {
               />
             </View>
             <Text style={styles.title}>
-              Tự động cập nhật sau <Text style={{ color: "#007F5F" }}>15s</Text>
+              Tự động cập nhật sau <Text style={{ color: "#007F5F" }}>{timer}</Text>
               .
             </Text>
           </View>
