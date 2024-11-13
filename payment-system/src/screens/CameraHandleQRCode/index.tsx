@@ -28,7 +28,7 @@ export default function CameraHandleQRCode() {
   const [scanned, setScanned] = useState(false);
 
   const [currentTab, setCurrentTab] = useState(0);
-
+  let receiverId = 1;
   // Add bank selected
   const [isAddBankSelected, setAddBankSelection] = useState(false);
   const handleAddBankPress = () => {
@@ -83,8 +83,13 @@ export default function CameraHandleQRCode() {
       const bytes = CryptoJS.AES.decrypt(data, secretKey);
       const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
       console.log("Decrypted data:", decryptedData);
+      const parsedData = JSON.parse(decryptedData);
 
-      Alert.alert("QR Code scanned!", `Decrypted data: ${decryptedData}`);
+      // Now you can access the receiverWalletId and amount
+      const receiverId = parsedData.receiverId;
+      const amount = parsedData.amount;
+            navigation.navigate('InputMoney',{receiverId:receiverId})
+      // Alert.alert("QR Code scanned!", `Decrypted data: ${decryptedData}`);
     } catch (error) {
       console.error("Error decrypting QR code data:", error);
     }
@@ -233,7 +238,7 @@ export default function CameraHandleQRCode() {
             <Text style={styles.subTitle}>
               Giữ mã QR bên trong khung, nó sẽ được quét tự động
             </Text>
-            <TouchableOpacity onPress={() => navigation.navigate("InputMoney")}>
+            <TouchableOpacity onPress={() => navigation.navigate("InputMoney",{receiverId:receiverId})}>
               <Text style={styles.selectImage}>Chọn ảnh QR</Text>
             </TouchableOpacity>
           </View>

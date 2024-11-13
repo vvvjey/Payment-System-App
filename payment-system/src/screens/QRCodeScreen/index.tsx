@@ -12,13 +12,13 @@ import { useSelector, useDispatch } from "react-redux";
 
 export const QRCodeScreen: React.FC = () => {
     const route = useRoute<ScreenQRCodeRouteProp>();
-    const { walletId } = route.params;
+    const { userId } = route.params;
     const amount = 10000;
     const [encryptedData, setEncryptedData] = useState<string>('');
     const user = useSelector((state:RootState) => state.user); 
 
     const dataToEncrypt = JSON.stringify({
-        receiverWalletId:walletId,
+        receiverId:userId,
         amount
     });
 

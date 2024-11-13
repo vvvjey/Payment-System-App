@@ -10,10 +10,13 @@ export const LOGIN = "LOGIN";
 export const loginAction = (phoneNumber: string, password: string):AppThunk => async (dispatch: Dispatch) => {
     try {
       // Call the API (or perform your logic)
+      console.log('hello')
       const data = {
         phoneNumber,password
       }
+      console.log(3);
       const response = await login(data);
+      console.log(4);
       console.log('res',response.data)
       if(response.data){
         const token = response.data.accessToken.accessToken;

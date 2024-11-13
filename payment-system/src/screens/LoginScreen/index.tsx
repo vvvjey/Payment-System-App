@@ -35,7 +35,7 @@ const LoginScreen = () => {
   const handleLogin = async () => {
     try {
       dispatch(loginAction(phoneNumber, password)); 
-      console.log("hekki");
+      console.log("hekki",phoneNumber, password);
 
     } catch (error) {
       console.error("Registration error:", error);

@@ -57,7 +57,7 @@ const IMAGES = {
     iconHelp: require('./help.png'),
     iconLogout: require('./log out.png'),
     // Zalo QR page
-    zaloQrCodeImage: require('./qrcode-zalopay.jpg')
+    zaloQrCodeImage: require('./qrcode-zalopay.jpg'),
 
     //Nhập số tiền để chuyển tiền
     avatar: require('./avatar.png'),

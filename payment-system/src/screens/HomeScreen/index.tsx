@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from "react";
+import React, { Component, useEffect, useState } from "react";
 import {
   Button,
   Image,
@@ -25,6 +25,7 @@ import { ScreenNavigationProp } from "../../navigation/type";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
 const HomeScreen = () => {
+  const [userId,setUserId] = useState<number>();
   var abc;
   useEffect(() => {
     const fetchData = async () => {
@@ -37,11 +38,11 @@ const HomeScreen = () => {
   const dispatch = useDispatch();
   const user = useSelector((state:RootState) => state.user); // assuming user is stored in state.user
   useEffect(()=>{
-    console.log('userrrr',user);
+    console.log('userrrrr',user);
+    setUserId(user.user?.user?.id);
   },[]);  
   
   const navigation = useNavigation<ScreenNavigationProp>();
-  var walletId = 1;
   return (
     <SafeAreaView style={styles.headerPart}>
       <View>{abc}</View>
@@ -128,7 +129,7 @@ const HomeScreen = () => {
             <TouchableOpacity
               style={styles.childBalance}
               onPress={() =>
-                navigation.navigate("QRCodeScreen", { walletId: walletId })
+                navigation.navigate("QRCodeScreen", { userId: userId })
               }
             >
               <Image

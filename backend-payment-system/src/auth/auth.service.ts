@@ -59,7 +59,14 @@ export class AuthService{
                     firstName:true,
                     phoneNumber:true,
                     hassedPassword:true,
-                }
+                    wallets:{
+                        select:{
+                            wallet_id:true,
+                            balance:true
+                        }
+                    }
+                },
+                
             });
             if(!user){
                 throw new ForbiddenException("User not exist")

@@ -10,7 +10,7 @@ export class TransactionService {
     async createTransaction(walletId:number,amount:number,act_type:string,status:string,transaction_log_message:string){
         try {
             if(!walletId && !act_type && !amount && !status && !transaction_log_message){
-                throw new Error("Missing required parameter");
+                throw new Error("Missingg required parameter");
             }
             const transaction = await this.prismaService.transaction.create({
                 data:{

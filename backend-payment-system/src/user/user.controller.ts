@@ -23,7 +23,11 @@ export class UserController {
     async getUserById(@Param('id') id: string) {
         const user = await this.prismaService.user.findUnique({
             where: { id: Number(id) },
+            include:{
+                wallets:true
+            }
         });
+        // console.log('user',user);
         return user;
     }
 
