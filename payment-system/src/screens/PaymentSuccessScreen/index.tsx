@@ -18,19 +18,28 @@ import IMAGES from "../../../assets/images";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Tab } from "react-native-elements";
 import { testApi } from "../../services/apiService";
-import { registerHuong } from "../../services/apiService";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import { ScreenNavigationProp } from "../../navigation/type";
+import { NavigationContainer, useNavigation,useRoute } from "@react-navigation/native";
+import { ScreenNavigationProp,ScreenPaymentSuccessRouteProp } from "../../navigation/type";
 import { fonts } from "react-native-elements/dist/config";
 
 const PaymentSuccess = () => {
   const [activeTab, setActiveTab] = useState("deposit");
   const [inputMoneyQuantity, setInputMoney] = useState("");
   const [isSelected, setSelection] = useState(false);
+  const [contentSend,setContentSend] = useState<string>('');
+  const [receiverName,setReceiverName] = useState<string>('');
   const handlePress = () => {
     setSelection(!isSelected);
   };
   const navigation = useNavigation<ScreenNavigationProp>();
+  const route = useRoute<ScreenPaymentSuccessRouteProp>();
+  useEffect(()=>{
+
+    var {amount,contentSend,nameUser} = route.params;
+    setInputMoney(amount);
+    setContentSend(contentSend)  ;
+    setReceiverName(nameUser);
+  },[]);
   return (
     <SafeAreaView style={styles.headerPart}>
       <View style={styles.bodyContainer}>
@@ -45,17 +54,17 @@ const PaymentSuccess = () => {
                 Giao dịch thành công
               </Text>
               <Text style={styles.textMoneyAmount}>
-                20.000.000<Text style={{ color: "black" }}>đ</Text>
+                {inputMoneyQuantity}<Text style={{ color: "black" }}>đ</Text>
               </Text>
               <Text style={styles.textNormal}>
                 <Text style={{ color: "black" }}>
                   {" "}
-                  Bạn đã nạp thành công 20.000.000
-                  <Text style={{ color: "black" }}>đ</Text>
+                  Bạn đã chuyển thành công {inputMoneyQuantity}<Text style={{ color: "black" }}>đ </Text>
+                  vào tài khoản của {receiverName}
                 </Text>{" "}
-                vào Ví
-                <Text style={{ color: Colors.DarkBlue }}>Nex</Text>
-                <Text style={{ color: "#1EA9F4" }}>Pay</Text>
+                {/* vào Ví */}
+                {/* <Text style={{ color: Colors.DarkBlue }}>Nex</Text> */}
+                {/* <Text style={{ color: "#1EA9F4" }}>Pay</Text> */}
               </Text>
             </View>
           </View>
@@ -72,6 +81,10 @@ const PaymentSuccess = () => {
             <View style={styles.textInnerTransaction}>
               <Text style={styles.textBefore}>Chi tiết giao dịch</Text>
               <Text style={styles.textAfter}>idTransaction</Text>
+            </View>
+            <View style={styles.textInnerTransaction}>
+              <Text style={styles.textBefore}>Nội dung</Text>
+              <Text style={styles.textAfter}>{contentSend}</Text>
             </View>
           </View>
         </View>

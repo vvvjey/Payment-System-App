@@ -9,7 +9,7 @@ class DTOWalletRequest{
     deposit:number;
     senderWalletId:number
     receiverWalletId:number
-    amount:number
+    amount:any
     app_trans_id:any
     zp_trans_id:any
     status:any
@@ -88,6 +88,7 @@ export class WalletController {
     @Post('tranfer-money')
     async tranferMoney(@Body() req:DTOWalletRequest){
         try {
+            console.log("tranfer",req);
             const wallet = await this.walletService.tranferMoney(req.senderWalletId,req.receiverWalletId,req.amount); 
             return {
                 errCode : 0 ,

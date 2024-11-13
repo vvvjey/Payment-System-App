@@ -179,8 +179,8 @@ export class WalletService {
                 item: JSON.stringify(items),
                 embed_data: JSON.stringify({}),
                 amount: amount,
-                callback_url: 'https://f324-2402-800-6311-4e-ec16-7fbb-d120-64fb.ngrok-free.app/api/v1/wallet/callback',
-                description: `Chó fiii :) #${transID}`,
+                callback_url: 'https://cf2b-2402-800-796f-cebd-53d-c22-a625-dcb5.ngrok-free.app/api/v1/wallet/callback',
+                description: `Hi Tu Hoang :) #${transID}`,
                 bank_code: '',
             };
 

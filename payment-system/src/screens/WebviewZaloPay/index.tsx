@@ -8,6 +8,8 @@ import {ScreenQRCodeZaloQRRouteProp,ScreenNavigationProp} from '../../navigation
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import io from 'socket.io-client';
 import { useRoute } from '@react-navigation/native';
+import { BACKEND_URL } from '@env';
+
 const WebviewZaloPayScreen = () => {
     const [urlZalopayQR, setUrlZalopayQR] = useState('');
     const [orderValue, setOrderValue] = useState<string>('');
@@ -82,7 +84,9 @@ const WebviewZaloPayScreen = () => {
 
     useEffect(() => {
         // Socket code to listen for transaction status updates
-        const socket = io("http://10.0.2.2:3002", {
+        // const socket = io("http://10.0.2.2:3002", {
+        const socket = io(BACKEND_URL, {
+
             transports: ['websocket'],
             forceNew: true,
         });

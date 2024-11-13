@@ -18,17 +18,64 @@ import IMAGES from "../../../assets/images";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Tab } from "react-native-elements";
 import { testApi } from "../../services/apiService";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import { ScreenNavigationProp } from "../../navigation/type";
-
+import { NavigationContainer, useNavigation,useRoute } from "@react-navigation/native";
+import { ScreenNavigationProp,ScreenConfirmPaymentRouteProp } from "../../navigation/type";
+import {getUserInforById} from '../../services/apiService';
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../redux/store";
+import { tranferMoney } from "../../services/apiService";
+import { err } from "react-native-svg";
 const ConfirmPaymentInsideWallet = () => {
   const [activeTab, setActiveTab] = useState("deposit");
-  const [inputMoneyQuantity, setInputMoney] = useState("");
+  const [inputMoneyQuantity, setInputMoney] = useState<string>("");
   const [isSelected, setSelection] = useState(false);
+  const [nameUser,setNameUser] = useState<string>('');
+  const [phoneNumber,setPhoneNumber] = useState<string>("");
+  const [contentSend,setContentSend] = useState<string>('');
+  const [receiverWalletId,setReceiverWalletId] = useState<number>();
+  const user = useSelector((state:RootState) => state.user); // assuming user is stored in state.user
+
   const handlePress = () => {
     setSelection(!isSelected);
   };
+  useEffect(()=>{
+    var {amount,receiverId} = route.params;
+    setInputMoney(amount);
+    console.log("e",amount,"===",receiverId);
+  },[]);
   const navigation = useNavigation<ScreenNavigationProp>();
+  const route = useRoute<ScreenConfirmPaymentRouteProp>();
+  useEffect(()=>{
+    async function getUserInfor (){
+      let responseUserId = await getUserInforById(route.params.receiverId);
+      console.log("userInfor",responseUserId.data);
+      setNameUser(responseUserId.data.firstName);
+      setPhoneNumber(responseUserId.data.phoneNumber);
+      setContentSend(route.params.contentSend);
+      setReceiverWalletId(responseUserId.data.wallets.wallet_id);
+    } 
+    getUserInfor();
+  },[]);
+  const handleTranferMoney = async() =>{
+    try {
+      let senderWalletId = user.user?.user?.wallets.wallet_id;
+      let amount = parseInt(inputMoneyQuantity);
+      let responseTranfer = await tranferMoney(senderWalletId,receiverWalletId,amount);
+      console.log('res',responseTranfer.data);
+      if(responseTranfer.data?.data?.errCode == 0){
+        console.log("thanfh cong");
+        //Handle nhay qua man hinh kia
+        navigation.navigate("PaymentSuccess",{amount:amount.toString(),contentSend,nameUser})
+      } else {
+        let popupMess = responseTranfer.data?.errMessage;
+        console.log('popupMess',popupMess);
+        // Display cai loi o day 
+      }
+      
+    } catch (error) {
+      console.log("err",error);
+    }
+  }
   return (
     <SafeAreaView style={styles.headerPart}>
       <View style={styles.headerContainer}>
@@ -89,18 +136,18 @@ const ConfirmPaymentInsideWallet = () => {
           <View style={styles.textInnerRespository}>
             <Text style={styles.textBefore}>Người nhận</Text>
             <Text style={styles.textAfter}>
-              <Text style={{ color: "black" }}>Bùi Thị Hương</Text>
+              <Text style={{ color: "black" }}>{nameUser}</Text>
             </Text>
           </View>
           <View style={styles.textInnerRespository}>
             <Text style={styles.textBefore}>Số tiền</Text>
             <Text style={styles.textAfter}>
-              20.000.000<Text style={{ color: "black" }}>đ</Text>
+              {inputMoneyQuantity}<Text style={{ color: "black" }}>đ</Text>
             </Text>
           </View>
           <View style={styles.textInnerRespository}>
             <Text style={styles.textBefore}>Số điện thoại</Text>
-            <Text style={styles.textAfter}>*******987</Text>
+            <Text style={styles.textAfter}>{phoneNumber}</Text>
           </View>
           <View style={styles.lineHorizontal} />
           <View style={styles.textInnerRespository}>
@@ -110,6 +157,10 @@ const ConfirmPaymentInsideWallet = () => {
           <View style={styles.textInnerRespository}>
             <Text style={styles.textBefore}>Mã tham chiếu</Text>
             <Text style={styles.textAfter}>01983953673975</Text>
+          </View>
+          <View style={styles.textInnerRespository}>
+            <Text style={styles.textBefore}>Nội dung</Text>
+            <Text style={styles.textAfter}>{contentSend}</Text>
           </View>
         </View>
 
@@ -144,11 +195,11 @@ const ConfirmPaymentInsideWallet = () => {
         <View style={styles.totalMoney}>
           <Text style={styles.textBefore}>Tổng tiền</Text>
           <Text style={styles.textAfter}>
-            20.000.000<Text style={{ color: "black" }}>đ</Text>
+            {inputMoneyQuantity}<Text style={{ color: "black" }}>đ</Text>
           </Text>
         </View>
         <TouchableOpacity
-          onPress={() => navigation.navigate("PaymentSuccess")}
+          onPress={handleTranferMoney}
           style={styles.button}
         >
           <Text style={styles.buttonContent}>Xác nhận</Text>
