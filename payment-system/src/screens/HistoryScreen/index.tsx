@@ -11,24 +11,34 @@ import { getTransactionsByMonth } from "../../services/apiService";
 import IMAGES from "../../../assets/images";
 import { Colors } from "../../../assets/colors";
 import { fontScale, heightScale, widthScale } from "../../utils/spacing";
+import { useSelector, useDispatch } from "react-redux";
 
 const HistoryScreen = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [transactions, setTransactions] = useState([]);
-  const userId = 1; // Thay bằng ID người dùng hiện tại
+  const user = useSelector((state) => state.user?.user); // Lấy thông tin người dùng từ Redux
+  const userId = user?.userId; // Sử dụng optional chaining để tránh lỗi
+
+  console.log("User State in test:", user); // Kiểm tra thông tin người dùng
+  console.log("User ID:", userId); 
   const year = 2024;
-  const month = 10; // Tháng cần lấy dữ liệu
+  const month = 10; 
 
-  // Gọi API để lấy dữ liệu giao dịch
   useEffect(() => {
-    const fetchTransactions = async () => {
-      const data = await getTransactionsByMonth(userId, year, month);
-      setTransactions(data.transactions || []); // Kiểm tra và gán danh sách giao dịch
-    };
-    fetchTransactions();
-  }, []);
+    if (user && user.user && user.user.userId) {
+      fetchTransactions();
+    }
+  }, [user]);
+  
+  const fetchTransactions = async () => {
+    const userId = user.user.userId;
+    const year = 2024;
+    const month = 10;
+  
+    const data = await getTransactionsByMonth(userId, year, month);
+    setTransactions(data);
+  };
 
-  // Hàm render từng item của FlatList
   const renderTransactionItem = ({ item }: { item: any }) => (
     <TouchableOpacity style={styles.detailsItems}>
       <View style={styles.contentInner}>
