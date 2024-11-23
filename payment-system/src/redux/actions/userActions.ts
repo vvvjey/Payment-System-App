@@ -5,33 +5,31 @@ export const LOGOUT = "LOGOUT";
 import { Dispatch } from 'redux';
 import { AppThunk } from "../store";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { ScreenNavigationProp } from "../../navigation/type";
 export const LOGIN = "LOGIN";
-export const loginAction = (phoneNumber: string, password: string):AppThunk => async (dispatch: Dispatch) => {
+
+export const loginAction = (phoneNumber: string, password: string,navigation: ScreenNavigationProp):AppThunk => async (dispatch: Dispatch) => {
     try {
       // Call the API (or perform your logic)
-      console.log('hello')
       const data = {
         phoneNumber,password
       }
-      console.log(3);
       const response = await login(data);
-      console.log(4);
-      console.log('res',response.data)
       if(response.data){
         const token = response.data.accessToken.accessToken;
-        console.log('token here',token);
         await AsyncStorage.setItem('jwtToken', JSON.stringify(token));
+        console.log(2)
+        navigation.navigate("MainTabs", { screen: "Home" });
+        console.log(3)
 
       }
-      // Dispatch success action
 
       dispatch({
         type: 'LOGIN',
-        payload: response.data, // or whatever data you need
+        payload: response.data, 
       });
     } catch (error) {
-      // Dispatch error action
+      console.log('dispatch err',error)
       dispatch({
         type: 'LOGIN',
         payload: null,

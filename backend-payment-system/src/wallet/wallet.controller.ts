@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req,UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req,UseGuards } from '@nestjs/common';
 import { WalletService } from './wallet.service';
 import { IsNotEmpty } from 'class-validator';
 import { EventsGateway } from 'src/events/events.gateway';
@@ -43,10 +43,10 @@ export class WalletController {
             }
         }
     }
-    @Get('get-by-id')
-    async getWalletByUserId(@Body() req:DTOWalletRequest){
+    @Get('get-by-id/:userId')
+    async getWalletByUserId(@Param('userId') userId: number){
         try {
-            const wallet = await this.walletService.getWalletByUserId(req.userId); 
+            const wallet = await this.walletService.getWalletByUserId(Number(userId)); 
             console.log("wallet here",wallet)
             return {
                 errCode : 0 ,

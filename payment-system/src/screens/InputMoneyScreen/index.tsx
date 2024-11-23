@@ -10,6 +10,7 @@ import {
   View,
   FlatList,
   ScrollView,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../../../assets/colors";
@@ -41,7 +42,11 @@ const InputMoney = () => {
     getUserInfor();
   },[]);
   const handleConfirmPayment = ()=>{
-    navigation.navigate("ConfirmPaymentInsideWallet",{receiverId,amount,contentSend});
+    if(!receiverId || !amount || !contentSend){
+      Alert.alert("QR Code Tranfer Error!", `Missing required data`);
+    } else {
+      navigation.navigate("ConfirmPaymentInsideWallet",{receiverId,amount,contentSend});
+    }
   }
   console.log("amount and recei"," = ",receiverId);
   return (

@@ -1,8 +1,8 @@
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import type { RouteProp } from '@react-navigation/native';
 type RootStackParamList = {
-    Home: undefined
     QRCodeScreen : {userId : number | undefined}
+    Home: undefined
     CameraHandleQRCode:undefined
     LoginScreen:undefined
     RegisterScreen:undefined

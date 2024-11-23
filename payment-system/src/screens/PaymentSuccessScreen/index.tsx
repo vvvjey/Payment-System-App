@@ -119,13 +119,13 @@ const PaymentSuccess = () => {
         </View>
         <View style={styles.buttonBottom}>
           <TouchableOpacity
-            onPress={() => navigation.navigate("Home")}
+            onPress={() => navigation.navigate("MainTabs", { screen: "Home" })}
             style={styles.button}
           >
             <Text style={styles.buttonText}>Trang chủ</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate("Home")}
+            onPress={() => navigation.navigate("MainTabs", { screen: "Home" })}
             style={styles.button}
           >
             <Text style={styles.buttonText}>Giao dịch mới</Text>
