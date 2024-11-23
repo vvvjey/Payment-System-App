@@ -20,7 +20,7 @@ import ManageBar from "../../components/ManageBar";
 import { NavigationContainer, useFocusEffect, useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Tab } from "react-native-elements";
-import { testApi } from "../../services/apiService";
+import { testApi,getWalletInforByUserId } from "../../services/apiService";
 import { ScreenNavigationProp } from "../../navigation/type";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -40,10 +40,23 @@ const HomeScreen = () => {
   const user = useSelector((state:RootState) => state.user); // assuming user is stored in state.user
   useEffect(()=>{
     console.log('userrrrr',user);
+    console.log('2â',user.user.user.wallets)
     setUserId(user.user?.user?.id);
-    setBalance(user.user?.user?.wallets?.balance)
-  },[user]);  
-  
+    // setBalance(user.user?.user?.wallets?.balance)
+    
+  },[]);  
+  useFocusEffect(
+    React.useCallback(()=>{
+      async function getWalletInfor(){
+        let wallets = await getWalletInforByUserId(user.user?.user?.id);
+        // console.log(wallets.data.data);
+        if(wallets?.data?.data){
+          setBalance(wallets?.data?.data.balance)
+        }
+      }
+      getWalletInfor();
+    },[])
+  );
   const navigation = useNavigation<ScreenNavigationProp>();
   return (
     <SafeAreaView style={styles.headerPart}>
@@ -131,7 +144,8 @@ const HomeScreen = () => {
             <TouchableOpacity
               style={styles.childBalance}
               onPress={() =>
-                navigation.navigate("QRCodeScreen", { userId: userId })
+                // navigation.navigate("QRCodeScreen", { userId: userId })
+                navigation.navigate("CreateWebviewZaloPay")
               }
             >
               <Image
@@ -139,7 +153,7 @@ const HomeScreen = () => {
                 style={styles.iconQR}
                 resizeMode="contain"
               />
-              <Text style={styles.textBalance}>QR Thanh toán</Text>
+              <Text style={styles.textBalance}>Tạo QR Zalopay</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -151,7 +165,7 @@ const HomeScreen = () => {
                 style={styles.iconTienich}
                 resizeMode="contain"
               ></Image>
-              <Text style={styles.textBalance}>Ví tiện ích</Text>
+              <Text style={styles.textBalance}>QR Thanh toán</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -198,7 +212,7 @@ const HomeScreen = () => {
           <View style={styles.bodyMainService}>
             <TouchableOpacity
               style={styles.childMainService}
-              onPress={() => navigation.navigate("RegisterScreen")}
+              // onPress={() => navigation.navigate("RegisterScreen")}
             >
               <Image
                 source={IMAGES.ThanhToanKV}
@@ -211,7 +225,7 @@ const HomeScreen = () => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.childMainService}
-              onPress={() => navigation.navigate("LoginScreen")}
+              // onPress={() => navigation.navigate("LoginScreen")}
             >
               <Image
                 source={IMAGES.XemPhim}
@@ -305,7 +319,7 @@ const HomeScreen = () => {
             </TouchableOpacity>
             <TouchableOpacity 
               style={styles.childMainService}
-              onPress={() => navigation.navigate("CreateWebviewZaloPay")}
+              // onPress={() => navigation.navigate("CreateWebviewZaloPay")}
             >
               <Image
                 source={IMAGES.VayNhanh}

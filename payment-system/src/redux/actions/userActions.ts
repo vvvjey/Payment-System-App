@@ -18,7 +18,10 @@ export const loginAction = (phoneNumber: string, password: string,navigation: Sc
       if(response.data){
         const token = response.data.accessToken.accessToken;
         await AsyncStorage.setItem('jwtToken', JSON.stringify(token));
-        navigation.navigate("Home")
+        console.log(2)
+        navigation.navigate("MainTabs", { screen: "Home" });
+        console.log(3)
+
       }
 
       dispatch({

@@ -41,7 +41,7 @@ const LoginScreen = () => {
       const data = {
         phoneNumber,password
       }
-      let checkStatus = await login (data);
+      let checkStatus = await login(data);
       dispatch(loginAction(phoneNumber, password,navigation)); 
 
     } catch (error:any) {
@@ -51,6 +51,7 @@ const LoginScreen = () => {
   };
   const handleLoginFaceID = async () => {
     try {
+      console.log("3")
       // Check for biometric authentication availability
       const hasHardware = await LocalAuthentication.hasHardwareAsync();
       console.log("Has Hardware:", hasHardware);

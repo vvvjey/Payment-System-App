@@ -24,6 +24,8 @@ import {getUserInforById} from '../../services/apiService';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
 import { tranferMoney } from "../../services/apiService";
+import * as LocalAuthentication from 'expo-local-authentication';
+
 import { err } from "react-native-svg";
 const ConfirmPaymentInsideWallet = () => {
   const [activeTab, setActiveTab] = useState("deposit");
@@ -58,19 +60,42 @@ const ConfirmPaymentInsideWallet = () => {
   },[]);
   const handleTranferMoney = async() =>{
     try {
-      let senderWalletId = user.user?.user?.wallets.wallet_id;
-      let amount = parseInt(inputMoneyQuantity);
-      let responseTranfer = await tranferMoney(senderWalletId,receiverWalletId,amount);
-      console.log('res',responseTranfer.data);
-      if(responseTranfer.data?.data?.errCode == 0){
-        console.log("thanfh cong");
-        //Handle nhay qua man hinh kia
-        navigation.navigate("PaymentSuccess",{amount:amount.toString(),contentSend,nameUser})
+      const hasHardware = await LocalAuthentication.hasHardwareAsync();
+      console.log("Has Hardware:", hasHardware);
+      const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+      console.log("Is Enrolled:", isEnrolled);
+
+      if (hasHardware && isEnrolled) {
+        const result = await LocalAuthentication.authenticateAsync({
+          promptMessage: "Xác thực để tiếp tục",
+          fallbackLabel: "Sử dụng mật khẩu",
+        });
+
+        if (result.success) {
+          console.log("Biometric authentication successful");
+
+          // HANDLE NEXT
+
+          let senderWalletId = user.user?.user?.wallets.wallet_id;
+          let amount = parseInt(inputMoneyQuantity);
+          let responseTranfer = await tranferMoney(senderWalletId,receiverWalletId,amount);
+          console.log('res',responseTranfer.data);
+          if(responseTranfer.data?.data?.errCode == 0){
+            console.log("thanfh cong");
+            //Handle nhay qua man hinh kia
+            navigation.navigate("PaymentSuccess",{amount:amount.toString(),contentSend,nameUser})
+          } else {
+            let popupMess = responseTranfer.data?.errMessage;
+            console.log('popupMess',popupMess);
+            // Display cai loi o day 
+          }
+        } else {
+          console.error("Biometric authentication failed");
+        }
       } else {
-        let popupMess = responseTranfer.data?.errMessage;
-        console.log('popupMess',popupMess);
-        // Display cai loi o day 
+        console.log("Biometric authentication not available");
       }
+
       
     } catch (error) {
       console.log("err",error);

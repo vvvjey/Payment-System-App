@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import {
   Button,
   Image,
@@ -17,14 +17,25 @@ import { fontScale, heightScale, widthScale } from "../../utils/spacing";
 import IMAGES from "../../../assets/images";
 import SearchBar from "../../components/SearchBar";
 import ManageBar from "../../components/ManageBar";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer,useFocusEffect,useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Tab } from "react-native-elements";
 import { useSelector, useDispatch } from "react-redux";
-
+import { ScreenNavigationProp } from "../../navigation/type";
+import { AppDispatch } from "../../redux/store";
+import { logout } from "../../redux/actions/userActions";
 const ProfileScreen = () => {
-  const user = useSelector((state) => state.user);
-  console.log("User State in test:", user);
+  const navigation = useNavigation<ScreenNavigationProp>();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const user = useSelector((state:any) => state.user);
+  useFocusEffect(
+    React.useCallback(()=>{
+      if(user.user == null){
+        navigation.navigate("LoginScreen");
+      }
+    },[])
+  )
   return (
     <SafeAreaView style={styles.headerPart}>
       <View style={styles.headerContainer}>
@@ -34,8 +45,8 @@ const ProfileScreen = () => {
             source={IMAGES.iconProfileHeader}
           ></Image>
         </View>
-        <Text style={styles.userName}>{user.user.firstName}</Text>
-        <Text style={styles.userPhone}>{user.user.phoneNumber}</Text>
+        <Text style={styles.userName}>{user?.user?.user?.firstName}</Text>
+        <Text style={styles.userPhone}>{user?.user?.user?.phoneNumber}</Text>
       </View>
       <View style={styles.bodyContainer}>
         <TouchableOpacity style={styles.contentInnerResposity}>
@@ -128,7 +139,12 @@ const ProfileScreen = () => {
             source={IMAGES.MuiTen}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.contentInnerResposity}>
+        <TouchableOpacity style={styles.contentInnerResposity}
+          onPress={()=>{
+            dispatch(logout());
+
+          }}
+        >
           <View style={styles.before}>
             <Image
               style={styles.iconProfileBody}
