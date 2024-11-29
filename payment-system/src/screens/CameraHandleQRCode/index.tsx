@@ -33,6 +33,8 @@ export default function CameraHandleQRCode() {
   const [scanned, setScanned] = useState(false);
 
   const [currentTab, setCurrentTab] = useState(0);
+  const [cameraPaused, setCameraPaused] = useState(false); // Added state to pause camera
+
   let receiverId = 1;
   // Add bank selected
   const [isAddBankSelected, setAddBankSelection] = useState(false);
@@ -133,7 +135,7 @@ export default function CameraHandleQRCode() {
   useFocusEffect(
     React.useCallback(() => {
       // Reset scanned state to false each time the screen is focused
-
+      setCameraPaused(false);
       setScanned(false);
       setTimer(300); // Reset timer when screen is focused
 
@@ -164,6 +166,7 @@ export default function CameraHandleQRCode() {
       if(userId == receiverId){
         Alert.alert("QR Code Error!", `Cannot scan own QRcode`);
       }else {
+        setCameraPaused(true);
         navigation.navigate('InputMoney',{receiverId:receiverId})
       }
       // Alert.alert("QR Code scanned!", `Decrypted data: ${decryptedData}`);
@@ -298,11 +301,13 @@ export default function CameraHandleQRCode() {
       {currentTab === 1 && (
         <View style={styles.tabContent}>
           <View style={styles.scanContainer}>
+          {!cameraPaused && (
             <CameraView
               barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
-              onBarcodeScanned={scanned ? undefined : handleBarCodeScanned} // Disable scanning after one scan
+              onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
               style={styles.scanner}
             />
+          )}
             {scanned && (
               <Text onPress={() => setScanned(false)} style={styles.rescanText}>
                 Tap to scan again

@@ -28,6 +28,9 @@ const PaymentSuccess = () => {
   const [isSelected, setSelection] = useState(false);
   const [contentSend,setContentSend] = useState<string>('');
   const [receiverName,setReceiverName] = useState<string>('');
+  const [utrCodee,setUtrCodee] = useState<string>('');
+  const [currentTime,setCurrentTime] = useState<string>('');
+
   const handlePress = () => {
     setSelection(!isSelected);
   };
@@ -35,11 +38,21 @@ const PaymentSuccess = () => {
   const route = useRoute<ScreenPaymentSuccessRouteProp>();
   useEffect(()=>{
 
-    var {amount,contentSend,nameUser} = route.params;
+    var {amount,contentSend,nameUser,utrCode} = route.params;
     setInputMoney(amount);
-    setContentSend(contentSend)  ;
+    setContentSend(contentSend);
     setReceiverName(nameUser);
+    setUtrCodee(utrCode);
+    setCurrentTime(getCurrentTime());
+
   },[]);
+  const getCurrentTime = () => {
+    const now = new Date();
+    const formattedTime = `${now.getDate()}/${
+      now.getMonth() + 1
+    }/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+    return formattedTime;
+  };
   return (
     <SafeAreaView style={styles.headerPart}>
       <View style={styles.bodyContainer}>
@@ -76,11 +89,11 @@ const PaymentSuccess = () => {
             </View>
             <View style={styles.textInnerTransaction}>
               <Text style={styles.textBefore}>Thời gian thanh toán</Text>
-              <Text style={styles.textAfter}>getTime</Text>
+              <Text style={styles.textAfter}>{currentTime}</Text>
             </View>
             <View style={styles.textInnerTransaction}>
               <Text style={styles.textBefore}>Chi tiết giao dịch</Text>
-              <Text style={styles.textAfter}>idTransaction</Text>
+              <Text style={styles.textAfter}>{utrCodee}</Text>
             </View>
             <View style={styles.textInnerTransaction}>
               <Text style={styles.textBefore}>Nội dung</Text>
@@ -195,6 +208,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    overflow:'hidden'
   },
   transactionDetails2: {
     gap: heightScale(16),
@@ -208,6 +222,7 @@ const styles = StyleSheet.create({
     fontSize: fontScale(18),
     color: "#000",
     fontWeight: "600",
+    paddingLeft:20
   },
 
   lineHorizontal: {

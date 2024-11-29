@@ -10,6 +10,7 @@ import {
   View,
   FlatList,
   ScrollView,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../../../assets/colors";
@@ -17,8 +18,8 @@ import { fontScale, heightScale, widthScale } from "../../utils/spacing";
 import IMAGES from "../../../assets/images";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Tab } from "react-native-elements";
-import { testApi } from "../../services/apiService";
-import { NavigationContainer, useNavigation,useRoute } from "@react-navigation/native";
+import { getWalletInforByUserId, testApi } from "../../services/apiService";
+import { NavigationContainer, useFocusEffect, useNavigation,useRoute } from "@react-navigation/native";
 import { ScreenNavigationProp,ScreenConfirmPaymentRouteProp } from "../../navigation/type";
 import {getUserInforById} from '../../services/apiService';
 import { useSelector, useDispatch } from "react-redux";
@@ -27,6 +28,8 @@ import { tranferMoney } from "../../services/apiService";
 import * as LocalAuthentication from 'expo-local-authentication';
 
 import { err } from "react-native-svg";
+import { v4 as uuidv4 } from 'uuid';
+
 const ConfirmPaymentInsideWallet = () => {
   const [activeTab, setActiveTab] = useState("deposit");
   const [inputMoneyQuantity, setInputMoney] = useState<string>("");
@@ -35,8 +38,23 @@ const ConfirmPaymentInsideWallet = () => {
   const [phoneNumber,setPhoneNumber] = useState<string>("");
   const [contentSend,setContentSend] = useState<string>('');
   const [receiverWalletId,setReceiverWalletId] = useState<number>();
+  const [utrCode,setUtrCode] = useState<string>('');
+  const [balance,setBalance] = useState<number>(0);
   const user = useSelector((state:RootState) => state.user); // assuming user is stored in state.user
 
+
+  useFocusEffect(
+    React.useCallback(()=>{
+      async function getWalletInfor(){
+        let wallets = await getWalletInforByUserId(user.user?.user?.id);
+        // console.log(wallets.data.data);
+        if(wallets?.data?.data){
+          setBalance(wallets?.data?.data.balance)
+        }
+      }
+      getWalletInfor();
+    },[])
+  );
   const handlePress = () => {
     setSelection(!isSelected);
   };
@@ -55,6 +73,9 @@ const ConfirmPaymentInsideWallet = () => {
       setPhoneNumber(responseUserId.data.phoneNumber);
       setContentSend(route.params.contentSend);
       setReceiverWalletId(responseUserId.data.wallets.wallet_id);
+      let utr = await generateUTR();
+      console.log('utr code',utr)
+      setUtrCode(utr);
     } 
     getUserInfor();
   },[]);
@@ -75,19 +96,21 @@ const ConfirmPaymentInsideWallet = () => {
           console.log("Biometric authentication successful");
 
           // HANDLE NEXT
-
+     
           let senderWalletId = user.user?.user?.wallets.wallet_id;
           let amount = parseInt(inputMoneyQuantity);
-          let responseTranfer = await tranferMoney(senderWalletId,receiverWalletId,amount);
+          let responseTranfer = await tranferMoney(senderWalletId,receiverWalletId,amount,utrCode,contentSend);
           console.log('res',responseTranfer.data);
           if(responseTranfer.data?.data?.errCode == 0){
             console.log("thanfh cong");
             //Handle nhay qua man hinh kia
-            navigation.navigate("PaymentSuccess",{amount:amount.toString(),contentSend,nameUser})
+            navigation.navigate("PaymentSuccess",{amount:amount.toString(),contentSend,nameUser,utrCode})
           } else {
             let popupMess = responseTranfer.data?.errMessage;
             console.log('popupMess',popupMess);
             // Display cai loi o day 
+            Alert.alert("QR Code Tranfer Error!", popupMess);
+        
           }
         } else {
           console.error("Biometric authentication failed");
@@ -101,6 +124,13 @@ const ConfirmPaymentInsideWallet = () => {
       console.log("err",error);
     }
   }
+  const generateUTR = async () =>{
+    const prefix = 'NEXPAY';
+    const timestamp = new Date().toISOString().replace(/[-:T.]/g, '').slice(0, 14);
+    const uuid = uuidv4().split('-')[0]; 
+    return `${prefix}-${timestamp}-${uuid}`;
+  }
+  
   return (
     <SafeAreaView style={styles.headerPart}>
       <View style={styles.headerContainer}>
@@ -128,7 +158,7 @@ const ConfirmPaymentInsideWallet = () => {
             ></Image>
             <View>
               <Text style={styles.textOn}>Ví NexPay</Text>
-              <Text style={styles.textBelow}>2500000<Text>đ</Text></Text>
+              <Text style={styles.textBelow}>{balance}<Text>đ</Text></Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
@@ -181,11 +211,11 @@ const ConfirmPaymentInsideWallet = () => {
           </View>
           <View style={styles.textInnerRespository}>
             <Text style={styles.textBefore}>Mã tham chiếu</Text>
-            <Text style={styles.textAfter}>01983953673975</Text>
+            <Text style={styles.textAfter} >{utrCode}</Text>
           </View>
           <View style={styles.textInnerRespository}>
             <Text style={styles.textBefore}>Nội dung</Text>
-            <Text style={styles.textAfter}>{contentSend}</Text>
+            <Text style={styles.textAfter} >{contentSend}</Text>
           </View>
         </View>
 
@@ -338,6 +368,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    overflow:'hidden',
+
   },
   textBefore: {
     fontSize: fontScale(18),
@@ -348,6 +380,7 @@ const styles = StyleSheet.create({
     fontSize: fontScale(18),
     color: "#000",
     fontWeight: "600",
+    paddingLeft:30
   },
   bankIcon: {
     width: widthScale(28),
