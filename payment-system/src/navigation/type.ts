@@ -9,7 +9,7 @@ type RootStackParamList = {
     WebviewZaloPayScreen:{amount : string | undefined}
     DepositWithdraw: undefined;
     ConfirmPayment: undefined;
-    PaymentSuccess: {amount:string,contentSend:string,nameUser:string};
+    PaymentSuccess: {amount:string,contentSend:string,nameUser:string,utrCode:string};
     CreateWebviewZaloPay:undefined;
     ConfirmPaymentInsideWallet: {receiverId:number;amount:string;contentSend:string }
     InputMoney:{receiverId:number }

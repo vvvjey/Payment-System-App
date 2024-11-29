@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { subDays, startOfMonth, endOfMonth } from 'date-fns';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class TransactionService {
     constructor(private prismaService:PrismaService){
 
     }
-    async createTransaction(walletId:number,amount:number,act_type:string,status:string,transaction_log_message:string){
+    async createTransaction(walletId:number,amount:number,act_type:string,status:string,transaction_log_message:string,utr:string,content:string){
         try {
             if(!walletId && !act_type && !amount && !status && !transaction_log_message){
                 throw new Error("Missingg required parameter");
@@ -18,7 +19,9 @@ export class TransactionService {
                     amount:amount,
                     act_type:act_type,
                     status:status,
-                    transaction_log_message:transaction_log_message
+                    transaction_log_message:transaction_log_message,
+                    utr:utr,
+                    content:content
                 }
             })
             return transaction;
@@ -130,5 +133,11 @@ export class TransactionService {
         } catch (error) {
             throw new Error("Error: " + error.message);
         }
+    }
+    private generateUTR(): string {
+        const prefix = 'NEXPAY';
+        const timestamp = new Date().toISOString().replace(/[-:T.]/g, '').slice(0, 14);
+        const uuid = uuidv4().split('-')[0]; 
+        return `${prefix}-${timestamp}-${uuid}`;
     }
 }

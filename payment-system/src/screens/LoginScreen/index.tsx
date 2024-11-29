@@ -41,6 +41,7 @@ const LoginScreen = () => {
       const data = {
         phoneNumber,password
       }
+      console.log('login')
       let checkStatus = await login(data);
       dispatch(loginAction(phoneNumber, password,navigation)); 
 

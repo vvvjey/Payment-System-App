@@ -15,6 +15,8 @@ class DTOWalletRequest{
     status:any
     sub_return_code:any
     data:any
+    content:any
+    utr:any
 }
 // class CreateWalletRequest{
 //     userId:number;
@@ -89,7 +91,7 @@ export class WalletController {
     async tranferMoney(@Body() req:DTOWalletRequest){
         try {
             console.log("tranfer",req);
-            const wallet = await this.walletService.tranferMoney(req.senderWalletId,req.receiverWalletId,req.amount); 
+            const wallet = await this.walletService.tranferMoney(req.senderWalletId,req.receiverWalletId,req.amount,req.utr,req.content); 
             return {
                 errCode : 0 ,
                 errMessage : "Add successfully",

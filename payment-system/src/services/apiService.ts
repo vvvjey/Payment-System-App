@@ -72,8 +72,8 @@ export const getDataCreateOrderZalopay = (amount:number)=>{
 export const getUserInforById = (userId:number)=>{
     return apiClient.get(`/api/v1/user/${userId}`);
 }
-export const tranferMoney = (senderWalletId:number,receiverWalletId:number,amount:any)=>{
-    return apiClient.post(`/api/v1/wallet/tranfer-money`,{senderWalletId,receiverWalletId,amount});
+export const tranferMoney = (senderWalletId:number,receiverWalletId:number,amount:any,utr:string,content:string)=>{
+    return apiClient.post(`/api/v1/wallet/tranfer-money`,{senderWalletId,receiverWalletId,amount,utr,content});
 }
 export const getWalletInforByUserId = (userId:number)=>{
     return apiClient.get(`/api/v1/wallet/get-by-id/${userId}`);

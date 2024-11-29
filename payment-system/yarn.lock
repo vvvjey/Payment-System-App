@@ -2635,11 +2635,6 @@ crypt@0.0.2:
   resolved "https://registry.yarnpkg.com/crypt/-/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
   integrity sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==
 
-crypto-js@4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.1.1.tgz#9e485bcf03521041bd85844786b83fb7619736cf"
-  integrity sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==
-
 crypto-js@^3.1.9-1:
   version "3.1.9-1"
   resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-3.1.9-1.tgz#fda19e761fc077e01ffbfdc6e9fdfc59e8806cd8"
@@ -3546,7 +3541,7 @@ hermes-parser@0.25.1:
     "@react-navigation/native-stack" "^7.1.1"
     "@reduxjs/toolkit" "^2.3.0"
     axios "^1.7.7"
-    crypto-js "4.1.1"
+    crypto-js "^3.1.9-1"
     expo "52.0.10"
     expo-barcode-scanner "^13.0.1"
     expo-camera "^16.0.6"
@@ -3554,8 +3549,8 @@ hermes-parser@0.25.1:
     expo-media-library "^17.0.2"
     expo-permissions "^14.4.0"
     expo-status-bar "~2.0.0"
-    hihi "file:C:/Users/PC/AppData/Local/Yarn/Cache/v6/npm-hihi-1.0.0-73949d38-e6c4-4d54-a36d-c0dd44d09396-1732350559536/node_modules/hihi"
-    payment-system "file:C:/Users/PC/AppData/Local/Yarn/Cache/v6/npm-hihi-1.0.0-73949d38-e6c4-4d54-a36d-c0dd44d09396-1732350559536/node_modules/hihi"
+    hihi "file:C:/Users/PC/AppData/Local/Yarn/Cache/v6/npm-hihi-1.0.0-deeb4dee-76e6-4a21-9663-9c62b745ddcb-1732860681587/node_modules/hihi"
+    payment-system "file:C:/Users/PC/AppData/Local/Yarn/Cache/v6/npm-hihi-1.0.0-deeb4dee-76e6-4a21-9663-9c62b745ddcb-1732860681587/node_modules/hihi"
     react "18.3.1"
     react-native "0.76.3"
     react-native-biometrics "^3.0.1"
@@ -4971,7 +4966,7 @@ path-type@^4.0.0:
     "@react-navigation/native-stack" "^7.1.1"
     "@reduxjs/toolkit" "^2.3.0"
     axios "^1.7.7"
-    crypto-js "4.1.1"
+    crypto-js "^3.1.9-1"
     expo "52.0.10"
     expo-barcode-scanner "^13.0.1"
     expo-camera "^16.0.6"
@@ -4979,8 +4974,8 @@ path-type@^4.0.0:
     expo-media-library "^17.0.2"
     expo-permissions "^14.4.0"
     expo-status-bar "~2.0.0"
-    hihi "file:C:/Users/PC/AppData/Local/Yarn/Cache/v6/npm-payment-system-1.0.0-c7ca817c-1d88-4d39-bdbb-00c34535c4f4-1732350559599/node_modules/payment-system"
-    payment-system "file:C:/Users/PC/AppData/Local/Yarn/Cache/v6/npm-payment-system-1.0.0-c7ca817c-1d88-4d39-bdbb-00c34535c4f4-1732350559599/node_modules/payment-system"
+    hihi "file:C:/Users/PC/AppData/Local/Yarn/Cache/v6/npm-payment-system-1.0.0-f0beecde-50dd-4588-a310-e07a1af6550f-1732860681653/node_modules/payment-system"
+    payment-system "file:C:/Users/PC/AppData/Local/Yarn/Cache/v6/npm-payment-system-1.0.0-f0beecde-50dd-4588-a310-e07a1af6550f-1732860681653/node_modules/payment-system"
     react "18.3.1"
     react-native "0.76.3"
     react-native-biometrics "^3.0.1"
@@ -6305,6 +6300,11 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
+
+uuid@^11.0.3:
+  version "11.0.3"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-11.0.3.tgz#248451cac9d1a4a4128033e765d137e2b2c49a3d"
+  integrity sha512-d0z310fCWv5dJwnX1Y/MncBAqGMKEzlBb1AOf7z9K8ALnd0utBX/msg/fA0+sbyN1ihbMsLhrBlnl1ak7Wa0rg==
 
 uuid@^7.0.3:
   version "7.0.3"
