@@ -18,9 +18,10 @@ import IMAGES from "../../../assets/images";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Tab } from "react-native-elements";
 import { testApi } from "../../services/apiService";
-import { registerHuong } from "../../services/apiService";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { ScreenNavigationProp } from "../../navigation/type";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const DepositWithdraw = () => {
   const [activeTab, setActiveTab] = useState("deposit");
@@ -30,7 +31,10 @@ const DepositWithdraw = () => {
   const handleBIDVPress = () => {
     setBIDVSelection(!isBIDVSelected);
   };
-
+  const user = useSelector((state:RootState) => state.user); // assuming user is stored in state.user
+  useEffect(()=>{
+    console.log('userrrr',user);
+  },[]);  
   // Add bank selected
   const [isAddBankSelected, setAddBankSelection] = useState(false);
   const handleAddBankPress = () => {

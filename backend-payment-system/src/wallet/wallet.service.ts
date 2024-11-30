@@ -78,6 +78,8 @@ export class WalletService {
                 deposit,
                 'deposit',
                 'completedd',
+                'add deposit successfully',
+                'NEXTPAY-add-123',
                 'add deposit successfully'
             );
             if(!transaction){
@@ -88,8 +90,9 @@ export class WalletService {
             throw new Error("Errror : "+ error.message);
         }
     }
-    async tranferMoney(senderWalletId:number,receiverWalletId:number,amount:number){
+    async tranferMoney(senderWalletId:number,receiverWalletId:number,amount:number,utr:string,content:string){
         try {
+            console.log('utr',utr)
             // 1. Validate sender's wallet
             const senderWallet = await this.prismaService.wallet.findUnique({
                 where: { wallet_id: senderWalletId },
@@ -137,7 +140,9 @@ export class WalletService {
                 amount,
                 'send',
                 'completed',
-                `Money sent to ${receiverWallet.user.firstName} ${receiverWallet.user.lastName} (userID: ${receiverWallet.user.id})`
+                `Money sent to ${receiverWallet.user.firstName} ${receiverWallet.user.lastName} (userID: ${receiverWallet.user.id})`,
+                utr,
+                content
             );
     
             // 7. Create a transaction for the receiver
@@ -146,7 +151,9 @@ export class WalletService {
                 amount,
                 'receive',
                 'completed',
-                `Money received from ${senderWallet.user.firstName} ${senderWallet.user.lastName} (userID: ${senderWallet.user.id})`
+                `Money received from ${senderWallet.user.firstName} ${senderWallet.user.lastName} (userID: ${senderWallet.user.id})`,
+                utr,
+                content
             );
             return {
                 errCode:0,
@@ -179,8 +186,8 @@ export class WalletService {
                 item: JSON.stringify(items),
                 embed_data: JSON.stringify({}),
                 amount: amount,
-                callback_url: 'https://f324-2402-800-6311-4e-ec16-7fbb-d120-64fb.ngrok-free.app/api/v1/wallet/callback',
-                description: `Chó fiii :) #${transID}`,
+                callback_url: 'https://878c-123-21-209-42.ngrok-free.app/api/v1/wallet/callback',
+                description: `Hi Tu Hoang :) #${transID}`,
                 bank_code: '',
             };
 

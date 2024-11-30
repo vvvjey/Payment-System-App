@@ -10,12 +10,13 @@ import {
   View,
   FlatList,
   ScrollView,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../../../assets/colors";
 import { fontScale, heightScale, widthScale } from "../../utils/spacing";
 import IMAGES from "../../../assets/images";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer, useNavigation,useRoute } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Tab } from "react-native-elements";
 import { testApi } from "../../services/apiService";
@@ -23,10 +24,31 @@ import * as LocalAuthentication from "expo-local-authentication";
 import { loginAction } from "../../redux/actions/userActions";
 import { useSelector, useDispatch } from "react-redux";
 import { ScreenNavigationProp } from "../../navigation/type";
-
+import {ScreenMoneyInputRouteProp} from "../../navigation/type";
+import {getUserInforById} from '../../services/apiService';
 const InputMoney = () => {
   const navigation = useNavigation<ScreenNavigationProp>();
-
+  const route = useRoute<ScreenMoneyInputRouteProp>();
+  const [nameUser,setNameUser] = useState<string>('');
+  const [amount,setAmount] = useState<string>('');
+  const [contentSend,setContentSend] = useState<string>('');
+  let { receiverId } = route.params;
+  useEffect(()=>{
+    async function getUserInfor (){
+      let responseUserId = await getUserInforById(receiverId);
+      console.log("userInfor",responseUserId.data);
+      setNameUser(responseUserId.data.firstName);
+    } 
+    getUserInfor();
+  },[]);
+  const handleConfirmPayment = ()=>{
+    if(!receiverId || !amount || !contentSend){
+      Alert.alert("QR Code Tranfer Error!", `Missing required data`);
+    } else {
+      navigation.navigate("ConfirmPaymentInsideWallet",{receiverId,amount,contentSend});
+    }
+  }
+  console.log("amount and recei"," = ",receiverId);
   return (
     <SafeAreaView style={styles.headerPart}>
       <View style={styles.logoContainer}>
@@ -35,20 +57,32 @@ const InputMoney = () => {
           style={styles.logo}
           source={IMAGES.avatar}
         />
-        <Text style={styles.userName}>Bùi Thị Hương</Text>
+        <Text style={styles.userName}>{nameUser}</Text>
       </View>
       <View style={styles.bodyContainer}>
         <View style={styles.InputMoney}>
           <View>
-            <TextInput style={styles.inputMoneyAmount} placeholder="Nhập số tiền" />
+            <TextInput 
+              style={styles.inputMoneyAmount} 
+              placeholder="Nhập số tiền" 
+              keyboardType="numeric"  
+              onChangeText={setAmount}
+              value={amount}
+            />
           </View>
         </View>
         <Text style={styles.text}>Lời nhắn (0/160)</Text>
         <View style={styles.pwdContainer}>
-          <TextInput style={styles.inputPwd} placeholder="Nhập lời nhắn" />
+          <TextInput 
+            style={styles.inputPwd} 
+            placeholder="Nhập lời nhắn" 
+            onChangeText={setContentSend}
+            value={contentSend}
+
+          />
         </View>
 
-        <TouchableOpacity onPress={() => navigation.navigate("ConfirmPaymentInsideWallet")} style={styles.button}>
+        <TouchableOpacity onPress={handleConfirmPayment} style={styles.button}>
           <Text style={styles.buttonText}>Tiếp tục</Text>
         </TouchableOpacity>
       </View>

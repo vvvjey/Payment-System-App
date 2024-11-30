@@ -18,19 +18,41 @@ import IMAGES from "../../../assets/images";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Tab } from "react-native-elements";
 import { testApi } from "../../services/apiService";
-import { registerHuong } from "../../services/apiService";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import { ScreenNavigationProp } from "../../navigation/type";
+import { NavigationContainer, useNavigation,useRoute } from "@react-navigation/native";
+import { ScreenNavigationProp,ScreenPaymentSuccessRouteProp } from "../../navigation/type";
 import { fonts } from "react-native-elements/dist/config";
 
 const PaymentSuccess = () => {
   const [activeTab, setActiveTab] = useState("deposit");
   const [inputMoneyQuantity, setInputMoney] = useState("");
   const [isSelected, setSelection] = useState(false);
+  const [contentSend,setContentSend] = useState<string>('');
+  const [receiverName,setReceiverName] = useState<string>('');
+  const [utrCodee,setUtrCodee] = useState<string>('');
+  const [currentTime,setCurrentTime] = useState<string>('');
+
   const handlePress = () => {
     setSelection(!isSelected);
   };
   const navigation = useNavigation<ScreenNavigationProp>();
+  const route = useRoute<ScreenPaymentSuccessRouteProp>();
+  useEffect(()=>{
+
+    var {amount,contentSend,nameUser,utrCode} = route.params;
+    setInputMoney(amount);
+    setContentSend(contentSend);
+    setReceiverName(nameUser);
+    setUtrCodee(utrCode);
+    setCurrentTime(getCurrentTime());
+
+  },[]);
+  const getCurrentTime = () => {
+    const now = new Date();
+    const formattedTime = `${now.getDate()}/${
+      now.getMonth() + 1
+    }/${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+    return formattedTime;
+  };
   return (
     <SafeAreaView style={styles.headerPart}>
       <View style={styles.bodyContainer}>
@@ -45,17 +67,17 @@ const PaymentSuccess = () => {
                 Giao dịch thành công
               </Text>
               <Text style={styles.textMoneyAmount}>
-                20.000.000<Text style={{ color: "black" }}>đ</Text>
+                {inputMoneyQuantity}<Text style={{ color: "black" }}>đ</Text>
               </Text>
               <Text style={styles.textNormal}>
                 <Text style={{ color: "black" }}>
                   {" "}
-                  Bạn đã nạp thành công 20.000.000
-                  <Text style={{ color: "black" }}>đ</Text>
+                  Bạn đã chuyển thành công {inputMoneyQuantity}<Text style={{ color: "black" }}>đ </Text>
+                  vào tài khoản của {receiverName}
                 </Text>{" "}
-                vào Ví
-                <Text style={{ color: Colors.DarkBlue }}>Nex</Text>
-                <Text style={{ color: "#1EA9F4" }}>Pay</Text>
+                {/* vào Ví */}
+                {/* <Text style={{ color: Colors.DarkBlue }}>Nex</Text> */}
+                {/* <Text style={{ color: "#1EA9F4" }}>Pay</Text> */}
               </Text>
             </View>
           </View>
@@ -67,11 +89,15 @@ const PaymentSuccess = () => {
             </View>
             <View style={styles.textInnerTransaction}>
               <Text style={styles.textBefore}>Thời gian thanh toán</Text>
-              <Text style={styles.textAfter}>getTime</Text>
+              <Text style={styles.textAfter}>{currentTime}</Text>
             </View>
             <View style={styles.textInnerTransaction}>
               <Text style={styles.textBefore}>Chi tiết giao dịch</Text>
-              <Text style={styles.textAfter}>idTransaction</Text>
+              <Text style={styles.textAfter}>{utrCodee}</Text>
+            </View>
+            <View style={styles.textInnerTransaction}>
+              <Text style={styles.textBefore}>Nội dung</Text>
+              <Text style={styles.textAfter}>{contentSend}</Text>
             </View>
           </View>
         </View>
@@ -106,13 +132,13 @@ const PaymentSuccess = () => {
         </View>
         <View style={styles.buttonBottom}>
           <TouchableOpacity
-            onPress={() => navigation.navigate("Home")}
+            onPress={() => navigation.navigate("MainTabs", { screen: "Home" })}
             style={styles.button}
           >
             <Text style={styles.buttonText}>Trang chủ</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate("Home")}
+            onPress={() => navigation.navigate("MainTabs", { screen: "Home" })}
             style={styles.button}
           >
             <Text style={styles.buttonText}>Giao dịch mới</Text>
@@ -182,6 +208,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    overflow:'hidden'
   },
   transactionDetails2: {
     gap: heightScale(16),
@@ -195,6 +222,7 @@ const styles = StyleSheet.create({
     fontSize: fontScale(18),
     color: "#000",
     fontWeight: "600",
+    paddingLeft:20
   },
 
   lineHorizontal: {

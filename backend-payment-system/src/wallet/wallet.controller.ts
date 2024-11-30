@@ -1,19 +1,22 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req,UseGuards } from '@nestjs/common';
 import { WalletService } from './wallet.service';
 import { IsNotEmpty } from 'class-validator';
 import { EventsGateway } from 'src/events/events.gateway';
+import { MyJWTGuard } from 'src/auth/guard';
 // DTO
 class DTOWalletRequest{
     userId:number;
     deposit:number;
     senderWalletId:number
     receiverWalletId:number
-    amount:number
+    amount:any
     app_trans_id:any
     zp_trans_id:any
     status:any
     sub_return_code:any
     data:any
+    content:any
+    utr:any
 }
 // class CreateWalletRequest{
 //     userId:number;
@@ -42,10 +45,10 @@ export class WalletController {
             }
         }
     }
-    @Get('get-by-id')
-    async getWalletByUserId(@Body() req:DTOWalletRequest){
+    @Get('get-by-id/:userId')
+    async getWalletByUserId(@Param('userId') userId: number){
         try {
-            const wallet = await this.walletService.getWalletByUserId(req.userId); 
+            const wallet = await this.walletService.getWalletByUserId(Number(userId)); 
             console.log("wallet here",wallet)
             return {
                 errCode : 0 ,
@@ -75,6 +78,7 @@ export class WalletController {
             }
         }
     }
+    @UseGuards(MyJWTGuard)
     @Post("test")
     async testApi(@Body() req:DTOWalletRequest){
         console.log('test',req);
@@ -86,7 +90,8 @@ export class WalletController {
     @Post('tranfer-money')
     async tranferMoney(@Body() req:DTOWalletRequest){
         try {
-            const wallet = await this.walletService.tranferMoney(req.senderWalletId,req.receiverWalletId,req.amount); 
+            console.log("tranfer",req);
+            const wallet = await this.walletService.tranferMoney(req.senderWalletId,req.receiverWalletId,req.amount,req.utr,req.content); 
             return {
                 errCode : 0 ,
                 errMessage : "Add successfully",
