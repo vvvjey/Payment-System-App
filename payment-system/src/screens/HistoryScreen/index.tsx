@@ -7,7 +7,7 @@ import {
   FlatList,
   StyleSheet,
 } from "react-native";
-import { getTransactionsByMonth } from "../../services/apiService";
+import { getTransactionsByMonth, getAllTransactions } from "../../services/apiService";
 import IMAGES from "../../../assets/images";
 import { Colors } from "../../../assets/colors";
 import { fontScale, heightScale, widthScale } from "../../utils/spacing";
@@ -15,64 +15,101 @@ import { useSelector, useDispatch } from "react-redux";
 
 const HistoryScreen = () => {
   const [currentTab, setCurrentTab] = useState(0);
-  const [transactions, setTransactions] = useState([]);
-  const user = useSelector((state) => state.user?.user); // Lấy thông tin người dùng từ Redux
-  const userId = user?.userId; // Sử dụng optional chaining để tránh lỗi
+  const [transactions, setTransactions] = useState<any[]>([]);
+  const user = useSelector((state) => state.user?.user); 
+  const userId = user.user.id; 
 
-  console.log("User State in test:", user); // Kiểm tra thông tin người dùng
   console.log("User ID:", userId); 
-  const year = 2024;
-  const month = 10; 
-
-  useEffect(() => {
-    if (user && user.user && user.user.userId) {
+   useEffect(() => {
+    if (user?.user?.id) {
       fetchTransactions();
     }
-  }, [user]);
-  
+  }, [currentTab]);
   const fetchTransactions = async () => {
-    const userId = user.user.userId;
-    const year = 2024;
-    const month = 10;
-  
-    const data = await getTransactionsByMonth(userId, year, month);
-    setTransactions(data);
-  };
+    // const year = 2024;
+    // const month = 11;
 
-  const renderTransactionItem = ({ item }: { item: any }) => (
-    <TouchableOpacity style={styles.detailsItems}>
+    // try {
+    //     console.log("Fetching transactions for userId:", userId);
+    //     const response = await getTransactionsByMonth(userId, year, month);
+
+    //     console.log("Fetched transactions:", response);
+    //     if (response?.data) {
+    //         setTransactions(response.data);
+    //     } else {
+    //         setTransactions([]); 
+    //     }
+    // } catch (error) {
+    //     console.error("Error fetching transactions:", error);
+    //     setTransactions([]);
+    // }
+
+    // GET ALL TRANSACTIONS
+    try {
+      console.log("Fetching transactions for userId:", userId);
+
+      let response;
+
+      if (currentTab === 0) {
+          response = await getAllTransactions(userId);
+      } else {
+          const year = 2024;
+          const month = 11;
+          // response = await getTransactionsByMonth(userId, year, month);
+          response = await getAllTransactions(userId);
+      }
+
+      console.log("Fetched transactions:", response);
+      if (response?.data) {
+          setTransactions(response.data);
+      } else {
+          setTransactions([]);
+      }
+    } catch (error) {
+        console.error("Error fetching transactions:", error);
+        setTransactions([]);
+    }
+};
+  
+
+const renderTransactionItem = ({ item }: { item: any }) => (
+  <TouchableOpacity style={styles.detailsItems}>
       <View style={styles.contentInner}>
-        <Image
-          resizeMode="contain"
-          style={
-            item.type === "transfer"
-              ? styles.iconChuyentien
-              : styles.iconNhantien
-          }
-          source={
-            item.type === "transfer"
-              ? IMAGES.iconChuyentien
-              : IMAGES.iconNhantien
-          }
-        />
-        <View>
-          <Text style={styles.titleDetails}>
-            {item.type === "transfer" ? `Chuyển tiền tới ${item.receiverName}` : `Nhận tiền từ ${item.senderName}`}
-          </Text>
-          <Text style={styles.time}>{item.time}</Text>
-        </View>
+          <Image
+              resizeMode="contain"
+              style={
+                  item.act_type === "transfer"
+                      ? styles.iconChuyentien
+                      : styles.iconNhantien
+              }
+              source={
+                  item.act_type === "transfer"
+                      ? IMAGES.iconChuyentien
+                      : IMAGES.iconNhantien
+              }
+          />
+          <View>
+              <Text style={styles.titleDetails}>
+                  {item.act_type === "transfer"
+                      ? `${item.transaction_log_message}`
+                      : `${item.transaction_log_message}`}
+              </Text>
+              <Text style={styles.time}>
+                  {new Date(item.createdAt).toLocaleString("vi-VN")}
+              </Text>
+          </View>
       </View>
       <Text
-        style={[
-          styles.textMoneyAmount,
-          { color: item.type === "transfer" ? "red" : "green" },
-        ]}
+          style={[
+              styles.textMoneyAmount,
+              { color: item.act_type === "transfer" ? "red" : "green" },
+          ]}
       >
-        {item.type === "transfer" ? `-${item.amount}` : `+${item.amount}`}
-        <Text>đ</Text>
+          {item.act_type === "transfer" ? `-${item.amount}` : `+${item.amount}`}
+          <Text>đ</Text>
       </Text>
-    </TouchableOpacity>
-  );
+  </TouchableOpacity>
+);
 
   return (
     <View style={styles.container}>
@@ -129,11 +166,11 @@ const HistoryScreen = () => {
 
       <FlatList
         data={transactions}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.transaction_id.toString()}
         renderItem={renderTransactionItem}
         contentContainerStyle={{ paddingHorizontal: widthScale(36) }}
         ListEmptyComponent={<Text>Không có giao dịch</Text>}
-      />
+    />
     </View>
   );
 };

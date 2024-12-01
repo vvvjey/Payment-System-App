@@ -1,21 +1,25 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { IsNotEmpty } from 'class-validator';
 import { TransactionService } from './transaction.service';
 class DTOTransactionRequest{
-    @IsNotEmpty()
     userId:number;
     month:number;
     year:number;
+    // params:json;
 }
 @Controller('transaction')
 export class TransactionController {
     constructor(private transactionService : TransactionService){
 
     }
-    @Get('get-all-transactions-by-user-id')
-    async getAllTransactionByUserId(@Body() body:DTOTransactionRequest){
+    @Get('get-all-transactions-by-user-id/:params')
+    async getAllTransactionByUserId(@Param('params') params:string){
         try {
-            const transactions = await this.transactionService.getAllTransactionByUserId(body.userId);
+            console.log('get all transaction',params)
+            let data = JSON.parse(params)
+            let {userId} = data
+
+            const transactions = await this.transactionService.getAllTransactionByUserId(userId);
             return {
                 errCode : 0 ,
                 errMessage : "Find transactions successfully successfully",
@@ -28,13 +32,16 @@ export class TransactionController {
             }
         }
     }
-    @Get('get-all-transactions-by-month-user-id')
-    async getAllTransactionByUserIdByMonth(@Body() body:DTOTransactionRequest){
+    @Get('get-all-transactions-by-month-user-id/:params')
+    async getAllTransactionByUserIdByMonth(@Param('params') params:string){
         try {
-            const transactions = await this.transactionService.getAllTransactionByUserIdByMonth(body.userId,body.month,body.year);
+            console.log('get data fe pass to',params)
+            let data = JSON.parse(params)
+            let {userId,year,month} = data
+            const transactions = await this.transactionService.getAllTransactionByUserIdByMonth(userId,month,year);
             return {
                 errCode : 0 ,
-                errMessage : `Find all transactions in month : ${body.month} - year : ${body.year} successfully`,
+                errMessage : `Find all transactions in month : ${month} - year : ${year} successfully`,
                 data:transactions
             }
         } catch (error) {
@@ -44,10 +51,13 @@ export class TransactionController {
             }
         }
     }
-    @Get('get-all-transactions-last-7days-by-user-id')
-    async getAllTransactionByUserIdLast7Days(@Body() body:DTOTransactionRequest){
+    @Get('get-all-transactions-last-7days-by-user-id/:params')
+    async getAllTransactionByUserIdLast7Days(@Param('params') params:string){
         try {
-            const transactions = await this.transactionService.getAllTransactionByUserIdLast7Days(body.userId);
+            console.log('get data fe pass to',params)
+            let data = JSON.parse(params)
+            let {userId} = data
+            const transactions = await this.transactionService.getAllTransactionByUserIdLast7Days(userId);
             return {
                 errCode : 0 ,
                 errMessage : `Find all transactions last 7 days successfully`,

@@ -78,3 +78,32 @@ export const tranferMoney = (senderWalletId:number,receiverWalletId:number,amoun
 export const getWalletInforByUserId = (userId:number)=>{
     return apiClient.get(`/api/v1/wallet/get-by-id/${userId}`);
 }
+
+export const getTransactionsByMonth = async (userId: number, year: number, month: number) => {
+    const params = JSON.stringify({
+        userId, year, month
+    })
+    console.log('hehee',params)
+    try {
+        const response = await apiClient.get(`/api/v1/transaction/get-all-transactions-by-month-user-id/${params}`);
+        return response.data; 
+    } catch (error) {
+        console.error('Error fetching transactions by month:', error);
+        throw error; 
+    }
+};
+export const getAllTransactions = async (userId: number) => {
+    const params = JSON.stringify({
+        userId
+    })
+    console.log('hehe',params)
+    try {
+        const response = await apiClient.get(`/api/v1/transaction/get-all-transactions-by-user-id/${params}`);
+        return response.data; 
+    } catch (error) {
+        console.error('Error fetching all transactions:', error);
+        throw error; 
+    }
+};
+
+
