@@ -12,19 +12,19 @@ const AuthStack = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={SCREENS.LOGIN}
+      initialRouteName={'LoginScreen'}
     >
       <Stack.Screen
         // name={SCREENS.LOGIN}
-        name={'Login'}
+        name={'LoginScreen'}
 
         component={LoginScreen}
         options={{ headerShown: true }}
       />
       <Stack.Screen
-        name={SCREENS.REGISTER}
+        name={'RegisterScreen'}
         component={RegisterScreen}
-        options={{ headerShown: false }}
+        options={{ headerShown: true }}
       />
 
     </Stack.Navigator>

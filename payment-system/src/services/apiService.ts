@@ -60,8 +60,8 @@ apiClient.interceptors.response.use(
 export const testApi = (data:any) => {
     return apiClient.post('/api/v1/wallet/test',{data});
 };
-export const register = (data: { name: string, phoneNumber: string, password: string }) => {
-    return apiClient.post('/api/v1/auth/register', data);
+export const register = (name: string, phoneNumber: string, password: string ) => {
+    return apiClient.post('/api/v1/auth/register', {name,phoneNumber,password});
 };
 export const login = (data: any) => {
     return apiClient.post('/api/v1/auth/login', data);

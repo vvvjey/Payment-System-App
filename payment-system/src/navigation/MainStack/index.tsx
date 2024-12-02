@@ -107,16 +107,16 @@ const MainStack = () => (
       }}
     />
 
-    <Stack.Screen
+    {/* <Stack.Screen
       name="LoginScreen"
       component={LoginScreen}
       options={{ headerShown: true }}
-    />
-    <Stack.Screen
+    /> */}
+    {/* <Stack.Screen
       name="RegisterScreen"
       component={RegisterScreen}
       options={{ headerShown: true }}
-    />
+    /> */}
     <Stack.Screen
       name="DepositWithdraw"
       component={DepositWithdrawScreen}

@@ -13,6 +13,7 @@ export const AppNavigation = () => {
     return (
         <NavigationContainer>
             {user?.user !== null ? <MainStack /> : <AuthStack />}
+            {/* <MainStack /> */}
         </NavigationContainer>
     )
 }

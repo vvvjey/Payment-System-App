@@ -33,8 +33,7 @@ const RegisterScreen = () => {
             name, phoneNumber, password          
           };
           console.log("Request data:", requestData); 
-          const response = await register(requestData);
-          
+          const response = await register(name, phoneNumber, password);
           console.log("Registration response:", response.data);
       } catch (error) {
           console.error("Registration error:", error);
