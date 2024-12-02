@@ -194,6 +194,7 @@ const LoginScreen = () => {
                 // console.log("Button pressed");
                 navigation.navigate("RegisterScreen"); 
                 // navigation.navigate("LoginScreen", { screen: "RegisterScreen" })
+
               }}
             >
               <Text style={styles.buttonRegister}>Đăng ký</Text>

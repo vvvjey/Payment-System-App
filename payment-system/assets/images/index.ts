@@ -65,6 +65,9 @@ const IMAGES = {
     // xác nhận chuyển tiền trong ví
     iconLogo: require('./ICON_LOGO 1.png'),
     iconBIDV: require('./image 4.png'),
+    // History
+    iconNhantien: require('./nhan tien.png'), 
+    iconChuyentien: require('./Group 427322773.png'),
 }
 
 export default IMAGES
