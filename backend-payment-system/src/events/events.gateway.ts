@@ -46,7 +46,7 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect, 
     @SubscribeMessage('zalopay-order-status')
     async handleZaloPayOrderStatus(@MessageBody() data: any) {
         console.log('Received Zalopay order status:', data);
-        await this.transactionService.addBalanceZalopayOrder(data.userId,data.walletId,data.amount,'completed');
+        await this.transactionService.addBalanceZalopayOrder(data.userId,data.walletId,parseFloat(data.amount),'completed');
         // // Emit a response if needed
         // this.server.emit('transactionStatus', { status: 'processed' });
     }

@@ -3,6 +3,8 @@ import { WalletService } from './wallet.service';
 import { IsNotEmpty } from 'class-validator';
 import { EventsGateway } from 'src/events/events.gateway';
 import { MyJWTGuard } from 'src/auth/guard';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { TransactionService } from 'src/transaction/transaction.service';
 // DTO
 class DTOWalletRequest{
     userId:number;
@@ -25,7 +27,8 @@ class DTOWalletRequest{
 @Controller('wallet')
 export class WalletController {
     constructor(private walletService:WalletService,
-        private eventGateway:EventsGateway
+        private eventGateway:EventsGateway,
+        private transactionService:TransactionService
     ){
         
     }
@@ -133,6 +136,7 @@ export class WalletController {
             } else {
                 status = 'fail';
             }
+
             this.eventGateway.server.emit('transactionStatus', { status });
             return {
                 errCode : 0 ,

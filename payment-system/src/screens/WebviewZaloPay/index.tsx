@@ -9,15 +9,27 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import io from 'socket.io-client';
 import { useRoute } from '@react-navigation/native';
 import { BACKEND_URL } from '@env';
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const WebviewZaloPayScreen = () => {
     const [urlZalopayQR, setUrlZalopayQR] = useState('');
     const [orderValue, setOrderValue] = useState<string>('');
     const [timeLeft, setTimeLeft] = useState<number>(120); // 2 minutes in seconds
     const [transactionSuccess, setTransactionSuccess] = useState(false);
+    const [userId,setUserId] = useState<number>();
+
     const navigation = useNavigation<ScreenNavigationProp>();
     const route = useRoute<ScreenQRCodeZaloQRRouteProp>();
-
+    const dispatch = useDispatch();
+    const user = useSelector((state:RootState) => state.user); // assuming user is stored in state.user
+    // console.log("abc",userId,"vi",user.user.user.wallets.wallet_id)
+    useEffect(()=>{
+        // console.log('xalopay',user);
+        setUserId(user?.user?.user?.id);
+        // setBalance(user.user?.user?.wallets?.balance)
+        
+      },[]);  
     const amount = route.params.amount || 100000;
     async function saveQRCodeData(url: string, orderValue: string, startTime: number) {
         try {
@@ -106,8 +118,8 @@ const WebviewZaloPayScreen = () => {
                 AsyncStorage.removeItem('orderValue');
                 AsyncStorage.removeItem('startTime');
                 let dataOrderStatus = {
-                    userId:1,
-                    walletId:1,
+                    userId:userId,
+                    walletId:user.user.user.wallets.wallet_id,
                     amount: amount
                 }
                 socket.emit("zalopay-order-status",dataOrderStatus);

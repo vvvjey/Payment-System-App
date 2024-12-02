@@ -106,15 +106,15 @@ export class TransactionService {
     }
     async addBalanceZalopayOrder(userId:number,walletId:number,amount:number,status:string){
         try {
-            let transaction = await this.prismaService.transaction.create({
-                data:{
-                    wallet_id:walletId,
-                    act_type:'receive',
-                    amount:amount,
-                    status:status,
-                    transaction_log_message:`Receive zalopay app money successfully with amount ${amount}`
-                }
-            });
+            // let transaction = await this.prismaService.transaction.create({
+            //     data:{
+            //         wallet_id:walletId,
+            //         act_type:'receive',
+            //         amount:amount,
+            //         status:status,
+            //         transaction_log_message:`Receive zalopay app money successfully with amount ${amount}`
+            //     }
+            // });
             const updatedWallet = await this.prismaService.wallet.update({
                 where: {
                     wallet_id: walletId, 
@@ -125,8 +125,12 @@ export class TransactionService {
                     },
                 },
             });
+            let utrZalopay = this.generateUTR()
+            // walletId:number,amount:number,act_type:string,status:string,transaction_log_message:string,utr:string,content:string
+            let responseTransaction = await this.createTransaction(walletId,amount,'receive','completed','Receive ${amount}đ from Zalopay successfully',utrZalopay,`add ${amount} đ from zalopay successfully`)
+            console.log("responseTransaction",responseTransaction);
             return {
-                transaction,
+                responseTransaction,
                 updatedWallet,
             };
 
@@ -135,7 +139,7 @@ export class TransactionService {
         }
     }
     private generateUTR(): string {
-        const prefix = 'NEXPAY';
+        const prefix = 'ZALOPAY';
         const timestamp = new Date().toISOString().replace(/[-:T.]/g, '').slice(0, 14);
         const uuid = uuidv4().split('-')[0]; 
         return `${prefix}-${timestamp}-${uuid}`;
