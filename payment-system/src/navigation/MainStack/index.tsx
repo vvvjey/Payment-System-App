@@ -72,6 +72,28 @@ const QRStackScreen = () => (
     />
   </QRCodeStack.Navigator>
 );
+const HistoryStack = createNativeStackNavigator();
+
+const HistoryStackScreen = () => (
+  <HistoryStack.Navigator>
+    <HistoryStack.Screen
+      name="HistoryScreen"
+      component={HistoryScreen}
+      options={{
+        title: "Lịch sử giao dịch",
+        headerStyle: {
+          backgroundColor: Colors.White,
+        },
+        headerTintColor: "#000",
+        headerTitleAlign: "center",
+        headerTitleStyle: {
+          fontSize: fontScale(24),
+          fontWeight: "600",
+        },
+      }}
+    />
+  </HistoryStack.Navigator>
+);
 
 const Stack = createNativeStackNavigator();
 
@@ -188,7 +210,7 @@ const MainStack = () => (
         headerTitleStyle: {
           fontSize: fontScale(24),
           fontWeight: "600",
-        },        
+        },
       })}
     />
     <Stack.Screen
@@ -204,7 +226,7 @@ const MainStack = () => (
         headerTitleStyle: {
           fontSize: fontScale(24),
           fontWeight: "600",
-        },        
+        },
       })}
     />
   </Stack.Navigator>
@@ -234,14 +256,14 @@ const MainTabs = () => {
       <Tab.Screen
         key="History"
         name="History"
-        component={HistoryScreen}
+        component={HistoryStackScreen}
         options={{ headerShown: false }}
       />
       <Tab.Screen
         key="Profile"
         name="Profile"
-        component={ProfileStackScreen} 
-        options={{ headerShown: false }} 
+        component={ProfileStackScreen}
+        options={{ headerShown: false }}
       />
       {/* <Tab.Screen key="Login" name="Login" component={LoginScreen} options={{ headerShown: false }}/>
       <Tab.Screen key="Register" name="Register" component={RegisterScreen} options={{ headerShown: false }}/> */}
