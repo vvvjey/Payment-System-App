@@ -40,7 +40,7 @@ export class AuthService{
             //     newWallet,
             //     jwtToken
             // }
-
+            
         } catch (error) {
             throw new ForbiddenException("Error",error.message)
         }

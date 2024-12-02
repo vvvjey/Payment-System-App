@@ -6,14 +6,14 @@ export class AuthController {
     constructor(private authService: AuthService){
     }
     @Post("register")
-    async register(@Body() body: AuthDTO){
+    async register(@Body() body: any){
         console.log('hehe',body)
-        const user = await this.authService.register(body);
+        // const user = await this.authService.register(body);
         try {
             return {
                 errCode:0,
                 errMessage:"Register successfully",
-                user
+                // user
             } 
         } catch (error) {
             return {

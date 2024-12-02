@@ -191,7 +191,10 @@ const LoginScreen = () => {
             <Text style={styles.loginTextBottom}>Chưa có tài khoản? </Text>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("RegisterScreen");
+                // console.log("Button pressed");
+                navigation.navigate("RegisterScreen"); 
+                // navigation.navigate("LoginScreen", { screen: "RegisterScreen" })
+
               }}
             >
               <Text style={styles.buttonRegister}>Đăng ký</Text>

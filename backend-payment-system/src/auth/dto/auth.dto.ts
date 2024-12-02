@@ -8,4 +8,5 @@ export class AuthDTO {
     password:string
     // @IsString()
     phoneNumber:string
+    name:string
 }
