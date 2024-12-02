@@ -21,55 +21,57 @@ const HistoryScreen = () => {
 
   console.log("User ID:", userId); 
    useEffect(() => {
+    console.log('2')
     if (user?.user?.id) {
       fetchTransactions();
     }
   }, [currentTab]);
   const fetchTransactions = async () => {
-    // const year = 2024;
-    // const month = 11;
-
-    // try {
-    //     console.log("Fetching transactions for userId:", userId);
-    //     const response = await getTransactionsByMonth(userId, year, month);
-
-    //     console.log("Fetched transactions:", response);
-    //     if (response?.data) {
-    //         setTransactions(response.data);
-    //     } else {
-    //         setTransactions([]); 
-    //     }
-    // } catch (error) {
-    //     console.error("Error fetching transactions:", error);
-    //     setTransactions([]);
-    // }
-
-    // GET ALL TRANSACTIONS
     try {
       console.log("Fetching transactions for userId:", userId);
-
-      let response;
-
-      if (currentTab === 0) {
-          response = await getAllTransactions(userId);
-      } else {
-          const year = 2024;
-          const month = 11;
-          // response = await getTransactionsByMonth(userId, year, month);
-          response = await getAllTransactions(userId);
-      }
-
+      const response = await getAllTransactions(userId);
+  
       console.log("Fetched transactions:", response);
       if (response?.data) {
-          setTransactions(response.data);
+        let array = response.data;
+  
+        // Lọc dữ liệu dựa trên tab hiện tại
+        let filteredTransactions = [...array];
+        if (currentTab === 1) {
+          // Chuyển tiền
+          filteredTransactions = array.filter(
+            (transaction) => transaction.act_type === "transfer"
+          );
+        } else if (currentTab === 2) {
+          // Nhận tiền
+          filteredTransactions = array.filter(
+            (transaction) => transaction.act_type === "receive"
+          );
+        }
+  
+        // Sắp xếp theo ngày
+        const sortedTransactions = filteredTransactions.sort((a, b) => {
+          const dateA = new Date(a.createdAt);
+          const dateB = new Date(b.createdAt);
+  
+          if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
+            return 0;
+          }
+  
+          return dateB.getTime() - dateA.getTime();
+        });
+  
+        console.log("Filtered and sorted transactions:", sortedTransactions);
+        setTransactions(sortedTransactions);
       } else {
-          setTransactions([]);
+        setTransactions([]);
       }
     } catch (error) {
-        console.error("Error fetching transactions:", error);
-        setTransactions([]);
+      console.error("Error fetching transactions:", error);
+      setTransactions([]);
     }
-};
+  };
+  
   
 
 const renderTransactionItem = ({ item }: { item: any }) => (
@@ -89,7 +91,7 @@ const renderTransactionItem = ({ item }: { item: any }) => (
               }
           />
           <View>
-              <Text style={styles.titleDetails}>
+              <Text numberOfLines={2}  style={styles.titleDetails}>
                   {item.act_type === "transfer"
                       ? `${item.transaction_log_message}`
                       : `${item.transaction_log_message}`}
@@ -168,7 +170,7 @@ const renderTransactionItem = ({ item }: { item: any }) => (
         data={transactions}
         keyExtractor={(item) => item.transaction_id.toString()}
         renderItem={renderTransactionItem}
-        contentContainerStyle={{ paddingHorizontal: widthScale(36) }}
+        contentContainerStyle={{ paddingHorizontal: widthScale(0) }}
         ListEmptyComponent={<Text>Không có giao dịch</Text>}
     />
     </View>
@@ -183,6 +185,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     backgroundColor: Colors.White,
+    overflow: "hidden", // Add overflow hidden here
+
   },
   subTab: {
     display: "flex",
@@ -211,6 +215,7 @@ const styles = StyleSheet.create({
   },
   tabContent: {
     paddingHorizontal: widthScale(36),
+    overflow: "hidden",  // Prevent overflow here as well
   },
 
   statementContainer: {
@@ -255,7 +260,9 @@ const styles = StyleSheet.create({
   textMoneyAmount: {
     fontSize: fontScale(16),
     color: '#57be92',
-    fontWeight: '600'
+    fontWeight: '600',
+    marginRight: widthScale(20), // Dịch qua trái bằng cách thêm khoảng cách bên phải
+
   },
   iconNhantien: {
     width: widthScale(93),
@@ -269,7 +276,12 @@ const styles = StyleSheet.create({
   },
   titleDetails: {
     fontWeight: '600',
-    fontSize: fontScale(14)
+    fontSize: fontScale(14),
+    width: widthScale(230), // Adjust the width as needed
+    overflow: 'hidden', // Hide the overflow text
+    textOverflow: 'ellipsis', // Show ellipsis when text overflows
+    whiteSpace: 'nowrap', // Prevent text wrapping
+
   },
   time: {
     fontWeight: '400',

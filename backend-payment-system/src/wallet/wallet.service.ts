@@ -77,7 +77,7 @@ export class WalletService {
                 updatedWallet.wallet_id,
                 deposit,
                 'deposit',
-                'completedd',
+                'completed',
                 'add deposit successfully',
                 'NEXTPAY-add-123',
                 'add deposit successfully'
@@ -186,7 +186,7 @@ export class WalletService {
                 item: JSON.stringify(items),
                 embed_data: JSON.stringify({}),
                 amount: amount,
-                callback_url: 'https://878c-123-21-209-42.ngrok-free.app/api/v1/wallet/callback',
+                callback_url: 'https://268c-118-68-23-252.ngrok-free.app/api/v1/wallet/callback',
                 description: `Hi Tu Hoang :) #${transID}`,
                 bank_code: '',
             };
