@@ -34,8 +34,16 @@ Bùi Thị Hương
 </p>
 
 **External app interaction - Tranfer through Zalopay QR code**
-- Create Order ZaloPay Qc
-- Catch callback in backend server , using socket for notification 
+- Create QR Code Zalopay with infor selected
+- Using socket trigger callback zalopay notification in client side
 
-
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/200ab8f3-8a09-45e6-bc80-ec0494b6b195" width="30%" />
+  <img src="https://github.com/user-attachments/assets/d1eba6b6-0eb8-48b8-83f4-76a79a38f158" width="30%" />
+  <img src="https://github.com/user-attachments/assets/2efcbd30-45ad-4675-80c7-29f7360fb4e8" width="30%" />
+</p>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/9f44748e-069e-435d-ab04-f54fa9c1f335" width="30%" />
+  <img src="https://github.com/user-attachments/assets/216b8119-55de-468f-b7b9-077465773631" width="30%" />
+</p>
  FB: https://www.facebook.com/VVVJeyyy/
