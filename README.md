@@ -5,14 +5,15 @@ Member List :
 Hoàng Văn Tú (Leader)\
 Bùi Thị Hương
 
-**Home page - Profile - Login  **
+**Home page - Profile - Login**
 <p align="center">
   <img src="https://github.com/user-attachments/assets/1ccf709c-32e5-4b17-a690-86b5052ee6bf" width="30%" />
   <img src="https://github.com/user-attachments/assets/70db48bf-70e1-4ac3-8e88-0f8c1092d6ea" width="30%" />
   <img src="https://github.com/user-attachments/assets/989e9d6b-4cc5-4ca9-b09c-560ff225c6e8" width="30%" />
 </p>
-**Feature**
 
+**Feature**
+**Interal app interaction - Tranfer through QR code**
 - Generate user QR Code:
   + Dynamic QR code - 5 min expired then automated regeneration
   + QR Code contains sensitive data (trans id, user info, amount, timestamp) will be encrypted by AES-256
@@ -31,5 +32,10 @@ Bùi Thị Hương
   <img src="https://github.com/user-attachments/assets/c0e62dbe-2dc9-41e3-8bb3-b8b9f6980668" width="30%" />
   <img src="https://github.com/user-attachments/assets/26fe64ac-60e3-4bac-9f53-a85aa25050f3" width="30%" />
 </p>
+
+**External app interaction - Tranfer through Zalopay QR code**
+- Create Order ZaloPay Qc
+- Catch callback in backend server , using socket for notification 
+
 
  FB: https://www.facebook.com/VVVJeyyy/
