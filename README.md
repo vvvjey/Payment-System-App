@@ -2,8 +2,8 @@
 
 Member List :
 
-Hoàng Văn Tú (Leader)\
-Bùi Thị Hương
+Hoàng Văn Tú (Fullstack) (Leader)\
+Bùi Thị Hương (FE)
 
 **Home page - Profile - Login**
 <p align="center">
