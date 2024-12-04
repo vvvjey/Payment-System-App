@@ -1,4 +1,4 @@
-**"📱 Ví điện tử NexPay - Giải pháp thanh toán thông minh, an toàn và tiện lợi. Hỗ trợ chuyển tiền nội bộ qua mã QR, tích hợp ZaloPay API, xác thực sinh trắc học,JWT và mã hóa AES-256,HMAC-SHA256,Argon2 để bảo vệ dữ liệu."**
+**"📱 Ví điện tử NexPay - Giải pháp thanh toán thông minh, an toàn và tiện lợi. Hỗ trợ chuyển tiền nội bộ qua mã QR, thanh toán qua Zalopay QR Code tích hợp ZaloPay API, xác thực sinh trắc học,JWT và mã hóa AES-256,HMAC-SHA256,Argon2 để bảo vệ dữ liệu."**
 
 Member List :
 
